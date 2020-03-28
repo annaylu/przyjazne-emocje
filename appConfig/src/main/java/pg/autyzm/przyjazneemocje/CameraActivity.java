@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.ArrayMap;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Map;
@@ -52,8 +53,7 @@ public class CameraActivity extends Activity {
         return new File(path, fileName + "tmp.jpg");
     }
 
-    private String getFileName(String emotionLang)
-    {
+    private String getFileName(String emotionLang) {
         SqliteManager sqlm = getInstance(this);
         Map<String, String> mapEmo = new ArrayMap<>();
         mapEmo.put(getResources().getString(R.string.emotion_happy_man), "happy_man");
@@ -77,15 +77,8 @@ public class CameraActivity extends Activity {
         String emotion = mapEmo.get(emotionLang);
         Cursor cur = sqlm.givePhotosWithEmotion(emotion);
 
-        int maxNumber = 1;
-        while(cur.moveToNext())
-        {
-            String name = cur.getString(3);
-            name = name.replace(".jpg","").replaceAll("[^0-9]","");
-            if(maxNumber < Integer.parseInt(name))
-                maxNumber = Integer.parseInt(name);
+        int maxNumber = cur.getCount();
 
-        }
         return emotion + ++maxNumber;
     }
 
@@ -112,7 +105,7 @@ public class CameraActivity extends Activity {
                         outWidth = (inWidth * maxSize) / inHeight;
                     }*/
 
-                    Bitmap smallBitmap = Bitmap.createScaledBitmap(largeBitmap,largeBitmap.getWidth() * 1/4,largeBitmap.getHeight()*1/4,false);
+                    Bitmap smallBitmap = Bitmap.createScaledBitmap(largeBitmap, largeBitmap.getWidth() * 1 / 4, largeBitmap.getHeight() * 1 / 4, false);
 
                     File smallFile = new File(path, fileName + ".jpg");
                     FileOutputStream fOut;
@@ -124,7 +117,8 @@ public class CameraActivity extends Activity {
                         largeBitmap.recycle();
                         smallBitmap.recycle();
                         largeFile.delete();
-                    } catch (Exception e) {}
+                    } catch (Exception e) {
+                    }
 
                     finish();
                     break;
