@@ -39,15 +39,25 @@
 
 
     <RadioButton
-        android:id="@+id/active_chck"
+        android:id="@+id/mode_test"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="41dp"
-        android:layout_marginRight="41dp"
-        android:layout_toStartOf="@+id/edit_btn"
         android:layout_alignBottom="@+id/edit_btn"
+        android:layout_marginRight="40dp"
+        android:layout_toStartOf="@+id/edit_btn"
         android:layout_toLeftOf="@+id/edit_btn"
-        android:text="@string/active"
+        android:paddingEnd="20dp"
+        android:textColor="@color/colorTextBack" />
+
+    <RadioButton
+        android:id="@+id/mode_learn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/edit_btn"
+        android:layout_marginRight="135dp"
+        android:layout_toStartOf="@+id/edit_btn"
+        android:layout_toLeftOf="@+id/edit_btn"
+        android:paddingEnd="20dp"
         android:textColor="@color/colorTextBack" />
 
 </RelativeLayout>

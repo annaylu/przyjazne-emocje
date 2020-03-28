@@ -35,9 +35,10 @@ public class LevelValidator {
     }
 
     public boolean everyEmotionHasAtLestOnePhoto(){
-
+//ŹLEEEEEEEEEEEEEE OGARNIJ
         for(int emotion : validatedLevel.getEmotions()){
-
+            if (validatedLevel.getPhotosOrVideosIdList().size() < 1)
+                return false;
         }
 
         return true;

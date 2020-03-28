@@ -6,5 +6,5 @@ public interface ILevelListCallback {
 
     void removeLevel(LevelItem level);
 
-    void setLevelActive(LevelItem level, boolean isChecked);
+    void setLevelActive(LevelItem level, boolean isChecked, boolean isLearnMode);
 }

@@ -9,7 +9,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:id="@+id/relativeLayout"
-    android:background="@drawable/triangles_blue"
+    android:background="@color/background_center"
     tools:context="pg.autyzm.graprzyjazneemocje.MainActivity">
     <!--android:background="@drawable/background" jedna linijke wyzej-->
 
@@ -40,6 +40,24 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />
 
+        <TextView
+            android:id="@+id/numberOfTries"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/rightEmotion"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="50dp"
+            android:layout_toStartOf="@+id/matchEmotionsSpeakerButton" />
+
+        <TextView
+            android:id="@+id/timeToAnswer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/rightEmotion"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="25dp"
+            android:text="" />
+
     </RelativeLayout>
 
     <LinearLayout
@@ -47,8 +65,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
-        android:orientation="horizontal"
-        />
+        android:orientation="horizontal" />
 
     <TextView
         android:id="@+id/saveMessage"

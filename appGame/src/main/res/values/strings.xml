@@ -1,36 +1,85 @@
 <resources>
 <string name="app_name">Gra Przyjazne Emocje</string>
-    <string name="label_show_emotion">Pokaż, gdzie jest</string>
     <string name="label_show_emotion_short">Pokaż</string>
+    <string name="label_show_emotion">Pokaż, gdzie jest</string>
+
     <string name="label_congratulations">Gratulacje!</string>
     <string name="label_rightAnswers">Poprawne odpowiedzi:</string>
     <string name="label_wrongAnswers">Niepoprawne odpowiedzi:</string>
     <string name="label_timeout">Poziomy, w których czas upłynął:</string>
     <string name="label_video_question">Jakie jest dziecko?</string>
 
-    <string name="emotion_happywoman">wesoła</string>
-    <string name="emotion_sadwoman">smutna</string>
-    <string name="emotion_surprisedwoman">zdziwiona</string>
-    <string name="emotion_angrywoman">zła</string>
-    <string name="emotion_scaredwoman">przestraszona</string>
-    <string name="emotion_boredwoman">znudzona</string>
+    <string name="emotion_happy_woman">wesoła</string>
+    <string name="emotion_sad_woman">smutna</string>
+    <string name="emotion_surprised_woman">zdziwiona</string>
+    <string name="emotion_angry_woman">zła</string>
+    <string name="emotion_scared_woman">przestraszona</string>
+    <string name="emotion_bored_woman">znudzona</string>
 
 
-    <string name="emotion_happyman">wesoły</string>
-    <string name="emotion_sadman">smutny</string>
-    <string name="emotion_surprisedman">zdziwiony</string>
-    <string name="emotion_angryman">zły</string>
-    <string name="emotion_scaredman">przestraszony</string>
-    <string name="emotion_boredman">znudzony</string>
+    <string name="emotion_happy_man">wesoły</string>
+    <string name="emotion_sad_man">smutny</string>
+    <string name="emotion_surprised_man">zdziwiony</string>
+    <string name="emotion_angry_man">zły</string>
+    <string name="emotion_scared_man">przestraszony</string>
+    <string name="emotion_bored_man">znudzony</string>
 
 
-    <string name="emotion_happychild">wesołe</string>
-    <string name="emotion_sadchild">smutne</string>
-    <string name="emotion_surprisedchild">zdziwione</string>
-    <string name="emotion_angrychild">złe</string>
-    <string name="emotion_scaredchild">przestraszone</string>
-    <string name="emotion_boredchild">znudzone</string>
+    <string name="emotion_happy_child">wesołe</string>
+    <string name="emotion_sad_child">smutne</string>
+    <string name="emotion_surprised_child">zdziwione</string>
+    <string name="emotion_angry_child">złe</string>
+    <string name="emotion_scared_child">przestraszone</string>
+    <string name="emotion_bored_child">znudzone</string>
 
     <string name="failed_level">Nie udało Ci się rozpoznać wszystkich emocji. Spróbuj ponownie</string>
     <string name="title_activity_level_failed">LevelFailedActivity</string>
+
+    <string name="tries">Próba: </string>
+    <string name="timeToAnswer">Czas na odpowiedź: </string>
+
+    <string name="prevButton">POWTÓRZ POZIOM</string>
+    <string name="mainMenuButton">MENU</string>
+
+    <string name="reward_complex">! to jest </string>
+
+    <string-array name="show_where_is">
+    <item>Pokaż gdzie jest </item>
+    <item>Znajdź gdzie jest</item>
+    <item>Dotknij gdzie jest</item>
+    <item>Wskaż gdzie jest</item>
+        <item>Wybierz gdzie jest</item>
+
+</string-array>
+
+    <string-array name="show_emotion">
+        <item>Pokaż</item>
+        <item>Znajdź</item>
+        <item>Dotknij</item>
+        <item>Wskaż</item>
+        <item>Wybierz</item>
+
+    </string-array>
+
+    <string name="show_where">Pokaż gdzie jest </string>
+<string name="find_where">  Znajdź gdzie jest</string>
+<string name="touch_where">Dotknij gdzie jest</string>
+<string name="point_where">Wskaż gdzie jest</string>
+<string name="select_where">Wybierz gdzie jest</string>
+
+    <string name="show">Pokaż  </string>
+    <string name="find">  Znajdź </string>
+    <string name="touch">Dotknij </string>
+    <string name="point">Wskaż </string>
+    <string name="select">Wybierz</string>
+
+    <string-array name="praise_array">
+        <item>dobrze</item>
+        <item>super</item>
+        <item>świetnie</item>
+        <item>ekstra</item>
+        <item>wspaniale</item>
+    </string-array>
+
+
 </resources>

@@ -1,10 +1,28 @@
 <resources>
+    <string name="testMode">TEST MODE</string>
+    <string name="learnMode">LEARN MODE</string>
+    <string name="seconds"> seconds </string>
+    <string name="after_seconds"> seconds </string>
+
+    <string name="test_no_photos">Number of chosen pictures: </string>
+    <string name="test_time_for_answer">Answer time limit: </string>
+    <string name="test_tries">Number of tries:</string>
+
+    <string name="show">Pokaż  </string>
+    <string name="find">  Znajdź </string>
+    <string name="touch">Dotknij </string>
+    <string name="point">Wskaż </string>
+    <string name="selectConf">Wybierz</string>
+
+
+
+
     <string name="newPhoto">Take a new photo</string>
     <string name="label_choose_images">Choose</string>
     <string name="title_choose_img">Choose pictures</string>
     <string name="default_message">No pictures selected</string>
     <string name="default_level_generate_message">A default step was generated for happy and sad</string>
-    <string name="save_message">Step saved</string>s
+    <string name="save_message">Step saved</string>
     <string name="select">select</string>
     <string name="pv_per_level">Pictures per level</string>
     <string name="time_limit">Time Limit</string>
@@ -24,6 +42,9 @@
     <string name="app">Smile :)</string>
     <string name="hide_levels">Hide default levels</string>
 
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+
 
     <string-array name="spinner">
         <item>Photos</item>
@@ -36,44 +57,48 @@
     <string name="next">next</string>
     <string name="back">back</string>
 
-    <string name="tab1_material">Material</string>
-    <string name="label1_material">Number of learned emotions</string>
-    <string name="label2_material">Learned emotions</string>
+    <string name="tab1_material">Materiał</string>
+    <string name="label0_material">Number of chosen pictures: </string>
+    <string name="label1_material">Number of learned emotions:</string>
+    <string name="label2_material">Learned emotions:</string>
 
     <string name="tab2_learning_ways">Learning ways</string>
     <string name="label1_learning_ways">Sample settings</string>
-    <string name="label1.1_learning_ways">Number of pictures displayed</string>
-    <string name="label1.2_learning_ways">Number of repetitions for each emotion</string>
+    <string name="label1_1_learning_ways">Number of pictures displayed:</string>
+    <string name="label1_2_learning_ways">Number of repetitions for each emotion:</string>
     <string name="label2_learning_ways">Step settings</string>
-    <string name="label2.1_learning_ways">Command</string>
+    <string name="label2_1_learning_ways">Command:</string>
     <string-array name="spinner_command">
         <item>[Name of emotion]</item>
-
         <item>Choose [Name of emotion]</item>
         <item>Choose where is [Name of emotion]</item>
     </string-array>
-    <string name="label2.2_learning_ways">Read the command</string>
-    <string name="label2.3_learning_ways">Differentiation of sexes</string>
-    <string name="label2.4_learning_ways">Show prompt after  </string>
-    <string name="label2.5_learning_ways">Choose the type of the prompt</string>
+    <string name="label2_2_learning_ways">Read the command:</string>
+    <string name="label2_3_learning_ways">Differentiation of sexes</string>
+    <string name="label2_4_learning_ways">Show prompt after:  </string>
+    <string name="label2_5_learning_ways">Choose type of the prompt:</string>
+    <string name="label2_6_learning_ways">Prompts: </string>
     <string name="prompt_type1">Frame the correct one</string>
     <string name="prompt_type2">Enlarge the correct one</string>
     <string name="prompt_type3">Move the correct one</string>
     <string name="prompt_type4">Gray out the incorrect ones</string>
 
     <string name="tab3_consolidation">Reinforcement</string>
-    <string name="label1_consolidation">Verbal praise</string>
+    <string name="label1_consolidation">Verbal praises: </string>
     <string name="label1.1_consolidation">Write in a new praise</string>
     <string name="button1_consolidation">Select all</string>
 
     <string name="tab4_test">Test</string>
     <string name="label1.1_test">Active materials</string>
+    <string name="the_same_material">I would like to use the same photos that are in the MATERIAL tab</string>
+    <string name="the_same_material_info">Select the material to be used in test mode."</string>
+    <string name="the_same_material_btn">Select</string>
     <string name="label1.2_test">Number of tries for each emotion</string>
     <string name="label1.3_test">Time for response</string>
     <string name="description1_test">In the test mode, the child works on materials marked in the MATERIAL tab.</string>
     <string name="description2_test">
 The test mode does not use hints and reinforcements, the therapist should refrain from intervening in the interaction of the child until the end of the test.</string>
-    <string name="summary_test">Total number of tries in the test: 3</string>
+    <string name="summary_test">Total number of tries in the test:</string>
 
     <string name="tab5_save">Save</string>
     <string name="label1.1_save">Step name</string>
@@ -87,33 +112,27 @@ The test mode does not use hints and reinforcements, the therapist should refrai
     <string name="emotion_scared">scared</string>
     <string name="emotion_bored">bored</string>
 
-    <string name="emotion_happywoman">happy</string>
-    <string name="emotion_sadwoman">sad</string>
-    <string name="emotion_surprisedwoman">surprised</string>
-    <string name="emotion_angrywoman">angry</string>
-    <string name="emotion_scaredwoman">scared</string>
-    <string name="emotion_boredwoman">bored</string>
+    <string name="emotion_happy_woman">happy</string>
+    <string name="emotion_sad_woman">sad</string>
+    <string name="emotion_surprised_woman">surprised</string>
+    <string name="emotion_angry_woman">angry</string>
+    <string name="emotion_scared_woman">scared</string>
+    <string name="emotion_bored_woman">bored</string>
 
-    <string name="emotion_happyman">happy</string>
-    <string name="emotion_sadman">sad</string>
-    <string name="emotion_surprisedman">surprised</string>
-    <string name="emotion_angryman">angry</string>
-    <string name="emotion_scaredman">scared</string>
-    <string name="emotion_boredman">bored</string>
+    <string name="emotion_happy_man">happy</string>
+    <string name="emotion_sad_man">sad</string>
+    <string name="emotion_surprised_man">surprised</string>
+    <string name="emotion_angry_man">angry</string>
+    <string name="emotion_scared_man">scared</string>
+    <string name="emotion_bored_man">bored</string>
 
-    <string name="emotion_happychild">happy</string>
-    <string name="emotion_sadchild">sad</string>
-    <string name="emotion_surprisedchild">surprised</string>
-    <string name="emotion_angrychild">angry</string>
-    <string name="emotion_scaredchild">scared</string>
-    <string name="emotion_boredchild">bored</string>
-
-    <string name="emotion_happyperson">happy</string>
-    <string name="emotion_sadperson">sad</string>
-    <string name="emotion_surprisedperson">surprised</string>
-    <string name="emotion_angryperson">angry</string>
-    <string name="emotion_scaredperson">scared</string>
-    <string name="emotion_boredperson">bored</string>
+    <string name="emotion_happy_child">happy</string>
+    <string name="emotion_sad_child">sad</string>
+    <string name="emotion_surprised_child">surprised</string>
+    <string name="emotion_angry_child">angry</string>
+    <string name="emotion_scared_child">scared</string>
+    <string name="emotion_bored_child">bored</string>
+_
 
 
     <string name="sex">You are:</string>
@@ -170,6 +189,9 @@ The test mode does not use hints and reinforcements, the therapist should refrai
     </string-array>
 
     <string name="InPhoto">In the photo you will be:</string>
+
+    <string name="commandWarning">Choose at least one command type!</string>
+    <string name="everyEmotionOnePhotoWarning">Choose at least one picture for each emotion!</string>
 
 
 </resources>

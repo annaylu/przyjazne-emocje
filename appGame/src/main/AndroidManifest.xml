@@ -30,8 +30,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".animation.AnimationActivity"
+            android:name=".RewardActivity"
             android:screenOrientation="landscape" />
+        <activity
+        android:name=".animation.AnimationActivity"
+        android:screenOrientation="landscape" />
         <activity
             android:name=".animation.AnimationEndActivity"
             android:screenOrientation="landscape" />
@@ -45,6 +48,15 @@
         <activity
             android:name=".VideoWelcomeActivity"
             android:screenOrientation="landscape" />
+
+        <!--activity
+            android:name="pg.autyzm.przyjazneemocje.MainActivity"
+            android:screenOrientation="landscape">
+            <!-android:screenOrientation="landscape"-->
+            <!--intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity-->
     </application>
 
 </manifest>

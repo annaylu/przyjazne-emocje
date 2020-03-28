@@ -32,12 +32,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LevelConfigurationActivity"
+            android:name=".configuration.LevelConfigurationActivity"
             android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".configuration.MaterialForTestActivity"
+            android:screenOrientation="landscape"/>
+
         <activity
 
             android:name=".chooseImages.ChooseImages"

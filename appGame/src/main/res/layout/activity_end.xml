@@ -72,16 +72,38 @@
        android:layout_alignParentLeft="true"
        android:layout_alignParentStart="true" />
 
-   <ImageButton
-       android:id="@+id/prevButton"
-       android:layout_width="80dp"
-       android:layout_height="80dp"
-       android:background="@null"
-       android:onClick="repeatLevel"
-       android:scaleType="centerCrop"
-       android:src="@drawable/icon_prev"
-       android:layout_alignParentBottom="true"
-       android:layout_alignParentLeft="true"
-       android:layout_alignParentStart="true" />
+    <Button
+        android:id="@+id/prevButton"
+        android:layout_width="150dp"
+        android:layout_height="80dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="20dp"
+        android:background="@null"
+        android:maxWidth="150dp"
+        android:maxHeight="80dp"
+        android:minWidth="150dp"
+        android:minHeight="80dp"
+        android:onClick="repeatLevel"
+        android:textColor="#FFFDFD"
+        android:textColorHint="#FBF9F9" />
+
+    <Button
+        android:id="@+id/mainMenuButton"
+        android:layout_width="150dp"
+        android:layout_height="80dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
+        android:background="@null"
+        android:maxWidth="150dp"
+        android:maxHeight="80dp"
+        android:minWidth="150dp"
+        android:minHeight="80dp"
+        android:textColor="#FFFDFD"
+        android:textColorHint="#FBF9F9" />
 
 </RelativeLayout>

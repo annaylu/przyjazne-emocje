@@ -35,42 +35,59 @@
     <string name="next">dalej</string>
     <string name="back">wstecz</string>
 
+    <string name="testMode">TRYB TESTU</string>
+    <string name="learnMode">TRYB NAUKI</string>
+    <string name="seconds"> sekund </string>
+    <string name="after_seconds"> sekundach </string>
+
+    <string name="test_no_photos">Liczba wybranych zdjęć: </string>
+    <string name="test_time_for_answer">Czas na udzielenie odpowiedzi: </string>
+    <string name="test_tries">Liczba prób:</string>
+
     <string name="tab1_material">Materiał</string>
-    <string name="label1_material">Liczba uczonych emocji</string>
-    <string name="label2_material">Uczone emocje</string>
+    <string name="label0_material">Liczba wybranych zdjęć: </string>
+    <string name="label1_material">Liczba uczonych emocji: </string>
+    <string name="label2_material">Uczone emocje: </string>
 
     <string name="tab2_learning_ways">Sposoby uczenia</string>
     <string name="label1_learning_ways">Ustawienia próby</string>
-    <string name="label1.1_learning_ways">Liczba obrazów wyświetlanych na ekranie</string>
-    <string name="label1.2_learning_ways">Liczba powtórzeń dla każdej emocji</string>
+    <string name="label1_1_learning_ways">Liczba zdjęć wyświetlanych na ekranie: </string>
+    <string name="label1_2_learning_ways">Liczba powtórzeń dla każdej emocji: </string>
     <string name="label2_learning_ways">Ustawienia kroku</string>
-    <string name="label2.1_learning_ways">Polecenie</string>
+    <string name="label2_1_learning_ways">Rodzaj polecenia: </string>
     <string-array name="spinner_command">
         <item>[Nazwa emocji]</item>
-        <item>Pokaż gdzie jest [Nazwa emocji]</item>
         <item>Pokaż [Nazwa emocji]</item>
+        <item>Pokaż gdzie jest [Nazwa emocji]</item>
     </string-array>
-    <string name="label2.2_learning_ways">Czytanie polecenia</string>
-    <string name="label2.3_learning_ways">Rozróżnianie płci</string>
-    <string name="label2.4_learning_ways">Pokaż podpowiedź po  </string>
-    <string name="label2.5_learning_ways">Wybierz rodzaj podpowiedzi</string>
+
+    <string name="yes">Tak</string>
+    <string name="no">Nie</string>
+    <string name="label2_2_learning_ways">Czytanie polecenia: </string>
+    <string name="label2_3_learning_ways">Rozróżnianie płci</string>
+    <string name="label2_4_learning_ways">Pokaż podpowiedź po:  </string>
+    <string name="label2_5_learning_ways">Wybierz rodzaj podpowiedzi</string>
+    <string name="label2_6_learning_ways">Podpowiedzi: </string>
     <string name="prompt_type1">Obramuj poprawną</string>
     <string name="prompt_type2">Powiększ poprawną</string>
     <string name="prompt_type3">Porusz poprawną</string>
     <string name="prompt_type4">Wyszarz niepoprawne</string>
 
     <string name="tab3_consolidation">Wzmocnienie</string>
-    <string name="label1_consolidation">Pochwały słowne</string>
+    <string name="label1_consolidation">Pochwały słowne: </string>
     <string name="label1.1_consolidation">Wpisz nową pochwałę...</string>
     <string name="button1_consolidation">Zaznacz wszystkie</string>
 
     <string name="tab4_test">Test</string>
     <string name="label1.1_test">Aktywne materiały</string>
+    <string name="the_same_material">Chcę korzystać z tych samych zdjęć co w zakładce MATERIAŁ</string>
+    <string name="the_same_material_info">Wskaż materiały, które mają zostać zastosowane w trybie testu."</string>
+    <string name="the_same_material_btn">Wybierz</string>
     <string name="label1.2_test">Liczba prób dla każdej emocji</string>
     <string name="label1.3_test">Czas na udzielenie odpowiedzi</string>
     <string name="description1_test">W trybie testu dziecko pracuje na materiałach zaznaczonych w zakładce MATERIAŁ.</string>
     <string name="description2_test">W trybie testu nie używa się podpowiedzi i wzmocnień, a terapeuta powinien powstrzymać się od interwencji w interakcje dziecka aż do zakończenia testu.</string>
-    <string name="summary_test">Łączna liczba prób w teście:    3</string>
+    <string name="summary_test">Łączna liczba prób w teście:</string>
 
     <string name="tab5_save">Zapisz</string>
     <string name="label1.1_save">Nazwa kroku</string>
@@ -85,40 +102,34 @@
     <string name="emotion_bored">znudzony</string>
 
 
-    <string name="emotion_happywoman">wesoła</string>
-    <string name="emotion_sadwoman">smutna</string>
-    <string name="emotion_surprisedwoman">zdziwiona</string>
-    <string name="emotion_angrywoman">zła</string>
-    <string name="emotion_scaredwoman">przestraszona</string>
-    <string name="emotion_boredwoman">znudzona</string>
+    <string name="emotion_happy_woman">wesoła</string>
+    <string name="emotion_sad_woman">smutna</string>
+    <string name="emotion_surprised_woman">zdziwiona</string>
+    <string name="emotion_angry_woman">zła</string>
+    <string name="emotion_scared_woman">przestraszona</string>
+    <string name="emotion_bored_woman">znudzona</string>
 
 
-    <string name="emotion_happyman">wesoły</string>
-    <string name="emotion_sadman">smutny</string>
-    <string name="emotion_surprisedman">zdziwiony</string>
-    <string name="emotion_angryman">zły</string>
-    <string name="emotion_scaredman">przestraszony</string>
-    <string name="emotion_boredman">znudzony</string>
+    <string name="emotion_happy_man">wesoły</string>
+    <string name="emotion_sad_man">smutny</string>
+    <string name="emotion_surprised_man">zdziwiony</string>
+    <string name="emotion_angry_man">zły</string>
+    <string name="emotion_scared_man">przestraszony</string>
+    <string name="emotion_bored_man">znudzony</string>
 
 
-    <string name="emotion_happychild">wesołe</string>
-    <string name="emotion_sadchild">smutne</string>
-    <string name="emotion_surprisedchild">zdziwione</string>
-    <string name="emotion_angrychild">złe</string>
-    <string name="emotion_scaredchild">przestraszone</string>
-    <string name="emotion_boredchild">znudzone</string>
-
-    <string name="emotion_happyperson">happy</string>
-    <string name="emotion_sadperson">sad</string>
-    <string name="emotion_surprisedperson">surprised</string>
-    <string name="emotion_angryperson">angry</string>
-    <string name="emotion_scaredperson">scared</string>
-    <string name="emotion_boredperson">bored</string>
-
-    <string name="sex">Jesteś:</string>
+    <string name="emotion_happy_child">wesołe</string>
+    <string name="emotion_sad_child">smutne</string>
+    <string name="emotion_surprised_child">zdziwione</string>
+    <string name="emotion_angry_child">złe</string>
+    <string name="emotion_scared_child">przestraszone</string>
+    <string name="emotion_bored_child">znudzone</string>
 
 
-    <string name="InPhoto">Na zdjęciu będziesz:</string>
+    <string name="sex">Zdjęcie:</string>
+
+
+    <string name="InPhoto">Emocja:</string>
 
     <string-array name="emotions_array">
         <item>wesoły</item>
@@ -128,6 +139,11 @@
         <item>przestraszony</item>
         <item>znudzony</item>
     </string-array>
+    <string name="show">Pokaż  </string>
+    <string name="find">  Znajdź </string>
+    <string name="touch">Dotknij </string>
+    <string name="point">Wskaż </string>
+    <string name="selectConf">Wybierz</string>
 
     <string-array name="emotions_array_man">
         <item>wesoły</item>
@@ -162,11 +178,18 @@
     </string-array>
 
     <string-array name="sex">
-        <item>kobietą</item>
-        <item>mężczyzną</item>
-        <item>dzieckiem</item>
+        <item>kobiety</item>
+        <item>mężczyzny</item>
+        <item>dziecka</item>
+        <item>emotikona</item>
 
     </string-array>
+
+    <string name="commandWarning">Wybierz conajmniej jeden rodzaj polecenia!</string>
+    <string name="everyEmotionOnePhotoWarning">Wybierz conajmniej po jedym zdjęciu dla każdej emocji!</string>
+
+
+
 
 
 </resources>

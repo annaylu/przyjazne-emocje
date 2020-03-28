@@ -26,4 +26,5 @@ dependencies {
     implementation project(':mylibrary')
     implementation group: 'com.dropbox.core', name: 'dropbox-core-sdk', version: '3.0.6'
     implementation group: 'com.j256.ormlite', name: 'ormlite-android', version: '5.1'
+    //implementation project( path: ':appConfig') //USUNEŁAM PATH: ':appconfig'
 }

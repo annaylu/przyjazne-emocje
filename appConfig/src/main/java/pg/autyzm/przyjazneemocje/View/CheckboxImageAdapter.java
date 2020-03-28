@@ -17,7 +17,6 @@ import android.widget.ImageView;
 import java.io.File;
 import java.util.List;
 
-import pg.autyzm.przyjazneemocje.LevelConfigurationActivity;
 import pg.autyzm.przyjazneemocje.R;
 import pg.autyzm.przyjazneemocje.lib.entities.Level;
 
@@ -33,19 +32,22 @@ public class CheckboxImageAdapter extends ArrayAdapter<GridCheckboxImageBean> {
 
     private List<GridCheckboxImageBean> rowBeanList;
     private Context context;
+    private Level level;
+    private boolean isForTest;
 
-    public CheckboxImageAdapter(Context context, int layoutResourceId, GridCheckboxImageBean[] data) {
+    public CheckboxImageAdapter(Context context, int layoutResourceId, GridCheckboxImageBean[] data, Level level, boolean isForTest) {
         super(context, layoutResourceId, data);
         this.layoutResourceId = layoutResourceId;
         this.context = context;
         this.data = data;
+        this.level = level;
+        this.isForTest = isForTest;
     }
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         View row = convertView;
         RowBeanHolder holder = null;
-
 
         if (row == null) {
             LayoutInflater inflater = ((Activity) context).getLayoutInflater();
@@ -60,22 +62,17 @@ public class CheckboxImageAdapter extends ArrayAdapter<GridCheckboxImageBean> {
             holder = (RowBeanHolder) row.getTag();
         }
 
-
         final GridCheckboxImageBean photoWithCheckBox = data[position];
-
 
         try {
             String root = Environment.getExternalStorageDirectory().getAbsolutePath() + "/";
 
             File fileOut;
             Bitmap captureBmp;
-            if(photoWithCheckBox.photoName.contains(".mp4"))
-            {
+            if(photoWithCheckBox.photoName.contains(".mp4")) {
                 fileOut = new File(root + "FriendlyEmotions/Videos" + File.separator + photoWithCheckBox.photoName);
                 captureBmp = ThumbnailUtils.createVideoThumbnail(fileOut.getPath(), MediaStore.Images.Thumbnails.MINI_KIND);
-            }
-            else
-            {
+            } else {
                 fileOut = new File(root + "FriendlyEmotions/Photos" + File.separator + photoWithCheckBox.photoName);
                 captureBmp = MediaStore.Images.Media.getBitmap(photoWithCheckBox.cr, Uri.fromFile(fileOut));
             }
@@ -85,36 +82,37 @@ public class CheckboxImageAdapter extends ArrayAdapter<GridCheckboxImageBean> {
             System.out.println(e);
         }
 
-
-        Level configuredLevel = ((LevelConfigurationActivity) context).getLevel();
-
         final CheckBox checkBox = holder.checkBox;
 
-
-        checkBox.setChecked(configuredLevel.getPhotosOrVideosIdList().contains(photoWithCheckBox.getId()));
+        if(isForTest && !level.getPhotosOrVideosIdListInTest().isEmpty()) {
+            checkBox.setChecked(level.getPhotosOrVideosIdListInTest().contains(photoWithCheckBox.getId()));
+        } else {
+            checkBox.setChecked(level.getPhotosOrVideosIdList().contains(photoWithCheckBox.getId()));
+        }
 
         checkBox.setOnClickListener(new View.OnClickListener() {
-
             Integer photoId = photoWithCheckBox.getId();
-            Level configuredLevel = ((LevelConfigurationActivity) context).getLevel();
-
             @Override
             public void onClick(View arg0) {
                 if(checkBox.isChecked()) {
-
                     if(photoWithCheckBox.photoName.contains(".mp4")){
-                        configuredLevel.setPhotosOrVideosFlag("videos");
+                        level.setPhotosOrVideosFlag("videos");
+                    } else {
+                        if(isForTest) {
+                            level.addPhotoForTest(photoId);
+                        } else {
+                            level.addPhoto(photoId);
+                        }
                     }
-                    else {
-                        configuredLevel.addPhoto(photoId);
+                } else{
+                    if(isForTest) {
+                        level.removePhotoForTest(photoId);
+                    } else {
+                        level.removePhoto(photoId);
                     }
-                }
-                else{
-                    configuredLevel.removePhoto(photoId);
                 }
             }
         });
-
         return row;
     }
 

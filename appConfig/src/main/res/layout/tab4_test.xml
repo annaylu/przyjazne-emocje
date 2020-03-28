@@ -37,16 +37,29 @@
                     android:text="@string/label1.1_test"
                     android:textAppearance="@style/OptionStyle" />
 
-                <GridView
-                    android:id="@+id/gridViewActiveInTest"
+                <CheckBox
+                    android:id="@+id/theSameMaterial"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:numColumns="2"
-                    android:padding="5dp"
-                    android:paddingStart="30dp">
+                    android:checked="true"
+                    android:text="@string/the_same_material" />
 
-                </GridView>
+                <TextView
+                    android:id="@+id/materialForTestInfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/the_same_material_info"
+                    android:visibility="invisible" />
+
+                <Button
+                    android:id="@+id/materialForTest"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/the_same_material_btn"
+                    android:visibility="invisible" />
+
             </LinearLayout>
 
 
@@ -156,6 +169,41 @@
                 android:layout_height="wrap_content"
                 android:text="@string/summary_test"
                 android:textAppearance="@style/TitleStyle" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/numberOfTriesMinus"
+                    style="@style/Widget.AppCompat.Button.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="-"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+                <TextView
+                    android:id="@+id/numberOfTriesLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:gravity="center_horizontal"
+                    android:layout_margin="10dp"
+                    android:textSize="24sp"
+                    android:text="3" />
+
+                <Button
+                    android:id="@+id/numberOfTriesPlus"
+                    style="@style/Widget.AppCompat.Button.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="+"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+            </LinearLayout>
+
         </LinearLayout>
 
     </LinearLayout>

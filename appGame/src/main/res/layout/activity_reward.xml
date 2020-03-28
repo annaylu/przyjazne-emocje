@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_reward"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/commandPraise"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="30dp"
+
+        android:foregroundGravity="clip_horizontal"
+        android:gravity="center_horizontal"
+        android:text="Brawo!"
+        android:textColor="#FBF8F8"
+        android:textSize="70dp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/correctAnswer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|center_horizontal|center_vertical"
+        android:foregroundGravity="center_vertical|center_horizontal"
+        android:layout_marginTop="20dp"
+        android:maxWidth="300sp"
+        android:maxHeight="300sp"
+        android:minWidth="300sp"
+        android:minHeight="300sp"
+         />
+
+
+</LinearLayout>

@@ -9,27 +9,56 @@
     <string name="label_video_question">How is the child?</string>
 
 
-    <string name="emotion_happywoman">happy</string>
-    <string name="emotion_sadwoman">sad</string>
-    <string name="emotion_surprisedwoman">surprised</string>
-    <string name="emotion_angrywoman">angry</string>
-    <string name="emotion_scaredwoman">scared</string>
-    <string name="emotion_boredwoman">bored</string>
+    <string name="emotion_happy_woman">happy</string>
+    <string name="emotion_sad_woman">sad</string>
+    <string name="emotion_surprised_woman">surprised</string>
+    <string name="emotion_angry_woman">angry</string>
+    <string name="emotion_scared_woman">scared</string>
+    <string name="emotion_bored_woman">bored</string>
 
-    <string name="emotion_happyman">happy</string>
-    <string name="emotion_sadman">sad</string>
-    <string name="emotion_surprisedman">surprised</string>
-    <string name="emotion_angryman">angry</string>
-    <string name="emotion_scaredman">scared</string>
-    <string name="emotion_boredman">bored</string>
+    <string name="emotion_happy_man">happy</string>
+    <string name="emotion_sad_man">sad</string>
+    <string name="emotion_surprised_man">surprised</string>
+    <string name="emotion_angry_man">angry</string>
+    <string name="emotion_scared_man">scared</string>
+    <string name="emotion_bored_man">bored</string>
 
-    <string name="emotion_happychild">happy</string>
-    <string name="emotion_sadchild">sad</string>
-    <string name="emotion_surprisedchild">surprised</string>
-    <string name="emotion_angrychild">angry</string>
-    <string name="emotion_scaredchild">scared</string>
-    <string name="emotion_boredchild">bored</string>
+    <string name="emotion_happy_child">happy</string>
+    <string name="emotion_sad_child">sad</string>
+    <string name="emotion_surprised_child">surprised</string>
+    <string name="emotion_angry_child">angry</string>
+    <string name="emotion_scared_child">scared</string>
+    <string name="emotion_bored_child">bored</string>
 
     <string name="failed_level">Unfortunately, you didn\'t manage to recognise all the emotions. Try again.</string>
     <string name="title_activity_level_failed">LevelFailedActivity</string>
+
+    <string name="prevButton">REPEAT LEVEL</string>
+    <string name="mainMenuButton">MENU</string>
+
+    <string name="tries">Tries: </string>
+    <string name="timeToAnswer">Time to answer: </string>
+
+    <string name="reward_complex">! this is </string>
+
+    <string name="show_where">Show which is </string>
+<string name="find_where">  Find which is </string>
+<string name="touch_where">Touch which is </string>
+<string name="point_where">Point which is</string>
+<string name="select_where">Select which is</string>
+
+    <string name="show">Show </string>
+    <string name="find">  Find </string>
+    <string name="touch">Touch</string>
+    <string name="point">Point </string>
+    <string name="select">Select</string>
+
+    <string-array name="praise_array">
+        <item>good</item>
+        <item>super</item>
+        <item>excellent</item>
+        <item>extra</item>
+        <item>great</item>
+    </string-array>
+
 </resources>

@@ -33,7 +33,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/label1.1_learning_ways"
+                android:text="@string/label1_1_learning_ways"
                 android:textAppearance="@style/OptionStyle" />
 
 
@@ -84,7 +84,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/label1.2_learning_ways"
+                android:text="@string/label1_2_learning_ways"
                 android:textAppearance="@style/OptionStyle" />
 
 
@@ -124,6 +124,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/linearLayout_commands"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -135,13 +136,76 @@
                 android:id="@+id/textView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/label2.1_learning_ways"
+                android:text="@string/label2_1_learning_ways"
                 android:textAppearance="@style/OptionStyle" />
 
             <Spinner
                 android:id="@+id/spinner_command"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
+
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center">
+
+                    <CheckBox
+                        android:id="@+id/show"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:checked="true"
+                        android:text="@string/show"
+                        android:textAppearance="@style/OptionStyle" />
+
+                    <CheckBox
+                        android:id="@+id/select"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:text="@string/selectConf"
+                        android:textAppearance="@style/OptionStyle" />
+
+                    <CheckBox
+                        android:id="@+id/touch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:text="@string/touch"
+                        android:textAppearance="@style/OptionStyle"/>
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:foregroundGravity="center_vertical"
+                    android:gravity="center|center_vertical">
+
+                    <CheckBox
+                        android:id="@+id/point"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:text="@string/point"
+                        android:textAppearance="@style/OptionStyle" />
+
+                    <CheckBox
+                        android:id="@+id/find"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:text="@string/find"
+                        android:textAppearance="@style/OptionStyle" />
+
+                </TableRow>
+
+            </TableLayout>
         </LinearLayout>
 
 
@@ -175,7 +239,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_weight="1"
-            android:text="@string/label2.2_learning_ways"
+            android:text="@string/label2_2_learning_ways"
             android:textAppearance="@style/OptionStyle" />
 
         <!--<CheckBox-->
@@ -198,7 +262,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="@string/label2.4_learning_ways"
+                android:text="@string/label2_4_learning_ways"
                 android:textAppearance="@style/OptionStyle" />
 
 
@@ -257,7 +321,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_weight="1"
-                android:text="@string/label2.5_learning_ways"
+                android:text="@string/label2_5_learning_ways"
                 android:textAppearance="@style/OptionStyle" />
 
             <TableLayout
@@ -270,18 +334,20 @@
                     android:layout_height="match_parent">
 
                     <CheckBox
-                        android:id="@+id/checkBox3"
+                        android:id="@+id/obramuj"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checked="true"
                         android:text="@string/prompt_type1"
-                        android:textAppearance="@style/OptionStyle" />
+                        android:textAppearance="@style/OptionStyle"
+                        android:textSize="18dp"/>
 
                     <CheckBox
-                        android:id="@+id/checkBox5"
+                        android:id="@+id/powieksz"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/prompt_type2"
+                        android:textSize="18dp"
                         android:textAppearance="@style/OptionStyle" />
                 </TableRow>
 
@@ -290,18 +356,20 @@
                     android:layout_height="match_parent">
 
                     <CheckBox
-                        android:id="@+id/checkBox6"
+                        android:id="@+id/porusz"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/prompt_type3"
+                        android:textSize="18dp"
                         android:textAppearance="@style/OptionStyle" />
 
                     <CheckBox
-                        android:id="@+id/checkBox4"
+                        android:id="@+id/wyszarz"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checked="true"
                         android:text="@string/prompt_type4"
+                        android:textSize="18dp"
                         android:textAppearance="@style/OptionStyle" />
 
                 </TableRow>

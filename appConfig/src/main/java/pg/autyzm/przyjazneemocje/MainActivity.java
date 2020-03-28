@@ -1,5 +1,6 @@
 package pg.autyzm.przyjazneemocje;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -11,6 +12,7 @@ import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SwitchCompat;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -34,6 +36,7 @@ import java.util.Locale;
 import pg.autyzm.przyjazneemocje.adapter.CustomList;
 import pg.autyzm.przyjazneemocje.adapter.ILevelListCallback;
 import pg.autyzm.przyjazneemocje.adapter.LevelItem;
+import pg.autyzm.przyjazneemocje.configuration.LevelConfigurationActivity;
 import pg.autyzm.przyjazneemocje.lib.SqliteManager;
 import pg.autyzm.przyjazneemocje.lib.entities.Level;
 
@@ -41,6 +44,8 @@ import static android.provider.AlarmClock.EXTRA_MESSAGE;
 import static pg.autyzm.przyjazneemocje.lib.SqliteManager.getInstance;
 
 public class MainActivity extends AppCompatActivity {
+
+    private final int REQ_CODE_CAMERA = 100;
     private final List<LevelItem> levelList = new ArrayList<>();
     AdapterView.OnItemSelectedListener emotionSelectedListener = new AdapterView.OnItemSelectedListener() {
         @Override
@@ -54,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
             String plec = String.valueOf(spinner_plec.getSelectedItem());
 
 
-            if (plec.equals("kobietą") || plec.equals("female")) {
+            if (plec.equals("kobiety") || plec.equals("woman") || plec.equals("emotikona") || plec.equals("emoticon")) {
 
 
                 ArrayAdapter<CharSequence> dataAdapter = ArrayAdapter.createFromResource(MainActivity.this, R.array.emotions_array_woman,
@@ -63,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
                 dataAdapter.notifyDataSetChanged(); //oraz to
                 spinner_emocje.setAdapter(dataAdapter);
             }
-            if (plec.equals("mężczyzną") || plec.equals("male")) {
+            if (plec.equals("mężczyzny") || plec.equals("man")) {
                 ArrayAdapter<CharSequence> dataAdapter2 = ArrayAdapter.createFromResource(MainActivity.this, R.array.emotions_array_man,
                         android.R.layout.simple_spinner_dropdown_item);
                 dataAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -72,8 +77,8 @@ public class MainActivity extends AppCompatActivity {
                 spinner_emocje.setAdapter(dataAdapter2);
             }
 
-            if (plec.equals("dzieckiem") || plec.equals("child")) {
-                Toast.makeText(MainActivity.this, "woman", Toast.LENGTH_LONG);
+            if (plec.equals("dziecka") || plec.equals("child")) {
+                Toast.makeText(MainActivity.this, "child", Toast.LENGTH_LONG);
                 ArrayAdapter<CharSequence> dataAdapter3 = ArrayAdapter
                         .createFromResource(MainActivity.this, R.array.emotions_array_child,
                                 android.R.layout.simple_spinner_dropdown_item);
@@ -177,42 +182,10 @@ public class MainActivity extends AppCompatActivity {
 
                 try {
                     int resID = getResources().getIdentifier(emotName, "drawable", getPackageName());
-                    if (emotName.contains("happywoman"))
-                        sqlm.addPhoto(resID, "happywoman", emotName);
-                    else if (emotName.contains("happyman"))
-                        sqlm.addPhoto(resID, "happyman", emotName);
-                    if (emotName.contains("happychild"))
-                        sqlm.addPhoto(resID, "happychild", emotName);
-                    else if (emotName.contains("angrywoman"))
-                        sqlm.addPhoto(resID, "angrywoman", emotName);
-                    else if (emotName.contains("angryman"))
-                        sqlm.addPhoto(resID, "angryman", emotName);
-                    else if (emotName.contains("angrychild"))
-                        sqlm.addPhoto(resID, "angrychild", emotName);
-                    else if (emotName.contains("surprisedman"))
-                        sqlm.addPhoto(resID, "surprisedman", emotName);
-                    else if (emotName.contains("surprisedwoman"))
-                        sqlm.addPhoto(resID, "surprisedwoman", emotName);
-                    else if (emotName.contains("surprisedchild"))
-                        sqlm.addPhoto(resID, "surprisedchild", emotName);
-                    else if (emotName.contains("boredman"))
-                        sqlm.addPhoto(resID, "boredman", emotName);
-                    else if (emotName.contains("boredwoman"))
-                        sqlm.addPhoto(resID, "boredwoman", emotName);
-                    else if (emotName.contains("boredchild"))
-                        sqlm.addPhoto(resID, "boredchild", emotName);
-                    else if (emotName.contains("scaredwoman"))
-                        sqlm.addPhoto(resID, "scaredwoman", emotName);
-                    else if (emotName.contains("scaredman"))
-                        sqlm.addPhoto(resID, "scaredman", emotName);
-                    else if (emotName.contains("scaredchild"))
-                        sqlm.addPhoto(resID, "scaredchild", emotName);
-                    else if (emotName.contains("sadwoman"))
-                        sqlm.addPhoto(resID, "sadwoman", emotName);
-                    else if (emotName.contains("sadman"))
-                        sqlm.addPhoto(resID, "sadman", emotName);
-                    else if (emotName.contains("sadchild"))
-                        sqlm.addPhoto(resID, "sadchild", emotName);
+                    String[] photoSeg = emotName.split("_");
+                    //name.split("::")[0];
+                    sqlm.addPhoto(resID, photoSeg[0]+"_"+photoSeg[1], emotName);
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -284,7 +257,7 @@ public class MainActivity extends AppCompatActivity {
                 //bundle2.putString("SpinnerValue_Sex", spinner_sex.getSelectedItem().toString());
                 Intent in = new Intent(MainActivity.this, CameraActivity.class);
                 in.putExtras(bundle2);
-                startActivityForResult(in, 1);
+                startActivityForResult(in, REQ_CODE_CAMERA);
             }
         });
     }
@@ -310,11 +283,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void removeLevel(LevelItem level) {
                 deleteLevel(level.getLevelId());
+                updateLevelList(); //tata
             }
 
             @Override
-            public void setLevelActive(LevelItem level, boolean isChecked) {
-                updateActiveState(level.getLevelId());
+            public void setLevelActive(LevelItem level, boolean isChecked, boolean isLearnMode) {
+                Log.d("Testo", " ------------------------------------------------------");
+                updateActiveState(level.getLevelId(), isLearnMode);
             }
         });
 
@@ -322,7 +297,7 @@ public class MainActivity extends AppCompatActivity {
         lView.setAdapter(adapter);
     }
 
-    private void updateActiveState(int levelId) {
+    private void updateActiveState(int levelId, boolean learnMode) {
         for (LevelItem levelItem : levelList) {
             int id = levelItem.getLevelId();
             Cursor cur2 = sqlm.giveLevel(id);
@@ -332,6 +307,12 @@ public class MainActivity extends AppCompatActivity {
             Level l = new Level(cur2, cur3, cur4);
             l.setLevelActive(levelId == id);
             levelItem.setActive(l.isLevelActive());
+            l.setLearnMode(levelId == id && learnMode);
+            l.setTestMode(levelId == id && !learnMode);
+            levelItem.setLearnMode(l.isLearnMode());
+            levelItem.setTestMode(l.isTestMode());
+            Log.d("Testo - UpdateActivity ", "Name levelItem: " + levelItem.getName() + ", learnMode: " + levelItem.isLearnMode() + ", testMode: " + levelItem.isTestMode());
+            Log.d("Testo - UpdateActivity ", "Name level: " + l.getName() + ", learnMode: " + l.isLearnMode() + ", testMode: " + l.isTestMode());
             sqlm.saveLevelToDatabase(l);
         }
         adapter.notifyDataSetChanged();
@@ -349,6 +330,7 @@ public class MainActivity extends AppCompatActivity {
         Bundle b = new Bundle();
         b.putInt("key", levelId);
         System.out.println("przeslij " + levelId);
+
         intent.putExtras(b);
         startActivity(intent);
     }
@@ -411,8 +393,8 @@ public class MainActivity extends AppCompatActivity {
             //String levelId = "Level " + cur.getInt(0);
 
             int active = cur.getInt(cur.getColumnIndex("is_level_active"));
-            boolean isLevelActive = (active != 0);
-            active_list.add(isLevelActive);
+            boolean isLearnMode = (active != 0);
+            active_list.add(isLearnMode);
             list.add(levelId);
 
         }
@@ -479,25 +461,62 @@ public class MainActivity extends AppCompatActivity {
     public void updateLevelList() {
         levelList.clear();
         Cursor cur = sqlm.giveAllLevels();
+        int lpDisplay = 1;
         if (cur.moveToFirst()) {
             do {
                 int levelId = cur.getInt(0);
                 String name = cur.getString(cur.getColumnIndex("name"));
-                String displayName = levelId + " " + name;
-                int active = cur.getInt(cur.getColumnIndex("is_level_active"));
-                boolean isLevelActive = (active != 0);
+                boolean is_default = cur.getInt(cur.getColumnIndex("is_default"))==1;
+                System.out.println(cur.getColumnIndex("is_default"));
+                String displayName = "";
+                if (name.contains("::")) {
+                    if (sqlm.getCurrentLang().startsWith("pl")) {
+                        displayName += name.split("::")[0];
+                    } else {
+                        displayName += name.split("::")[1];
+                    }
+                    //usubelam else
+                } else {
+                    displayName += name;
+                }
 
-                levelList.add(new LevelItem(levelId, displayName, isLevelActive, levelList.size() > 3, levelList.size() > 3));
-            } while (cur.moveToNext());
+                int active =  cur.getInt(cur.getColumnIndex("is_level_active"));
+                boolean isLevelActive = (active != 0);
+                int isLearnMode = cur.getInt(cur.getColumnIndex("is_learn_mode"));
+                int isTestMode = cur.getInt(cur.getColumnIndex("is_test_mode"));
+                boolean isDefault = false;
+                if (levelId < 5) isDefault = true;
+//isDefault=false; //PÓŹNIEJ ZAKOMENTUJ
+
+                if (!isDefault || !hideDefaultValues) {
+
+                    displayName = lpDisplay++ + ". " + displayName;
+                    levelList.add(new LevelItem(levelId, displayName, isLevelActive,(isLearnMode != 0), (isTestMode != 0), isDefault));
+                    //System.out.println(is_default);
+                }
+
+                //levelList.add(new LevelItem(levelId, displayName, isLevelActive,(isLearnMode != 0), (isTestMode != 0), isDefault));
+            }
+
+            while (cur.moveToNext());
         }
+
         cur.close();
-        if (hideDefaultValues) {
+       /* if (hideDefaultValues) {
             levelList.remove(0);
             levelList.remove(0);
             levelList.remove(0);
             levelList.remove(0);
-        }
+        }*/
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (REQ_CODE_CAMERA == requestCode && resultCode == Activity.RESULT_OK) {
+            recreate();
+        }
     }
 }
 

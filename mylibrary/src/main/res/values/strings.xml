@@ -1,7 +1,11 @@
 <resources>
-    <string name="app_name">My Library</string>
-    <string name="level_easy_photos">Wesoły/smutny ZDJĘCIA</string>
-    <string name="level_easy_icons">Wesoły/smutny IKONY</string>
-    <string name="level_medium">Wesoły/smutny/przestraszony/zły</string>
-    <string name="level_hard">Wesoły/smutny/przestraszony/zły/znudzony/zdziwiony</string>
+
+    <string-array name="praise__array">
+        <item>dobrze</item>
+        <item>super</item>
+        <item>świetnie</item>
+        <item>ekstra</item>
+        <item>wspaniale</item>
+    </string-array>
+
 </resources>
