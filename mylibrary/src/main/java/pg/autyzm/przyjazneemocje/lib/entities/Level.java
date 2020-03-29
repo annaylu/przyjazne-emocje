@@ -11,6 +11,9 @@ import java.util.List;
 import java.util.Map;
 
 import pg.autyzm.przyjazneemocje.lib.R;
+import pg.autyzm.przyjazneemocje.lib.SqliteManager;
+
+import static pg.autyzm.przyjazneemocje.lib.SqliteManager.getInstance;
 
 /**
  * Created by Ann on 25.10.2016.
@@ -536,6 +539,7 @@ public class Level implements Serializable {
 
         return level;
     }
+
 
 
 }

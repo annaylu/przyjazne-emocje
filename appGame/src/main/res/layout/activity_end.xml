@@ -47,6 +47,12 @@
             android:layout_height="wrap_content"
             android:textColor="@color/score" />
 
+        <TextView
+            android:id="@+id/statistics"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/score"/>
+
     </LinearLayout>
 
     <!--

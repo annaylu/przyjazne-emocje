@@ -64,6 +64,26 @@ public class MainActivity extends Activity implements View.OnClickListener {
     Level level;
     CountDownTimer timer;
     public Speaker speaker;
+
+    public boolean isFirstWrong() {
+        return firstWrong;
+    }
+
+    public void setFirstWrong(boolean firstWrong) {
+        this.firstWrong = firstWrong;
+    }
+
+    private boolean firstWrong;
+
+    public int getAttempt() {
+        return attempt;
+    }
+
+    public void setAttempt(int attempt) {
+        this.attempt = attempt;
+    }
+
+    private int attempt;
     boolean videos = false; //TODO: Get from database
     static int repeat = 1;
 
@@ -188,6 +208,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
     }
 
     void generateSublevel(int emotionIndexInList) {
+        setAttempt(0);
+        setFirstWrong(false);
         Cursor emotionCur = sqlm.giveEmotionName(emotionIndexInList);
 
         emotionCur.moveToFirst();
@@ -270,7 +292,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
         }
     }
 
-    void generateView(List<String> photosList) {
+    public void generateView(List<String> photosList) {
+
 
         System.out.println("goodAnswer przed cięciami: " + goodAnswer);
 
@@ -354,7 +377,6 @@ if (level.getQuestionType() != Level.Question.EMOTION_NAME) {
                 commandText = rightEmotionLang;
 
             txt.setText(commandText);
-
         }
 
     LinearLayout linearLayout1 = (LinearLayout) findViewById(R.id.imageGallery);
@@ -411,6 +433,7 @@ if (level.getQuestionType() != Level.Question.EMOTION_NAME) {
             onClickTestMode(v, false);
         } else {
             onClickLearnMode(v);
+
         }
     }
 
@@ -447,10 +470,16 @@ if (level.getQuestionType() != Level.Question.EMOTION_NAME) {
     }
 
     public void onClickLearnMode(View v) {
+
         if (v.getId() == 1) {
-            sublevelsLeft--;
-            rightAnswers++;
+
+                sublevelsLeft--;
+            if (getAttempt() == 0) {
+                rightAnswers++;
+                setAttempt(1);
+            }
             rightAnswersSublevel++;
+
             timer.cancel();
 
             boolean correctness = true;
@@ -467,8 +496,13 @@ if (level.getQuestionType() != Level.Question.EMOTION_NAME) {
             }
 
         } else { //jesli nie wybrano wlasciwej
+            //wczesniej było z IFem i również liczyło po jednej nieprawidłowej, teraz będzie liczyć każdą nieprawidłową
+                setAttempt(1);
+                setFirstWrong(true);
+
             wrongAnswers++;
             wrongAnswersSublevel++;
+
         }
     }
 

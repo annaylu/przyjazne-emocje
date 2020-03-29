@@ -55,9 +55,27 @@ public class EndActivity extends Activity {
         wrong.setTextSize(TypedValue.COMPLEX_UNIT_PX, 50);
         wrong.setText(getResources().getString(R.string.label_wrongAnswers) + " " + wrongAnswers);
 
+
+
         TextView time = (TextView) findViewById(R.id.timeout);
         time.setTextSize(TypedValue.COMPLEX_UNIT_PX, 50);
         time.setText(getResources().getString(R.string.label_timeout) + " " + timeout);
+
+        TextView statistics = (TextView) findViewById(R.id.statistics);
+        statistics.setTextSize(TypedValue.COMPLEX_UNIT_PX, 50);
+       // int result = rightAnswers / wrongAnswers * 100;
+       // String.format()
+        if (wrongAnswers != 0) {
+            double result = ( (rightAnswers * 100)/ (double) (rightAnswers +wrongAnswers));
+            System.out.println(result);
+            statistics.setText("Procent odpowiedzi prawidłowych: " + String.format("%.1f ",result) + "%");
+            System.out.println(String.format("%f ",result) + "%");
+            //todo czemu zaokrągla??? co tu sie dzieje
+            //System.out.println("STAAAAAAAATS" + rightAnswers / wrongAnswers * 100);
+        }
+        else
+            statistics.setText("Procent odpowiedzi prawidłowych: 100%");
+
 
         repeat = 0;
 

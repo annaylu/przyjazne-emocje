@@ -52,7 +52,7 @@ public class LevelConfigurationActivity extends AppCompatActivity {
     public static final int MATERIAL_FOR_TEST_DATA = 0;
 
     ArrayList<CheckboxGridBean> praiseList = new ArrayList<>();
-    private Level level = Level.defaultLevel(); //???
+   private Level level = Level.defaultLevel(); //???
 
     public int getCommandTypesAsNumber() {
         return commandTypesAsNumber;
@@ -236,10 +236,7 @@ public class LevelConfigurationActivity extends AppCompatActivity {
         } else {
             checkBox.setChecked(false);
         }
-        if (level.isIs_default()) {
-            checkBox.setChecked(true);
 
-        }
 
         checkBox = (CheckBox) findViewById(R.id.wyszarz);
         if ((8 & getLevel().getHintTypesAsNumber()) == 8) {
@@ -614,7 +611,7 @@ public class LevelConfigurationActivity extends AppCompatActivity {
         final Button plusButton = (Button) findViewById(R.id.button_plus);
         plusButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                int newEmotionId=Integer.parseInt(nrEmotions.getText().toString()) + 1;
+                int newEmotionId=Integer.parseInt(nrEmotions.getText().toString());
                 getLevel().addEmotion(newEmotionId);
                 selectAllPictures(newEmotionId);
                 nrEmotions.setText(Integer.toString(getLevel().getEmotions().size()));
@@ -1022,12 +1019,20 @@ public class LevelConfigurationActivity extends AppCompatActivity {
     }
 
     public void selectAllPictures(int newEmotionId){
-        SqliteManager sqlm = getInstance(this);
-        Cursor cursor = sqlm.givePhotosWithEmotion(getEmotionName(newEmotionId));
+            SqliteManager sqlm = getInstance(this);
 
-        while (cursor.moveToNext()) {
-            getLevel().addPhoto(cursor.getInt(0));
-        }
+            //Cursor cursor = sqlm.givePhotosWithEmotion(currentEmotionName);
+            Cursor cursor = sqlm.givePhotosWithEmotion(getEmotionName(newEmotionId));
+            System.out.println(getEmotionName(newEmotionId));
+            while (cursor.moveToNext()) {
+                getLevel().addPhoto(cursor.getInt(0));
+
+                //aniadzisiaj System.out.println("aneczka cursor.getInt(0) " + cursor.getInt(0));
+            }
+
+
     }
+
+
 
 }

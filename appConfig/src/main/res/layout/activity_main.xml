@@ -14,7 +14,7 @@
 
 
     <ImageButton
-        android:id="@+id/button"
+        android:id="@+id/buttonNewLevel"
         android:layout_width="80dip"
         android:layout_height="80dip"
         android:layout_alignTop="@+id/list_text"
@@ -42,7 +42,7 @@
         android:layout_marginTop="40dp"
         android:layout_marginRight="60dp"
         android:layout_marginBottom="5dp"
-        android:layout_toLeftOf="@+id/button">
+        android:layout_toLeftOf="@+id/buttonNewLevel">
 
     </ListView>
 
@@ -53,7 +53,7 @@
         android:layout_above="@+id/list"
         android:layout_marginEnd="0dp"
         android:layout_marginBottom="0dp"
-        android:layout_toStartOf="@+id/button"
+        android:layout_toStartOf="@+id/buttonNewLevel"
         android:text="@string/hide_levels" />
 
     <TextView
@@ -112,7 +112,7 @@
         android:id="@+id/uruchomSmileButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/button"
+        android:layout_alignEnd="@+id/buttonNewLevel"
         android:layout_alignParentTop="true"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="0dp"
@@ -188,7 +188,7 @@
         android:id="@+id/textView_emotions"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/button"
+        android:layout_below="@+id/buttonNewLevel"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="10dp"
         android:layout_marginTop="15dp"
