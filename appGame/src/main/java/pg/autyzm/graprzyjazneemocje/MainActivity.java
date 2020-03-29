@@ -440,13 +440,18 @@ if (level.getQuestionType() != Level.Question.EMOTION_NAME) {
     public void onClickTestMode(View v, boolean endTimer) {
         if (v.getId() == 1) {
             sublevelsLeft--;
-            rightAnswers++;
+
             rightAnswersSublevel++;
+
+            if (getAttempt()==0)
+                rightAnswers++;
+
             nextLevelOrEnd();
         } else {
             TextView numberOfTries = (TextView) findViewById(R.id.numberOfTries);
             wrongAnswers++;
             wrongAnswersSublevel++;
+            setAttempt(1);
             if (endTimer) {
                 timeout++;
                 timeoutSubLevel++;
