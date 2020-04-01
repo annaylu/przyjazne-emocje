@@ -11,4 +11,7 @@
         android:text="CheckBox"
         android:textAppearance="@style/OptionStyle"
         android:textColor="@color/colorTextBack" />
+
+
+
 </LinearLayout>

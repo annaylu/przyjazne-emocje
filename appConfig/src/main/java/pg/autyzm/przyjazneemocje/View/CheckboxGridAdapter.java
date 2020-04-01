@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ public class CheckboxGridAdapter extends ArrayAdapter{
     private static class ViewHolder {
         TextView txtName;
         CheckBox checkbox;
+        ImageButton button;
     }
 
     public CheckboxGridAdapter(ArrayList data, Context context) {

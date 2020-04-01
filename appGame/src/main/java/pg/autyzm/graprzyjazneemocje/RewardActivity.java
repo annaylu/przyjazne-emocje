@@ -147,11 +147,11 @@ final String emotion = intentReward.getStringExtra("emotion");
             }
 
             public void onFinish() {
-                Intent intent = new Intent(RewardActivity.this, MainActivity.class);
-                intent.putExtra("color",chosenColor);
+               // Intent intent = new Intent(RewardActivity.this, MainActivity.class);
+                //intent.putExtra("color",chosenColor);
                 System.out.println("chosen color2" + chosenColor);
                 System.out.println("Reward Activity - color" + chosenColor);
-                setResult(1,intent);
+                //setResult(1,intent);
                 finish();
             }
         }.start();
@@ -208,6 +208,13 @@ final String emotion = intentReward.getStringExtra("emotion");
         return Color.rgb(red, green, blue);
 
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+        System.exit(0);
     }
 
 /*    @Override

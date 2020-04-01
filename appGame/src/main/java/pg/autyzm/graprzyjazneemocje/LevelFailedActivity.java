@@ -19,6 +19,12 @@ public class LevelFailedActivity extends Activity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
+
 
 
 

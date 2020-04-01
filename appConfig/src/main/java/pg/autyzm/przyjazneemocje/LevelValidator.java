@@ -1,5 +1,9 @@
 package pg.autyzm.przyjazneemocje;
 
+import android.widget.Toast;
+
+import pg.autyzm.przyjazneemocje.configuration.LevelConfigurationActivity;
+import pg.autyzm.przyjazneemocje.lib.SqliteManager;
 import pg.autyzm.przyjazneemocje.lib.entities.Level;
 /**
  * Created by user on 26.08.2017.
@@ -8,6 +12,7 @@ import pg.autyzm.przyjazneemocje.lib.entities.Level;
 public class LevelValidator {
 
     Level validatedLevel;
+    SqliteManager sqliteManager = SqliteManager.getAppContext();
 
     public LevelValidator(Level l) {
         validatedLevel = l;
@@ -23,24 +28,26 @@ public class LevelValidator {
             return false;
         }
         // prosta walidacja, czy w ogle zaznaczono jakies emocje (minimum dwa)/zdjecia
-        if (validatedLevel.getEmotions().size() < 2 || validatedLevel.getPhotosOrVideosIdList().size() == 0) {
+        if (validatedLevel.getEmotions().size() < 2 ) {
+            //Toast.makeText("Wybierz conajmniej jedną emocję",Toast.LENGTH_LONG);
             return false;
         }
         if(everyEmotionHasAtLestOnePhoto()){
             return true;
         }
         else {
-            return true;
+            return false;
         }
     }
 
     public boolean everyEmotionHasAtLestOnePhoto(){
-//ŹLEEEEEEEEEEEEEE OGARNIJ
-        for(int emotion : validatedLevel.getEmotions()){
+
+
+        /*for(int emotion : sqliteManager.givePhotosWithEmotion(emotion)){
             if (validatedLevel.getPhotosOrVideosIdList().size() < 1)
                 return false;
         }
-
+*/
         return true;
 
     }

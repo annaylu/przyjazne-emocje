@@ -3,13 +3,16 @@ package pg.autyzm.przyjazneemocje.chooseImages;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
+import android.media.Image;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.ArrayMap;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -28,11 +31,33 @@ import static pg.autyzm.przyjazneemocje.lib.SqliteManager.getInstance;
 public class ChooseImages extends Activity implements android.widget.CompoundButton.OnCheckedChangeListener {
 
     private ListView listView;
-    private String choosenEmotion;
+
+    public static String getChoosenEmotion() {
+        return choosenEmotion;
+    }
+
+    public static void setChoosenEmotion(String choosenEmotion) {
+        choosenEmotion = choosenEmotion;
+    }
+
+    private static String choosenEmotion;
     private RowBean[] tabPhotos;
     private TextView textView;
     private String emoInLanguage;
     private ArrayList<Integer> listSelectedPhotos;
+    private ImageButton button;
+
+    public boolean isClicked() {
+        return clicked;
+    }
+
+    public void setClicked(boolean clicked) {
+        this.clicked = clicked;
+    }
+
+
+
+    private boolean clicked;
 
     public void saveImagesToList(View view) {
 
@@ -56,6 +81,8 @@ public class ChooseImages extends Activity implements android.widget.CompoundBut
         setContentView(R.layout.choose_images);
 
         SqliteManager sqlm = getInstance(this);
+
+        setClicked(false);
 
         Bundle bundle = getIntent().getExtras();
         emoInLanguage = bundle.getString("SpinnerValue_Emotion");
@@ -108,7 +135,7 @@ public class ChooseImages extends Activity implements android.widget.CompoundBut
                     while(cursor.moveToNext())
                     {
                         finded = false;
-                        if (cursor.getString(6).equals(fileName))//bylo 3
+                        if (cursor.getString(3).equals(fileName))//bylo 3
                         {
                             finded = true;
                             break;
@@ -121,6 +148,8 @@ public class ChooseImages extends Activity implements android.widget.CompoundBut
         }
 
         cursor = sqlm.givePhotosWithEmotion(choosenEmotion);
+
+
 
 
         //
@@ -138,8 +167,11 @@ public class ChooseImages extends Activity implements android.widget.CompoundBut
             for (RowBean el : tabPhotos) {
                 if (el.getId() == selected) {
                     el.setSelected(true);
-                }
+                    }
+
             }
+
+
         }
 
         textView.setText(emoInLanguage + " " + str + ": " + countSelectedPhotos());
@@ -155,6 +187,7 @@ public class ChooseImages extends Activity implements android.widget.CompoundBut
             if (el.selected) {
                 numberOfPhotos++;
             }
+
         }
         return numberOfPhotos;
     }
@@ -180,5 +213,27 @@ public class ChooseImages extends Activity implements android.widget.CompoundBut
             e.printStackTrace();
         }
 
+    }
+
+    public boolean isphotoToDelete() {
+        try {
+
+            button = (ImageButton) findViewById(R.id.delete_photo);
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    setClicked(true);
+                }
+            });
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        if (clicked == true)
+            return true;
+return false;
+
+    }
+    private void deletePhoto() {
+        Toast.makeText(this,"lalalal", Toast.LENGTH_LONG);
     }
 }

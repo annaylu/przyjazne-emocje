@@ -13,7 +13,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SwitchCompat;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.SurfaceView;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -21,6 +24,7 @@ import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -45,7 +49,7 @@ import static pg.autyzm.przyjazneemocje.lib.SqliteManager.getInstance;
 
 public class MainActivity extends AppCompatActivity {
 
-    private final int REQ_CODE_CAMERA = 100;
+    private final int REQ_CODE_CAMERA = 1000;
     private final List<LevelItem> levelList = new ArrayList<>();
     AdapterView.OnItemSelectedListener emotionSelectedListener = new AdapterView.OnItemSelectedListener() {
         @Override
@@ -105,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<Boolean> active_list;
     String root = Environment.getExternalStorageDirectory().getAbsolutePath() + "/";
     private CustomList adapter;
+
 
 
 
@@ -192,31 +197,12 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-       /* if(new File(root + "FriendlyEmotions/Videos").list() != null) {
 
-            for (String emotName : new File(root + "FriendlyEmotions/Videos").list()) {
 
-                try {
-                    int resID = getResources().getIdentifier(emotName, "raw", getPackageName());
-                    if (emotName.contains("happy"))
-                        sqlm.addVideo(resID, "happy", emotName);
-                    else if (emotName.contains("angry"))
-                        sqlm.addVideo(resID, "angry", emotName);
-                    else if (emotName.contains("surprised"))
-                        sqlm.addVideo(resID, "surprised", emotName);
-                    else if (emotName.contains("bored"))
-                        sqlm.addVideo(resID, "bored", emotName);
-                    else if (emotName.contains("scared"))
-                        sqlm.addVideo(resID, "scared", emotName);
-                    else if (emotName.contains("sad"))
-                        sqlm.addVideo(resID, "sad", emotName);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }*/
-        // }
+
         Button smile = (Button) findViewById(R.id.uruchomSmileButton);
         smile.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
                 //Toast.makeText(MainActivity.this,"Hello", Toast.LENGTH_LONG).show();
@@ -228,6 +214,27 @@ public class MainActivity extends AppCompatActivity {
                 //startActivity(new Intent("pg.smile.MainActivity"));
                 Intent intent = new Intent(MainActivity.this, pg.smile.MainActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        Button play = (Button) findViewById(R.id.game);
+        play.setText("GRAJ");
+        play.setBackgroundResource(R.drawable.gamepl);
+
+        play.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent launchIntent = getPackageManager().getLaunchIntentForPackage("pg.autyzm.graprzyjazneemocje");
+                if (launchIntent != null) {
+                    startActivity(launchIntent);
+                } else {
+                    Toast.makeText(MainActivity.this, "There is no package available in android", Toast.LENGTH_LONG).show();
+                    //Intent in = new Intent(EndActivity.this,pg.autyzm.przyjazneemocje.MainActivity.class);
+
+
+                }
+                Intent in = new Intent(MainActivity.this,MainActivity.class);
+                startActivity(in);
             }
         });
 
@@ -296,6 +303,11 @@ public class MainActivity extends AppCompatActivity {
         ListView lView = findViewById(R.id.list);
         lView.setAdapter(adapter);
     }
+
+
+
+
+
 
     private void updateActiveState(int levelId, boolean learnMode) {
         for (LevelItem levelItem : levelList) {

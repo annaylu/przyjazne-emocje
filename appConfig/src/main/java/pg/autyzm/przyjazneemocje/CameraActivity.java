@@ -10,6 +10,10 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.ArrayMap;
+import android.view.SurfaceView;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.RelativeLayout;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -23,6 +27,8 @@ import static pg.autyzm.przyjazneemocje.lib.SqliteManager.getInstance;
  * Created by Ann on 13.11.2016.
  */
 public class CameraActivity extends Activity {
+    RelativeLayout overlay;
+    SurfaceView cameraPreview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,9 +36,32 @@ public class CameraActivity extends Activity {
         Bundle extras = getIntent().getExtras();
         String emotion = extras.getString("SpinnerValue_Emotion");
         fileName = getFileName(emotion);
+        // Optional: Hide the status bar at the top of the window
+   /*     requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        // Set the content view and get references to our views
+        setContentView(R.layout.square_camera);
+        cameraPreview = (SurfaceView) findViewById(R.id.camera_preview);
+        overlay = (RelativeLayout) findViewById(R.id.overlay);*/
+
         takePhoto();
 
     }
+
+/*    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+
+        // Get the preview size
+        int previewWidth = cameraPreview.getMeasuredWidth(),
+                previewHeight = cameraPreview.getMeasuredHeight();
+
+        // Set the height of the overlay so that it makes the preview a square
+        RelativeLayout.LayoutParams overlayParams = (RelativeLayout.LayoutParams) overlay.getLayoutParams();
+        overlayParams.height = previewHeight - previewWidth;
+        overlay.setLayoutParams(overlayParams);
+    }*/
 
     private String fileName;
     private static final int TAKE_PHOTO_CODE = 1;
