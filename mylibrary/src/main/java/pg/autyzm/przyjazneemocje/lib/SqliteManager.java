@@ -130,7 +130,7 @@ addDefaultLevels();
         level_easy_photos.setQuestionType(Level.Question.SHOW_EMOTION_NAME);    /// PÓXNIEJ jak wszystko będzie działało zmienić na EMOTION_NAME
         level_easy_photos.setPraisesBinary(level_easy_photos.allSelected(5));
         level_easy_photos.setCommandTypesAsNumber(level_easy_photos.allSelected(5));
-        level_easy_photos.setHintTypesAsNumber(level_easy_photos.allSelected(12));
+        level_easy_photos.setHintTypesAsNumber(12);
 
         level_easy_photos.setEmotions(new ArrayList<Integer>() {
             {
