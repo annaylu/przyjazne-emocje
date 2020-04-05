@@ -54,6 +54,7 @@ public class LevelConfigurationActivity extends AppCompatActivity {
     ArrayList<CheckboxGridBean> praiseList = new ArrayList<>();
    private Level level = Level.defaultLevel(); //???
 
+
     public int getCommandTypesAsNumber() {
         return commandTypesAsNumber;
     }
@@ -74,9 +75,12 @@ public class LevelConfigurationActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //tworzenie nowego levelu
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tab_view);
         setTitle(R.string.app_name);
+
+
         createTabMaterial();
         createTabLearningWays();
         createTabConsolidation();
@@ -340,11 +344,13 @@ public class LevelConfigurationActivity extends AppCompatActivity {
 
     private void createTabMaterial() {
         createTabs();
+        createListOfSpinners();
+        activeNumberEmotionPlusMinus();
         selectAllPictures(0);
         selectAllPictures(1);
+
         showTextInformation(R.string.default_level_generate_message);
-        activeNumberEmotionPlusMinus();
-        createListOfSpinners();
+
     }
 
     //informacje o kroku
@@ -561,15 +567,20 @@ public class LevelConfigurationActivity extends AppCompatActivity {
 
             tabPhotos[--n] = (new GridCheckboxImageBean(cursor.getString(3), cursor.getInt(1), getContentResolver(), cursor.getInt(0)));
         }
-
+//TODO odczyt zdjęć z bazy danych dla uczonej emocji
         return tabPhotos;
     }
 
-    private String getEmotionName(int emotionNumber) {
+    private String getEmotionNameinBaseLanguage(int emotionNumber) {
         Configuration config = new Configuration(getBaseContext().getResources().getConfiguration());
         config.setLocale(Locale.ENGLISH);
         return getBaseContext().createConfigurationContext(config).getResources().getStringArray(R.array.emotions_array)[emotionNumber];
     }
+
+    private int getAllEmotionsQuantity() {
+        return getResources().getStringArray(R.array.emotions_array).length;
+    }
+
 
     private String getEmotionNameInLocalLanguage(int emotionNumber) {
         Configuration config = new Configuration(getBaseContext().getResources().getConfiguration());
@@ -577,7 +588,8 @@ public class LevelConfigurationActivity extends AppCompatActivity {
     }
 
     private void updateEmotionsGrid(int emotionNumber) {
-        String emotion = getEmotionName(emotionNumber);
+        String emotion = getEmotionNameinBaseLanguage(emotionNumber);
+        //System.out.println("***updateEmotionsGrid emotionNumber: " + emotionNumber);
 
         // Birgiel 09.01.17
         currentEmotionName = emotion;
@@ -593,6 +605,8 @@ public class LevelConfigurationActivity extends AppCompatActivity {
         createDefaultStepName();
     }
 
+
+
     private void activeNumberEmotionPlusMinus() {
         final EditText nrEmotions = (EditText) findViewById(R.id.nr_emotions);
 
@@ -601,7 +615,9 @@ public class LevelConfigurationActivity extends AppCompatActivity {
             public void onClick(View v) {
                 int newValue = getLevel().getEmotions().size() - 1;
                 if(newValue > 0) {
-                    getLevel().deleteEmotion(0);
+                    getLevel().deleteEmotion(newValue);
+                    //System.out.println("!!activeNumberEmptionPlusMinus numer emocji: " + getLevel().lastEmotionNumber());
+                    updateEmotionsGrid(getLevel().lastEmotionNumber());
                     nrEmotions.setText(Integer.toString(newValue));
                     updateSelectedEmotions();
                 }
@@ -611,11 +627,17 @@ public class LevelConfigurationActivity extends AppCompatActivity {
         final Button plusButton = (Button) findViewById(R.id.button_plus);
         plusButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                int newEmotionId=Integer.parseInt(nrEmotions.getText().toString());
-                getLevel().addEmotion(newEmotionId);
-                selectAllPictures(newEmotionId);
-                nrEmotions.setText(Integer.toString(getLevel().getEmotions().size()));
-                updateSelectedEmotions();
+                int numberOfEmotions=Integer.parseInt(nrEmotions.getText().toString());
+                //TODO ograniczenie liczby dodawanych emocji
+                //System.out.println("CHCEMY DODAĆ EMOCJĘ newEmotionId" + numberOfEmotions);
+                if (numberOfEmotions < getAllEmotionsQuantity()) {
+                    int newUniqueEmotionId = getLevel().newEmotionId();
+                    //System.out.println("DODAJEMY EMOCJE" + idAnia);
+                    getLevel().addEmotion(newUniqueEmotionId);
+                    selectAllPictures(newUniqueEmotionId);
+                    nrEmotions.setText(Integer.toString(getLevel().getEmotions().size()));
+                    updateSelectedEmotions();
+                }
             }
         });
     }
@@ -654,15 +676,15 @@ public class LevelConfigurationActivity extends AppCompatActivity {
                 CheckBox checkbox3 = (CheckBox) findViewById(R.id.point);
                 CheckBox checkbox4 = (CheckBox) findViewById(R.id.touch);
                 CheckBox checkbox5 = (CheckBox) findViewById(R.id.find);
-                System.out.println("1checkbox checked!!!!!!!!!!" + checkbox1.isChecked());
+                /*System.out.println("1checkbox checked!!!!!!!!!!" + checkbox1.isChecked());
                 System.out.println(!(checkbox1.isChecked() ||  checkbox2.isChecked() || checkbox3.isChecked() || checkbox4.isChecked() || checkbox5.isChecked()));
-                System.out.println("material for test " + level.isMaterialForTest());
+                System.out.println("material for test " + level.isMaterialForTest());*/
                 if (!levelValidator.everyEmotionHasAtLestOnePhoto()) {
                     Toast.makeText(LevelConfigurationActivity.this, R.string.everyEmotionOnePhotoWarning, Toast.LENGTH_LONG).show();
                 }
                 else if (!(checkbox1.isChecked() ||  checkbox2.isChecked() || checkbox3.isChecked() || checkbox4.isChecked() || checkbox5.isChecked()))
                 {
-                    System.out.println("2checkbox checked!!!!!!!!!!" + checkbox1.isChecked());
+                    //System.out.println("2checkbox checked!!!!!!!!!!" + checkbox1.isChecked());
                     Toast.makeText(LevelConfigurationActivity.this, R.string.commandWarning, Toast.LENGTH_LONG).show();
                 } else if(level.isMaterialForTest()){
                     save();
@@ -985,28 +1007,47 @@ public class LevelConfigurationActivity extends AppCompatActivity {
 
             convertView = inflater.inflate(R.layout.row_spinner, parent, false);
 
-            Spinner spinner = (Spinner) convertView.findViewById(R.id.spinner_emotions);
+            final Spinner spinner = (Spinner) convertView.findViewById(R.id.spinner_emotions);
             ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(LevelConfigurationActivity.this,
                     R.array.emotions_array, android.R.layout.simple_spinner_item);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spinner.setAdapter(adapter);
             spinner.setSelection(getLevel().getEmotions().get(position));
 
+//TODO BUTTON EDIT
             ImageButton button = (ImageButton) convertView.findViewById(R.id.button_edit);
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    //wyświetlenie zdjęć dla wybranej emocji
                     updateEmotionsGrid(getLevel().getEmotions().get(position));
                 }
             });
 
             spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
-                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                    updateEmotionsGrid(position);
-                    getLevel().getEmotions().set(position, i);
+                //TODO zmiana zdjęć przy zmianie spinnera - pozaznaczać
+                public void onItemSelected(AdapterView<?> adapterView, View view, int emotionSelectedId, long l) {
+                    /*System.out.println("ANIA TATUŚ  I CAŁA RODZINKA ******position: " + position + " i : " + emotionSelectedId);
+                    System.out.println("ANIA TATUŚ  I CAŁA RODZINKA ****** emotionList " + level.getEmotions());*/
+                    if (getLevel().isEmotionNew(emotionSelectedId)) {
+                        //System.out.println("ANIA TATUŚ  I CAŁA RODZINKA **** UPDATE WESZLIŚMY ");
+                       // updateEmotionsGrid(position);
+                        getLevel().getEmotions().set(position, emotionSelectedId);
+                        //position - który spiner, i - która emocja (licząc od 0)
+
+                } else {
+                        //System.out.println("ANIA TATUŚ  I CAŁA RODZINKA ****** UNDO " +  getLevel().getEmotions().get(position));
+                        spinner.setSelection(getLevel().getEmotions().get(position));
+                        /*else {
+                        String message = "Blabla";
+                        Toast.makeText(this,message,Toast.LENGTH_LONG);
+                    }*/
+                    }
                     updateEmotionsGrid(getLevel().getEmotions().get(position));
                 }
+
+
 
                 @Override
                 public void onNothingSelected(AdapterView<?> adapterView) {
@@ -1017,21 +1058,22 @@ public class LevelConfigurationActivity extends AppCompatActivity {
             return convertView;
         }
     }
-
+//TODO może zrezygnować - przeniesiona do levelu
     public void selectAllPictures(int newEmotionId){
             SqliteManager sqlm = getInstance(this);
 
             //Cursor cursor = sqlm.givePhotosWithEmotion(currentEmotionName);
-            Cursor cursor = sqlm.givePhotosWithEmotion(getEmotionName(newEmotionId));
-            System.out.println(getEmotionName(newEmotionId));
+            Cursor cursor = sqlm.givePhotosWithEmotion(getEmotionNameinBaseLanguage(newEmotionId));
             while (cursor.moveToNext()) {
-                getLevel().addPhoto(cursor.getInt(0));
+                getLevel().addPhoto(cursor.getInt(cursor.getColumnIndex("id")));
 
                 //aniadzisiaj System.out.println("aneczka cursor.getInt(0) " + cursor.getInt(0));
             }
 
 
     }
+
+
 
 
 

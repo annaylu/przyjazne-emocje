@@ -9,9 +9,16 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Environment;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.xml.transform.Source;
 
 import pg.autyzm.przyjazneemocje.lib.entities.Level;
 
@@ -303,7 +310,7 @@ addDefaultLevels();
     {
         ContentValues values = new ContentValues();
         values.put("emotion",emotion);
-        System.out.println(db.insertOrThrow("emotions", null, values) + " addEmotion");
+        //System.out.println(db.insertOrThrow("emotions", null, values) + " addEmotion");
     }
 
     public void addPhoto(int path, String emotion, String fileName)
@@ -347,7 +354,7 @@ addDefaultLevels();
         values.put("question_type", level.getQuestionType().toString());
         values.put("hint_types_as_number", level.getHintTypesAsNumber());
         values.put("command_types_as_number", level.getCommandTypesAsNumber());
-        System.out.println("AGAGAGAG command_types_as_number" + level.getCommandTypesAsNumber() +" name " + level.getName());
+        //System.out.println("AGAGAGAG command_types_as_number" + level.getCommandTypesAsNumber() +" name " + level.getName());
         values.put("praisesBinary",level.getPraisesBinary());
         values.put("shouldQuestionBeReadAloud", level.isShouldQuestionBeReadAloud());
 
@@ -376,6 +383,40 @@ addDefaultLevels();
             level.setEmotionsInTest(level.getEmotions());
         }
         updatePhotosAndEmotions(level.getId(), level.getPhotosOrVideosIdListInTest(), level.getEmotionsInTest(), values, true);
+        deletePhotosFromDatabase(level.getPhotoToBeDeletedFromDatabaseId());
+        deletePhotosFromDirectory(level.getPhotoNameToBeDeletedFromDirectory());
+    }
+
+    public void deletePhotosFromDirectory(List<String> photoNames) {
+
+        String root = Environment.getExternalStorageDirectory().getAbsolutePath() + "/";
+        //System.out.println("Kstslog "  + root);
+
+        String newFileName = "";
+        for (String filename: photoNames) {
+            //filename = root + "/FriendlyEmotions/Photos/" + filename;
+            File fileToDelete = new File(root + "/FriendlyEmotions/Photos/", filename);
+            /*System.out.println("####PLIK USUWANY Z KATALOGU FILENAME: " + filename);
+            System.out.println("######ścieżka " + root + "/FriendlyEmotions/Photos/");*/
+
+            try {
+
+                fileToDelete.delete();
+
+        } catch (Exception ex) {
+                ex.printStackTrace();
+            }}
+
+
+    }
+
+    public void deletePhotosFromDatabase (List<Integer> photoIds) {
+        for (int id : photoIds) {
+            delete("levels_photos", "photoid", new String[]{String.valueOf(id)});
+            delete("photos", "id", new String[]{String.valueOf(id)});
+        }
+
+
     }
 
     public void updatePhotosAndEmotions(int levelId, List<Integer> photosOrVideosList, List<Integer> emotions, ContentValues values, boolean forTestMode){
@@ -415,9 +456,29 @@ addDefaultLevels();
     }
 
     public Cursor givePhotosWithEmotion(String emotion)
-    {
-        String[] columns = {"id", "path", "emotion", "name", "sex"};
+    {return givePhotosWithEmotionSource(emotion,Source.BOTH);
+       /* String[] columns = {"id", "path", "emotion", "name", "sex"};
         Cursor cursor = db.query("photos", columns,"emotion like " + "'%" + emotion + "%'", null, null, null, null);
+        return cursor;*/
+    }
+
+    public Cursor givePhotosWithEmotionSource(String emotion, Source source)
+    {
+
+        String[] columns = {"id", "path", "emotion",  "name", "sex"};
+        //String[] order = { "name"};
+        String where;
+        if (source == Source.BOTH) {
+            where = "name like '" +  emotion + "%'";
+        } else if (source == Source.EXTERNAL){
+            where = "name like '" +  emotion + "_e%'";
+        } else {
+            where = "name like '" +  emotion + "_r%'";
+        }
+
+
+        Cursor cursor = db.query("photos", columns,where, null, null, null, "name");
+        //System.out.println("Ania givePhotosWithEmotions " + emotion + "  cursor.getCount: " +cursor.getCount() + "  where " + where);
         return cursor;
     }
 
@@ -453,7 +514,8 @@ addDefaultLevels();
     public Cursor givePhotoWithId(int id)
     {
         String[] columns = {"id", "path", "emotion", "name"};
-        Cursor cursor = db.query("photos", columns,"id like " + "'%" + id + "%'", null, null, null, null);
+        Cursor cursor = db.query("photos", columns,"id = " + id , null, null, null, null);
+       // Cursor cursor = db.query("photos", columns,"id like " + "'%" + id + "%'", null, null, null, null);
         return cursor;
     }
 
@@ -531,7 +593,7 @@ addDefaultLevels();
 
     private void createTablesInDatabase(){
 
-        System.out.println("Tworze tablee");
+        //System.out.println("Tworze tablee");
         db.execSQL("create table photos(" + "id integer primary key autoincrement," + "path int,"
                 + "emotion text,"+ "name text," +  "sex text);" + "");
         db.execSQL("create table emotions(" + "id integer primary key autoincrement," + "emotion text);" + "");
@@ -613,6 +675,13 @@ addDefaultLevels();
         values.put("selected", 0);
         String whereFalse = "language!=?";
         db.update("language", values, whereFalse, new String[]{lang});
+    }
+
+    public enum Source {
+        BOTH,
+        EXTERNAL,
+        INTERNAL
+
     }
 
 }

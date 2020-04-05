@@ -33,8 +33,8 @@ public class AnimationActivity extends Activity implements Animation.AnimationLi
         Intent intent = getIntent();
         int currentStrokeColor = intent.getIntExtra("color",0);
 
-        System.out.println("AnimationActivity - color:" + currentStrokeColor);
-        System.out.println("AnimationActivity - colorRANDOM:" + color);
+        //System.out.println("AnimationActivity - color:" + currentStrokeColor);
+        //System.out.println("AnimationActivity - colorRANDOM:" + color);
 
         RelativeLayout myLayout = (RelativeLayout) findViewById(R.id.activity_menu);
         myLayout.setBackgroundColor(color);

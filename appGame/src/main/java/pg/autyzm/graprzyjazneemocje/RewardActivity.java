@@ -2,6 +2,8 @@ package pg.autyzm.graprzyjazneemocje;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -13,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -38,7 +41,7 @@ public class RewardActivity extends Activity {
 
 
             rewardLayout.setBackgroundColor(chosenColor);
-        System.out.println("chosen color" + chosenColor);
+        //System.out.println("chosen color" + chosenColor);
 
 
 Intent intentReward = getIntent();
@@ -58,31 +61,34 @@ String[] praiseTab = getPraises(praiseBinary);
         }
 
         //praiseTab = praiseList.toArray(new String[praiseList.size()]);
-        System.out.print("kukukukukuk praiseList " + praiseList);
+    /*    System.out.print("kukukukukuk praiseList " + praiseList);
         System.out.print("praiseTab " + praiseTab);
-        System.out.println("praiseString " + praiseBinary);
+        System.out.println("praiseString " + praiseBinary);*/
 
 
 
         int max = praiseList.size();
-        System.out.println("max: " + max);
+        //System.out.println("max: " + max);
         int position =  (int) Math.floor(Math.random()*max);
 
-        System.out.println("position: " + position);
+       /* System.out.println("position: " + position);
         System.out.println("praiseList size: " + praiseList.size());
-
+*/
     String commandPraise = "";
         if (praiseList.size() > 0) {
             commandPraise = praiseList.get(position);
         }
-        System.out.println("commandPraise: " + commandPraise + commandType);
+        //System.out.println("commandPraise: " + commandPraise + commandType);
 
 String photo = intentReward.getStringExtra("photo");
 String fileName = intentReward.getStringExtra("fileName");
+
+        File rewardFile = new File(fileName);
+        Bitmap myBitmap = BitmapFactory.decodeFile(rewardFile.getAbsolutePath());
         //DZIAŁA DLA DRAWABLE:
        final int photoId = intentReward.getIntExtra("photoId",1);
        int fileId= getResources().getIdentifier("pg.autyzm.graprzyjazneemocje:drawable/" + fileName, null, null);
-        System.out.println("fileName:" + fileName);
+        //System.out.println("fileName:" + fileName);
 final String emotion = intentReward.getStringExtra("emotion");
 
 //String photoLocation = intentReward.getStringExtra("photoPath");
@@ -136,7 +142,7 @@ final String emotion = intentReward.getStringExtra("emotion");
 
         Speaker.getInstance(RewardActivity.this).speak(commandPraise + commandType + emotion);
         Animation zoom = AnimationUtils.loadAnimation(RewardActivity.this, R.anim.zoom);
-        correctPhoto.setImageResource(photoId);
+        correctPhoto.setImageBitmap(myBitmap);
         correctPhoto.startAnimation(zoom);
 
         new CountDownTimer(3000,1) {
@@ -149,8 +155,8 @@ final String emotion = intentReward.getStringExtra("emotion");
             public void onFinish() {
                // Intent intent = new Intent(RewardActivity.this, MainActivity.class);
                 //intent.putExtra("color",chosenColor);
-                System.out.println("chosen color2" + chosenColor);
-                System.out.println("Reward Activity - color" + chosenColor);
+                /*System.out.println("chosen color2" + chosenColor);
+                System.out.println("Reward Activity - color" + chosenColor);*/
                 //setResult(1,intent);
                 finish();
             }

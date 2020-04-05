@@ -5,6 +5,8 @@ import pg.autyzm.przyjazneemocje.lib.entities.Level;
  * Created by user on 26.08.2017.
  */
 
+
+
     public class LevelValidator {
     Level validatedLevel;
 

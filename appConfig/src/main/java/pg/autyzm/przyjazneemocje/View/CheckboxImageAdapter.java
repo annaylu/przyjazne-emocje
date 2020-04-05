@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import java.io.File;
@@ -26,6 +27,8 @@ import pg.autyzm.przyjazneemocje.lib.entities.Level;
  */
 
 public class CheckboxImageAdapter extends ArrayAdapter<GridCheckboxImageBean> {
+
+
 
     int layoutResourceId;
     GridCheckboxImageBean data[] = null;
@@ -43,11 +46,11 @@ public class CheckboxImageAdapter extends ArrayAdapter<GridCheckboxImageBean> {
         this.level = level;
         this.isForTest = isForTest;
     }
-
+//TODO
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, final ViewGroup parent) {
         View row = convertView;
-        RowBeanHolder holder = null;
+        final RowBeanHolder holder;
 
         if (row == null) {
             LayoutInflater inflater = ((Activity) context).getLayoutInflater();
@@ -56,6 +59,7 @@ public class CheckboxImageAdapter extends ArrayAdapter<GridCheckboxImageBean> {
             holder = new RowBeanHolder();
             holder.imgIcon = (ImageView) row.findViewById(R.id.imgIcon);
             holder.checkBox = (CheckBox) row.findViewById(R.id.checkBoxImagesToChoose);
+            holder.delete_photo_button = (ImageButton) row.findViewById(R.id.delete_photo);
 
             row.setTag(holder);
         } else {
@@ -83,7 +87,7 @@ public class CheckboxImageAdapter extends ArrayAdapter<GridCheckboxImageBean> {
         }
 
         final CheckBox checkBox = holder.checkBox;
-
+//ustawienie checkboxa od zdjęcia w zależności  od właściwości levela
         if(isForTest && !level.getPhotosOrVideosIdListInTest().isEmpty()) {
             checkBox.setChecked(level.getPhotosOrVideosIdListInTest().contains(photoWithCheckBox.getId()));
         } else {
@@ -113,11 +117,68 @@ public class CheckboxImageAdapter extends ArrayAdapter<GridCheckboxImageBean> {
                 }
             }
         });
+
+        //8****************************
+
+        final ImageButton delete_photo_button = holder.delete_photo_button;
+
+        //TODO PHOTO DELETION
+        //System.out.println("photoname inicjalizacja zdec nie wiadomo kosz " + photoWithCheckBox.photoName);
+        if (photoWithCheckBox.photoName.contains("_r_")) {
+            holder.delete_photo_button.setVisibility(View.INVISIBLE);
+        }
+        //holder.imgIcon.get
+//ustawienie buttona od zdjęcia w zależności  od właściwości levela
+        /*if(isForTest && !level.getPhotosOrVideosIdListInTest().isEmpty()) {
+            checkBox.setChecked(level.getPhotosOrVideosIdListInTest().contains(photoWithCheckBox.getId()));
+        } else {*/
+            //checkBox.setChecked(level.getPhotosOrVideosIdList().contains(photoWithCheckBox.getId()));
+        //}
+
+        delete_photo_button.setOnClickListener(new View.OnClickListener() {
+            Integer photoId = photoWithCheckBox.getId();
+            @Override
+            public void onClick(View arg0) {
+
+   //toForTest(photoId);
+                    //System.out.println("Chcemuy usunąć żdjęcie OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO photoId " + photoId);
+//wyświetlamy pytanie czy na pewno
+               holder.imgIcon.setVisibility(View.INVISIBLE);
+                holder.checkBox.setVisibility(View.INVISIBLE);
+                holder.delete_photo_button.setVisibility(View.INVISIBLE);
+
+
+
+
+                //row.setVisibility(View.INVISIBLE);
+               //usuwamy zjecie z levela
+
+                level.removePhoto(photoId);
+                level.addPhotoToBePermanentlyDeleted(photoId,photoWithCheckBox.photoName);
+//data[position] = data[position+1];
+                //usuwamy zdjęcie z katalogu
+            }
+        });
+
+
+
+       /* ImageButton button = (ImageButton) convertView.findViewById(R.id.button_edit);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //wyświetlenie zdjęć dla wybranej emocji
+                //updateEmotionsGrid(getLevel().getEmotions().get(position));
+            }
+        });*/
+
+        //************************
+
         return row;
     }
 
     static class RowBeanHolder {
         public ImageView imgIcon;
         public CheckBox checkBox;
+        public ImageButton delete_photo_button;
     }
 }

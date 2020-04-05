@@ -35,6 +35,7 @@ public class CameraActivity extends Activity {
         super.onCreate(savedInstanceState);
         Bundle extras = getIntent().getExtras();
         String emotion = extras.getString("SpinnerValue_Emotion");
+
         fileName = getFileName(emotion);
         // Optional: Hide the status bar at the top of the window
    /*     requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -103,12 +104,20 @@ public class CameraActivity extends Activity {
         mapEmo.put(getResources().getString(R.string.emotion_scared_child), "scared_child");
         mapEmo.put(getResources().getString(R.string.emotion_surprised_child), "surprised_child");
         mapEmo.put(getResources().getString(R.string.emotion_bored_child), "bored_child");
-        String emotion = mapEmo.get(emotionLang);
-        Cursor cur = sqlm.givePhotosWithEmotion(emotion);
+        String emotionAndSex = mapEmo.get(emotionLang);
+        Cursor cur = sqlm.givePhotosWithEmotionSource(emotionAndSex, SqliteManager.Source.EXTERNAL);
 
         int maxNumber = cur.getCount();
-
-        return emotion + ++maxNumber;
+        //System.out.println("!!!!!!!!!!!maxnumber " + maxNumber);
+        if (maxNumber > 0) {
+            cur.moveToLast();
+            String lastPhotoName = cur.getString(cur.getColumnIndex("name"));
+            String[] nameSeg = lastPhotoName.split("_");
+            maxNumber = Integer.parseInt(nameSeg[3].replace(".jpg",""));
+        }
+        //todo liczenie zdjęć
+        //System.out.println("########nazwapliku: " + emotionAndSex +"_" + ++maxNumber);
+        return emotionAndSex +"_e_" + ++maxNumber;
     }
 
     @Override
@@ -137,8 +146,10 @@ public class CameraActivity extends Activity {
                     Bitmap smallBitmap = Bitmap.createScaledBitmap(largeBitmap, largeBitmap.getWidth() * 1 / 4, largeBitmap.getHeight() * 1 / 4, false);
 
                     File smallFile = new File(path, fileName + ".jpg");
+
                     FileOutputStream fOut;
                     try {
+                        SqliteManager sqlm = getInstance(this);
                         fOut = new FileOutputStream(smallFile);
                         smallBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fOut);
                         fOut.flush();
@@ -146,6 +157,10 @@ public class CameraActivity extends Activity {
                         largeBitmap.recycle();
                         smallBitmap.recycle();
                         largeFile.delete();
+                        //DODANIE ZDJĘCIA DO BAZY DANYCH
+                        String[] photoSeg = fileName.split("_");
+                        int resID = 0; ///DZIWNY PATH
+                        sqlm.addPhoto(resID, photoSeg[0]+"_"+photoSeg[1], fileName + ".jpg");
                     } catch (Exception e) {
                     }
 

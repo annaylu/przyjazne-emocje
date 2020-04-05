@@ -159,6 +159,24 @@ public class Level implements Serializable {
     private List<Integer> emotions = new ArrayList<>();
     private List<Integer> emotionsInTest = new ArrayList<>();
 
+    public List<Integer> getPhotoToBeDeletedFromDatabaseId() {
+        return photoToBeDeletedFromDatabaseId;
+    }
+
+    private List<Integer> photoToBeDeletedFromDatabaseId = new ArrayList<>();
+
+    public List<String> getPhotoNameToBeDeletedFromDirectory() {
+        return photoNameToBeDeletedFromDirectory;
+    }
+
+    private List<String> photoNameToBeDeletedFromDirectory = new ArrayList<>();
+
+
+    public void addPhotoToBePermanentlyDeleted(int photoId, String photoName) {
+        photoToBeDeletedFromDatabaseId.add(photoId);
+        photoNameToBeDeletedFromDirectory.add(photoName);
+    }
+
 
     public int getPraisesBinary() {
         return praisesBinary;
@@ -391,7 +409,9 @@ public class Level implements Serializable {
     public void setPhotosOrVideosIdList(List<Integer> photosOrVideosIdList) {
         this.photosOrVideosIdList = photosOrVideosIdList;
     }
-
+public int lastEmotionNumber() {
+        return emotions.get(emotions.size()-1);
+}
     public List<Integer> getEmotions() {
         return emotions;
     }
@@ -420,22 +440,29 @@ public class Level implements Serializable {
         this.emotionsInTest = emotions;
     }
 
-    public void addEmotion(int newEmotionId) {
-
-        // make sure the emotion is new
-
-        boolean isNew = true;
-
-        for(Integer emotion : emotions){
-            if(emotion.equals(newEmotionId)) {
-                isNew = false;
-                break;
+public int newEmotionId(){
+ //todo - do poprawy, ładniejsza forma - zamiats 6 liczba emocji ze stringów
+        for ( int i =0; i< 6; i++) {
+            if (!emotions.contains(i)) {
+                return i;
             }
         }
+        return -1;
+}
+    public void addEmotion(int newEmotionId) {
 
-        if(isNew) {
+
+
+
+        if (isEmotionNew(newEmotionId)) {
             this.emotions.add(newEmotionId);
         }
+
+
+    }
+
+    public boolean isEmotionNew(int emotionId) {
+        return !(emotions.contains(emotionId));
     }
 
     public void deleteEmotion(int i) {
@@ -539,6 +566,21 @@ public class Level implements Serializable {
 
         return level;
     }
+
+   /* public void selectAllPictures(String emotion){
+        SqliteManager sqlm = getInstance();
+
+        //Cursor cursor = sqlm.givePhotosWithEmotion(currentEmotionName);
+        Cursor cursor = sqlm.givePhotosWithEmotion(getEmotionName(newEmotionId));
+        System.out.println("metoda selectAllPictures " + getEmotionName(newEmotionId));
+        while (cursor.moveToNext()) {
+            getLevel().addPhoto(cursor.getInt(cursor.getColumnIndex("id")));
+
+            //aniadzisiaj System.out.println("aneczka cursor.getInt(0) " + cursor.getInt(0));
+        }
+
+
+    }*/
 
 
 

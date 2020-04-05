@@ -67,9 +67,9 @@ public class EndActivity extends Activity {
        // String.format()
         if (wrongAnswers != 0) {
             double result = ( (rightAnswers * 100)/ (double) (rightAnswers +wrongAnswers));
-            System.out.println(result);
+            //System.out.println(result);
             statistics.setText("Procent odpowiedzi prawidłowych: " + String.format("%.1f ",result) + "%");
-            System.out.println(String.format("%f ",result) + "%");
+            //System.out.println(String.format("%f ",result) + "%");
             //todo czemu zaokrągla??? co tu sie dzieje
             //System.out.println("STAAAAAAAATS" + rightAnswers / wrongAnswers * 100);
         }

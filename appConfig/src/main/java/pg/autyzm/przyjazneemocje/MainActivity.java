@@ -151,6 +151,7 @@ public class MainActivity extends AppCompatActivity {
         String root = Environment.getExternalStorageDirectory().getAbsolutePath() + "/";
 
         File createDir = new File(root + "FriendlyEmotions/Photos" + File.separator);
+        //TODO jak katalog nie istnieje, to przepisujemy zdjęcia z resourcow do nowotworzonego katalogu
         if (!createDir.exists()) {
             createDir.mkdir();
 
@@ -181,15 +182,16 @@ public class MainActivity extends AppCompatActivity {
             }
         }*/
 
+       //TODO bezwarunkowe przepisanie zdjęć z katalogu do bazy danych
         if(new File(root + "FriendlyEmotions/Photos").list() != null) {
 
-            for (String emotName : new File(root + "FriendlyEmotions/Photos").list()) {
+            for (String fileName : new File(root + "FriendlyEmotions/Photos").list()) {
 
                 try {
-                    int resID = getResources().getIdentifier(emotName, "drawable", getPackageName());
-                    String[] photoSeg = emotName.split("_");
+                    int resID = getResources().getIdentifier(fileName, "drawable", getPackageName());
+                    String[] photoSeg = fileName.split("_");
                     //name.split("::")[0];
-                    sqlm.addPhoto(resID, photoSeg[0]+"_"+photoSeg[1], emotName);
+                    sqlm.addPhoto(resID, photoSeg[0]+"_"+photoSeg[1], fileName);
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -341,7 +343,7 @@ public class MainActivity extends AppCompatActivity {
 
         Bundle b = new Bundle();
         b.putInt("key", levelId);
-        System.out.println("przeslij " + levelId);
+        //System.out.println("przeslij " + levelId);
 
         intent.putExtras(b);
         startActivity(intent);
@@ -440,7 +442,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void extractFromDrawable(Field field, String dir, String fileExt, Bitmap.CompressFormat format) throws IOException {
-
+//TODO zapisuje prawdopodbnie do katalogu ?? zmiana rozdzielczości
         String emotName = field.getName();
         int resID = getResources().getIdentifier(emotName, "drawable", getPackageName());
         String path = root + "FriendlyEmotions/" + dir + File.separator;
@@ -479,7 +481,7 @@ public class MainActivity extends AppCompatActivity {
                 int levelId = cur.getInt(0);
                 String name = cur.getString(cur.getColumnIndex("name"));
                 boolean is_default = cur.getInt(cur.getColumnIndex("is_default"))==1;
-                System.out.println(cur.getColumnIndex("is_default"));
+                //System.out.println(cur.getColumnIndex("is_default"));
                 String displayName = "";
                 if (name.contains("::")) {
                     if (sqlm.getCurrentLang().startsWith("pl")) {

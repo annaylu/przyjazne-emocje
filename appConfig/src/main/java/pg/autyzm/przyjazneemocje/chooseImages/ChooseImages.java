@@ -117,7 +117,7 @@ public class ChooseImages extends Activity implements android.widget.CompoundBut
 
         //tu dodaje
         String root = Environment.getExternalStorageDirectory().getAbsolutePath() + "/";
-        System.out.println(root);
+        //System.out.println(root);
 
         String newFileName = "";
 
@@ -162,7 +162,9 @@ public class ChooseImages extends Activity implements android.widget.CompoundBut
         }
 
         //wybrane wczesniej
+
         listSelectedPhotos = bundle.getIntegerArrayList("selected_photos");
+        if (Math.sin(3) < 0.5 ) throw new ArithmeticException("Doszło do tego miejsca juhu");
         for (int selected : listSelectedPhotos) {
             for (RowBean el : tabPhotos) {
                 if (el.getId() == selected) {
@@ -200,7 +202,7 @@ public class ChooseImages extends Activity implements android.widget.CompoundBut
                 if (isChecked) {
                     tabPhotos[pos].setSelected(true);
                     listSelectedPhotos.add(tabPhotos[pos].getId());
-                    System.out.println("To trafia do tablicy z idkami photos " + tabPhotos[pos].getId());
+                    //System.out.println("To trafia do tablicy z idkami photos " + tabPhotos[pos].getId());
                 } else {
                     tabPhotos[pos].setSelected(false);
                      listSelectedPhotos.remove((Object)tabPhotos[pos].getId());
