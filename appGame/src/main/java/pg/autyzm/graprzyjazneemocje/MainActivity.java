@@ -15,6 +15,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.MediaStore.Images.Media;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -315,10 +316,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     public void generateView(List<String> photosList) {
 
-
        // System.out.println("goodAnswer przed cięciami: " + goodAnswer);
 
         String rightEmotion = goodAnswer.replace(".jpg", "").replaceAll("[0-9.]", "").replaceAll("_r_", "").replaceAll("_e_","");
+        //Intent commandIntent = new Intent(MainActivity.this,Command.class);
 
         if (!videos) {
             TextView txt = (TextView) findViewById(R.id.rightEmotion);
@@ -396,7 +397,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
             }
             else
                 commandText = rightEmotionLang;
-
+            /*commandIntent.putExtra("emotion",rightEmotionLang);
+            commandIntent.putExtra("command",commandText);
+            startActivity(commandIntent);*/
             txt.setText(commandText);
 
         }
@@ -417,7 +420,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
             String root = Environment.getExternalStorageDirectory().getAbsolutePath() + "/";
             File fileOut = new File(root + "FriendlyEmotions/Photos" + File.separator + photoName);
             try {
-                ImageView image = new ImageView(MainActivity.this);
+                final ImageView image = new ImageView(MainActivity.this);
+
                 setLayoutMargins(image,45/listSize,45/listSize,(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 790 / listSize, getResources().getDisplayMetrics()));
 
                 if (photoName.contains(rightEmotion)) {
@@ -427,9 +431,18 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 }
 
                 image.setOnClickListener(this);
-                Bitmap captureBmp = Media.getBitmap(getContentResolver(), Uri.fromFile(fileOut));
+                final Bitmap captureBmp = Media.getBitmap(getContentResolver(), Uri.fromFile(fileOut));
                 image.setImageBitmap(captureBmp);
-                linearLayout1.addView(image);
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        linearLayout1.addView(image);
+                    }
+                }, 2000);
+
+
             } catch (IOException e) {
                 System.out.println("IO Exception " + photoName);
             }
@@ -484,6 +497,15 @@ public class MainActivity extends Activity implements View.OnClickListener {
         }
     }
 
+/*    public void hideImages(ImageView image) {
+        image.setVisibility(View.INVISIBLE);
+        try{Thread.sleep(2000);}
+        catch (InterruptedException ex) {
+
+        }
+        image.setVisibility(View.VISIBLE);
+    }*/
+
     public void onClickLearnMode(View v) {
         System.out.println("## ONCLICKLEARNMODE Aktualny sublevel mode:  B " + subLevelMode);
         if (v.getId() == 1) {
@@ -522,7 +544,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
             else if (subLevelMode == SubLevelMode.AFTER_WRONG_ANSWER) {
                 subLevelMode = SubLevelMode.AFTER_WRONG_ANSWER_1_CORRECT;
                 // zostajemy na tym samym subLevelu
-
+                startHintActivity();
                 startTimer(level);
             }
             else if (subLevelMode == SubLevelMode.AFTER_WRONG_ANSWER_1_CORRECT) {
@@ -530,6 +552,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
                 //zostajemy na tym samym sublevelu, mieszamy kolejność zdjęć
 
+                startRewardActivity();
                 reorder_image();
                 startTimer(level);
             }
@@ -568,7 +591,9 @@ startTimer(level);
         if (!findNextActiveLevel()) {
             startEndActivity(true);
         } else {
+
             generateView(photosToUseInSublevel);
+            //hideImages();
             System.out.println("Wygenerowano view");
         }
     }
@@ -658,12 +683,36 @@ startTimer(level);
         }
     }
 
+    private void startHintActivity() {
+        if (speaker == null) {
+            speaker = Speaker.getInstance(MainActivity.this);
+        }
+        String rightEmotion = goodAnswer.replace(".jpg", "").replaceAll("[0-9.]", "").replaceAll("_r_", "").replaceAll("_e_","");
+        String emotion = getResources().getString(getResources().getIdentifier("emotion_" + rightEmotion, "string", getPackageName()));
+        Intent intentHint = new Intent(MainActivity.this, RewardAndHintActivity.class);
+        intentHint.putExtra("hintMode",true);
+        intentHint.putExtra("emotion",emotion);
+        System.out.println("INTENT EMOTION " + emotion);
+        String photoName = "/" + getGoodAnswer().replace(".jpg", "");
+        // System.out.println("photoName: " + photoName);
+
+
+        ///ADDING A PHOTO TO AN INTENT - VERSION WITHOUT DRAWABLES
+
+        String root = Environment.getExternalStorageDirectory().getAbsolutePath() + "/";
+        final File path = new File(root + "FriendlyEmotions/Photos"+File.separator);
+        String fileName = (path.toString() + photoName + ".jpg");
+
+        intentHint.putExtra("fileName", fileName);
+        startActivityForResult(intentHint,10);
+    }
+
     private void startRewardActivity() {
         if (speaker == null) {
             speaker = Speaker.getInstance(MainActivity.this);
         }
 
-        Intent intentReward = new Intent(MainActivity.this, RewardActivity.class);
+        Intent intentReward = new Intent(MainActivity.this, RewardAndHintActivity.class);
         if (level.getQuestionType().equals(Level.Question.SHOW_WHERE_IS_EMOTION_NAME))
             commandText = getResources().getString(R.string.reward_complex);
         else if (level.getQuestionType().equals(Level.Question.SHOW_EMOTION_NAME))
@@ -676,14 +725,15 @@ startTimer(level);
         String rightEmotion = goodAnswer.replace(".jpg", "").replaceAll("[0-9.]", "").replaceAll("_r_", "").replaceAll("_e_","");
         String emotion = getResources().getString(getResources().getIdentifier("emotion_" + rightEmotion, "string", getPackageName()));
         intentReward.putExtra("emotion", emotion);
-        String photoName = getGoodAnswer().replace(".jpg", "");
+        intentReward.putExtra("hintMode",false);
+        String photoName = "/" + getGoodAnswer().replace(".jpg", "");
        // System.out.println("photoName: " + photoName);
 
 
         ///ADDING A PHOTO TO AN INTENT - VERSION WITHOUT DRAWABLES
 
         String root = Environment.getExternalStorageDirectory().getAbsolutePath() + "/";
-        final File path = new File(root + "FriendlyEmotions/Photos/"+ File.separatorChar);
+        final File path = new File(root + "FriendlyEmotions/Photos"+File.separator);
         String fileName = (path.toString() + photoName + ".jpg");
 
         intentReward.putExtra("fileName", fileName);
@@ -784,8 +834,8 @@ startTimer(level);
         image.setPadding(border,border,border,border);
         image.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
         System.out.println("imageframe imageid:" + image.getId() +" set: " + set);
-       try {Thread.sleep(2000);}
-       catch (InterruptedException ex) {};
+      /* try {Thread.sleep(2000);}
+       catch (InterruptedException ex) {};*/
 
 
 

@@ -125,6 +125,7 @@ public class CameraActivity extends Activity {
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case TAKE_PHOTO_CODE:
+                    
                     String root = Environment.getExternalStorageDirectory().getAbsolutePath() + "/";
                     final File path = new File(root + "FriendlyEmotions/Photos" + File.separator);
                     File largeFile = new File(path, fileName + "tmp.jpg");

@@ -135,7 +135,7 @@ The test mode does not use hints and reinforcements, the therapist should refrai
 _
 
 
-    <string name="sex">You are:</string>
+    <string name="sex">Photo of:</string>
 
     <string-array name="emotions_array">
         <item>happy</item>
@@ -182,9 +182,10 @@ _
     </string-array>
 
     <string-array name="sex">
-        <item>female</item>
-        <item>male</item>
-        <item>child</item>
+        <item>a woman</item>
+        <item>a man</item>
+        <item>a child</item>
+        <item>an emoticon</item>
 
     </string-array>
 

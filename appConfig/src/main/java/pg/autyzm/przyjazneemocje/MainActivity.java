@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
             String plec = String.valueOf(spinner_plec.getSelectedItem());
 
 
-            if (plec.equals("kobiety") || plec.equals("woman") || plec.equals("emotikona") || plec.equals("emoticon")) {
+            if (plec.equals("kobiety") || plec.equals("a woman") || plec.equals("emotikona") || plec.equals("an emoticon")) {
 
 
                 ArrayAdapter<CharSequence> dataAdapter = ArrayAdapter.createFromResource(MainActivity.this, R.array.emotions_array_woman,
@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
                 dataAdapter.notifyDataSetChanged(); //oraz to
                 spinner_emocje.setAdapter(dataAdapter);
             }
-            if (plec.equals("mężczyzny") || plec.equals("man")) {
+            if (plec.equals("mężczyzny") || plec.equals("a man")) {
                 ArrayAdapter<CharSequence> dataAdapter2 = ArrayAdapter.createFromResource(MainActivity.this, R.array.emotions_array_man,
                         android.R.layout.simple_spinner_dropdown_item);
                 dataAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
                 spinner_emocje.setAdapter(dataAdapter2);
             }
 
-            if (plec.equals("dziecka") || plec.equals("child")) {
+            if (plec.equals("dziecka") || plec.equals("a child")) {
                 Toast.makeText(MainActivity.this, "child", Toast.LENGTH_LONG);
                 ArrayAdapter<CharSequence> dataAdapter3 = ArrayAdapter
                         .createFromResource(MainActivity.this, R.array.emotions_array_child,
@@ -202,6 +202,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+        //Button smile = (Button) findViewById(R.id.uruchomSmileButton);
         Button smile = (Button) findViewById(R.id.uruchomSmileButton);
         smile.setOnClickListener(new View.OnClickListener() {
 
@@ -220,8 +221,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
         Button play = (Button) findViewById(R.id.game);
-        play.setText("GRAJ");
-        play.setBackgroundResource(R.drawable.gamepl);
+        //play.setText("GRAJ");
+        play.setBackgroundResource(R.drawable.game2);
 
         play.setOnClickListener(new View.OnClickListener() {
             @Override
