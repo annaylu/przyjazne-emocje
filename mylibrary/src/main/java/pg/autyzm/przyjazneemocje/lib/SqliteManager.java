@@ -81,8 +81,8 @@ addDefaultLevels();
         level_easy_icons.setQuestionType(Level.Question.EMOTION_NAME);
         level_easy_icons.setIs_default(true);
         level_easy_icons.setPraisesBinary(level_easy_icons.allSelected(5));
-        level_easy_icons.setCommandTypesAsNumber(level_easy_icons.allSelected(5));
-        level_easy_icons.setHintTypesAsNumber(12);
+        //level_easy_icons.setCommandTypesAsNumber(level_easy_icons.allSelected(5));
+        level_easy_icons.setHintTypesAsNumber(8);
         //ania do usunięcia:
         //level_easy_icons.setPraises("dobrze;wspaniale;świetnie;ekstra;super;good;great;excellent;extra;super;");
 
@@ -116,7 +116,7 @@ addDefaultLevels();
         level_easy_icons.setNumberOfTriesInTest(3);
         level_easy_icons.setMaterialForTest(true);
         level_easy_icons.setTimeLimitInTest(10);
-        level_easy_icons.setCommandTypesAsNumber(level_easy_icons.allSelected(5));
+       // level_easy_icons.setCommandTypesAsNumber(level_easy_icons.allSelected(5));
 
         saveLevelToDatabase(level_easy_icons);
 
@@ -134,10 +134,10 @@ addDefaultLevels();
         level_easy_photos.setPhotosOrVideosShowedForOneQuestion(3);
         level_easy_photos.setForTests(true);
         level_easy_photos.setShouldQuestionBeReadAloud(true);
-        level_easy_photos.setQuestionType(Level.Question.SHOW_EMOTION_NAME);    /// PÓXNIEJ jak wszystko będzie działało zmienić na EMOTION_NAME
+        level_easy_photos.setQuestionType(Level.Question.EMOTION_NAME);    /// PÓXNIEJ jak wszystko będzie działało zmienić na EMOTION_NAME
         level_easy_photos.setPraisesBinary(level_easy_photos.allSelected(5));
-        level_easy_photos.setCommandTypesAsNumber(level_easy_photos.allSelected(5));
-        level_easy_photos.setHintTypesAsNumber(12);
+       // level_easy_photos.setCommandTypesAsNumber(level_easy_photos.allSelected(5));
+        level_easy_photos.setHintTypesAsNumber(8);
 
         level_easy_photos.setEmotions(new ArrayList<Integer>() {
             {
@@ -165,7 +165,7 @@ addDefaultLevels();
         level_easy_photos.setTimeLimitInTest(10);
         level_easy_photos.setMaterialForTest(true);
         level_easy_photos.setIs_default(true);
-        level_easy_photos.setCommandTypesAsNumber(level_easy_photos.allSelected(5));
+        //level_easy_photos.setCommandTypesAsNumber(level_easy_photos.allSelected(5));
 
         saveLevelToDatabase(level_easy_photos);
 
@@ -187,8 +187,8 @@ addDefaultLevels();
         level_medium.setShouldQuestionBeReadAloud(true);
         level_medium.setQuestionType(Level.Question.SHOW_EMOTION_NAME);
         level_medium.setAmountOfEmotions(Integer.toString(level_medium.getEmotions().size()));
-        level_medium.setCommandTypesAsNumber(level_medium.allSelected(5));
-        level_medium.setHintTypesAsNumber(12);
+        //level_medium.setCommandTypesAsNumber(level_medium.allSelected(5));
+        level_medium.setHintTypesAsNumber(8);
         //level_medium.setPraises("dobrze;wspaniale;świetnie;ekstra;super;good;great;excellent;extra;super;");
 
         level_medium.setEmotions(new ArrayList<Integer>() {
@@ -228,7 +228,7 @@ addDefaultLevels();
 
         Level level_difficult = new Level();
         level_difficult.setPhotosOrVideosIdList(new ArrayList<Integer>());
-        level_difficult.setName("ZDJĘCIA - 6 emocje::Photos - 6 emotions");
+        level_difficult.setName("ZDJĘCIA - 6 emocji::Photos - 6 emotions");
         level_difficult.setTimeLimit(10);
         //level_difficult.setPraises("dobrze");//addPraises
         // level_difficult.setPraises("good"); //chyba nie działa, trzebaby wszystko pousuwać i sprbować jeszcze raz
@@ -243,12 +243,13 @@ addDefaultLevels();
        // level_difficult.setPraises("dobrze;wspaniale;świetnie;ekstra;super;good;great;excellent;extra;super;");
         //level_difficult.setAmountOfEmotions("6");
         level_difficult.setPraisesBinary(level_difficult.allSelected(5));
-        level_difficult.setHintTypesAsNumber(12);
+        level_difficult.setHintTypesAsNumber(8);
         level_difficult.setEmotions(new ArrayList<Integer>() {
             {
                 add(0);
                 add(1);
                 add(2);
+
                 add(3);
                 add(4);
                 add(5);
