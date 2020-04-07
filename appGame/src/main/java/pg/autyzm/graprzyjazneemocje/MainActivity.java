@@ -35,9 +35,11 @@ import com.j256.ormlite.stmt.query.In;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -344,50 +346,49 @@ int whichTry = 1;
 
             System.out.println("levelQuestionType " + level.getQuestionType());
             System.out.println("ANIAAA EMOTION_NAME " + Level.Question.EMOTION_NAME);*/
-            if (level.getQuestionType() != Level.Question.EMOTION_NAME) {
-                final int commandTypes = level.getCommandTypesAsNumber();
+            if (level.getQuestionType() != Level.Question.EMOTION_NAME && level.getQuestionType() != Level.Question.SHOW_EMOTION_NAME) {
+                if (level.getQuestionType().equals(Level.Question.SHOW_WHERE_IS_EMOTION_NAME)) {
+                    final int commandTypes = level.getCommandTypesAsNumber();
                 /*System.out.println("commanDtypes: " + commandTypes);
                 System.out.println("question type: " + level.getQuestionType());*/
-                ArrayList<String> commandsSelected = new ArrayList<>();
-                //checkbox: 8
-                if ((commandTypes & CommandTypeValue(CommandType.TOUCH)) == CommandTypeValue(CommandType.TOUCH)) {
-                    if (level.getQuestionType().equals(Level.Question.SHOW_WHERE_IS_EMOTION_NAME))
+                    ArrayList<String> commandsSelected = new ArrayList<>();
+                    //checkbox: 8
+
+
+                    if ((commandTypes & CommandTypeValue(CommandType.TOUCH)) == CommandTypeValue(CommandType.TOUCH)) {
+
                         commandsSelected.add(getResources().getString(R.string.touch_where));
 
-                }
-                //checkbox:1
-                if ((commandTypes & CommandTypeValue(CommandType.SHOW)) == CommandTypeValue(CommandType.SHOW)) {
-                    if (level.getQuestionType().equals(Level.Question.SHOW_WHERE_IS_EMOTION_NAME))
+                    }
+                    //checkbox:1
+                    if ((commandTypes & CommandTypeValue(CommandType.SHOW)) == CommandTypeValue(CommandType.SHOW)) {
                         commandsSelected.add(getResources().getString(R.string.show_where));
-                }
+                    }
 
-                //checkbox: 4
-                if ((commandTypes & CommandTypeValue(CommandType.SHOW)) == CommandTypeValue(CommandType.POINT)) {
-                    if (level.getQuestionType().equals(Level.Question.SHOW_WHERE_IS_EMOTION_NAME))
+                    //checkbox: 4
+                    if ((commandTypes & CommandTypeValue(CommandType.SHOW)) == CommandTypeValue(CommandType.POINT)) {
                         commandsSelected.add(getResources().getString(R.string.point_where));
 
-                }
+                    }
 
-                //checkbox:2
-                if ((commandTypes & CommandTypeValue(CommandType.SELECT)) == CommandTypeValue(CommandType.SELECT)) {
-                    if (level.getQuestionType().equals(Level.Question.SHOW_WHERE_IS_EMOTION_NAME))
+                    //checkbox:2
+                    if ((commandTypes & CommandTypeValue(CommandType.SELECT)) == CommandTypeValue(CommandType.SELECT)) {
                         commandsSelected.add(getResources().getString(R.string.select_where));
 
 
-                }
-                //checkbox: 16
-                if ((commandTypes & CommandTypeValue(CommandType.FIND)) == CommandTypeValue(CommandType.FIND)) {
-                    if (level.getQuestionType().equals(Level.Question.SHOW_WHERE_IS_EMOTION_NAME))
+                    }
+                    //checkbox: 16
+                    if ((commandTypes & CommandTypeValue(CommandType.FIND)) == CommandTypeValue(CommandType.FIND)) {
                         commandsSelected.add(getResources().getString(R.string.find_where));
+                    }
 
 
-                }
+                    int size = commandsSelected.size();
+                    String[] commandsToChoose = new String[size];
+                    for (int i = 0; i < size; i++) {
+                        commandsToChoose[i] = commandsSelected.get(i);
+                    }
 
-                int size = commandsSelected.size();
-                String[] commandsToChoose = new String[size];
-                for (int i = 0; i < size; i++) {
-                    commandsToChoose[i] = commandsSelected.get(i);
-                }
 
 
           /*      System.out.println("anusia  size: " + size);
@@ -395,18 +396,19 @@ int whichTry = 1;
                 System.out.println("commandsSelected: " + commandsSelected.toString());
                 System.out.println("commands to choose length" + commandsToChoose.length);*/
 
-                commandText = commandsToChoose[(int) Math.floor(Math.random() * (size))] + " " + rightEmotionLang;
+                    commandText = commandsToChoose[(int) Math.floor(Math.random() * (size))] + " " + rightEmotionLang;
 
-            }
-            else if (level.getQuestionType().equals(Level.Question.SHOW_EMOTION_NAME)) {
-                commandText = getResources().getString(R.string.show) + rightEmotionLang;
-            } else if (level.getQuestionType().equals(Level.Question.EMOTION_NAME)) {
-                commandText = rightEmotionLang;
-            }
+                } else if (level.getQuestionType().equals(Level.Question.SHOW_EMOTION_NAME)) {
+                    commandText = getResources().getString(R.string.show) + " " + rightEmotionLang;
+                } else if (level.getQuestionType().equals(Level.Question.EMOTION_NAME)) {
+                    commandText = rightEmotionLang;
+                }
             /*commandIntent.putExtra("emotion",rightEmotionLang);
             commandIntent.putExtra("command",commandText);
             startActivity(commandIntent);*/
-            txt.setText(commandText);
+                txt.setText(commandText);
+                System.out.println("!!!!!!!!!!!!!! " + commandText);
+            }
 
         }
 
@@ -607,7 +609,7 @@ int whichTry = 1;
                         whichTry = 1;
 
                     }
-                }, 200);
+                }, 300);
                 timer.cancel();
                 startTimer(level);
 
@@ -639,7 +641,7 @@ int whichTry = 1;
 
 
                     }
-                }, 200);
+                }, 350);
                 reorder_image();
 
 
@@ -1022,8 +1024,11 @@ int whichTry = 1;
         zooming = AnimationUtils.loadAnimation(this, R.anim.zoom);
         zooming.scaleCurrentDuration(1.05f);
         image.hasOverlappingRendering();
+        setLayoutMargins(image,45/listSize + 10,45/listSize + 10,(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 790 / listSize, getResources().getDisplayMetrics()));
         image.startAnimation(zooming);
 
+        image_selected = image;
+        System.out.println("ANIAANIAANIA Robie zoom " + image.getId() + " data: " + new Date());
 
 
 
@@ -1032,11 +1037,13 @@ int whichTry = 1;
     {
         Animation unzooming;
 
+        System.out.println("WCHODZIMY W UNZOOM ANIAANIAANIA Robie zoom "+ new Date());
         if (image_selected != null) {
             setLayoutMargins(image_selected,45/listSize,45/listSize,(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 790 / listSize, getResources().getDisplayMetrics()));
             unzooming = AnimationUtils.loadAnimation(this, R.anim.unzoom);
             unzooming.scaleCurrentDuration(0);
             image_selected.startAnimation(unzooming);
+            System.out.println("ANIAANIAANIA Robie UNZOOOOOOM " + image_selected.getId());
 
 
         }

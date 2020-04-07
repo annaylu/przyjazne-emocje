@@ -1,6 +1,8 @@
 <resources>
     <string name="testMode">TEST MODE</string>
     <string name="learnMode">LEARN MODE</string>
+    <string name="test_mode">Test Mode</string>
+    <string name="learn_mode">Learn Mode</string>
     <string name="seconds"> seconds </string>
     <string name="after_seconds"> seconds </string>
 
@@ -8,11 +10,11 @@
     <string name="test_time_for_answer">Answer time limit: </string>
     <string name="test_tries">Number of tries:</string>
 
-    <string name="show">Pokaż  </string>
-    <string name="find">  Znajdź </string>
-    <string name="touch">Dotknij </string>
-    <string name="point">Wskaż </string>
-    <string name="selectConf">Wybierz</string>
+    <string name="show">Show  </string>
+    <string name="find">Find</string>
+    <string name="touch">Touch</string>
+    <string name="point">Point</string>
+    <string name="selectConf">Select</string>
 
 
 

@@ -7,7 +7,7 @@
     <string name="label_wrongAnswers">Wrong answers:</string>
     <string name="label_timeout">Timeouts:</string>
     <string name="label_video_question">How is the child?</string>
-
+    <string name="procencik">Percentage of correct answers:</string>
 
     <string name="emotion_happy_woman">happy</string>
     <string name="emotion_sad_woman">sad</string>

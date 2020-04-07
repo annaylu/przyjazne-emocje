@@ -223,7 +223,7 @@
         android:layout_alignEnd="@+id/list"
         android:layout_marginEnd="160dp"
         android:layout_marginBottom="-40dp"
-        android:text="Tryb testu" />
+        android:text="@string/test_mode" />
 
     <TextView
         android:id="@+id/textView10"
@@ -233,6 +233,6 @@
         android:layout_alignEnd="@+id/list"
         android:layout_marginEnd="250dp"
         android:layout_marginBottom="-40dp"
-        android:text="Tryb nauki" />
+        android:text="@string/learn_mode" />
 
 </RelativeLayout>

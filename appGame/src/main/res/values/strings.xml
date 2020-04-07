@@ -9,6 +9,8 @@
     <string name="label_timeout">Poziomy, w których czas upłynął:</string>
     <string name="label_video_question">Jakie jest dziecko?</string>
 
+
+
     <string name="emotion_happy_woman">wesoła</string>
     <string name="emotion_sad_woman">smutna</string>
     <string name="emotion_surprised_woman">zdziwiona</string>
@@ -42,6 +44,8 @@
     <string name="mainMenuButton">MENU</string>
 
     <string name="reward_complex">! to jest </string>
+
+    <string name="procencik">Procent odpowiedzi poprawnych:</string>
 
     <string-array name="show_where_is">
     <item>Pokaż gdzie jest </item>

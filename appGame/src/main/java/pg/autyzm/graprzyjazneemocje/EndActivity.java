@@ -72,7 +72,7 @@ public class EndActivity extends Activity {
 
         TextView statistics = (TextView) findViewById(R.id.statistics);
         statistics.setTextSize(TypedValue.COMPLEX_UNIT_PX, 50);
-        statistics.setText("Procent odpowiedzi prawidłowych: ");
+        statistics.setText(getResources().getString(R.string.procencik) + " ");
         TextView statisticsNumber = (TextView) findViewById(R.id.statisticsNumber);
         statisticsNumber.setTextSize(TypedValue.COMPLEX_UNIT_PX, 50);
        // int result = rightAnswers / wrongAnswers * 100;

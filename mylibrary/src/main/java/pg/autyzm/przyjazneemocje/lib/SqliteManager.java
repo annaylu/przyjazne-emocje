@@ -82,7 +82,7 @@ addDefaultLevels();
         level_easy_icons.setIs_default(true);
         level_easy_icons.setPraisesBinary(level_easy_icons.allSelected(5));
         //level_easy_icons.setCommandTypesAsNumber(level_easy_icons.allSelected(5));
-        level_easy_icons.setHintTypesAsNumber(8);
+        level_easy_icons.setHintTypesAsNumber(10);
         //ania do usunięcia:
         //level_easy_icons.setPraises("dobrze;wspaniale;świetnie;ekstra;super;good;great;excellent;extra;super;");
 
@@ -95,17 +95,13 @@ addDefaultLevels();
         });
         level_easy_icons.setPhotosOrVideosIdList(new ArrayList<Integer>() {
             {//OGARNIJ CZEMU TO NIE DZIAŁA
-                add(6);
-                add(7);
                 add(8);
-
                 add(10);
                 add(11);
-                add(12);
 
-
-
-
+                add(14);
+                add(15);
+                add(16);
 
 
             }
@@ -137,7 +133,7 @@ addDefaultLevels();
         level_easy_photos.setQuestionType(Level.Question.EMOTION_NAME);    /// PÓXNIEJ jak wszystko będzie działało zmienić na EMOTION_NAME
         level_easy_photos.setPraisesBinary(level_easy_photos.allSelected(5));
        // level_easy_photos.setCommandTypesAsNumber(level_easy_photos.allSelected(5));
-        level_easy_photos.setHintTypesAsNumber(8);
+        level_easy_photos.setHintTypesAsNumber(10);
 
         level_easy_photos.setEmotions(new ArrayList<Integer>() {
             {
@@ -150,10 +146,10 @@ addDefaultLevels();
             {
                 add(6);
                 add(7);
-                add(8);
-
                 add(9);
-                add(10);
+
+                add(12);
+                add(13);
 
 
             }
@@ -188,7 +184,7 @@ addDefaultLevels();
         level_medium.setQuestionType(Level.Question.SHOW_EMOTION_NAME);
         level_medium.setAmountOfEmotions(Integer.toString(level_medium.getEmotions().size()));
         //level_medium.setCommandTypesAsNumber(level_medium.allSelected(5));
-        level_medium.setHintTypesAsNumber(8);
+        level_medium.setHintTypesAsNumber(10);
         //level_medium.setPraises("dobrze;wspaniale;świetnie;ekstra;super;good;great;excellent;extra;super;");
 
         level_medium.setEmotions(new ArrayList<Integer>() {
@@ -203,17 +199,17 @@ addDefaultLevels();
             {
                 add(6);
                 add(7);
-                add(8);
-
                 add(9);
-                add(10);
+
+                add(12);
+                add(13);
 
                 add(1);
                 add(2);
                 add(3);
 
-                add(11);
-                add(12);
+                add(17);
+                add(18);
             }
         });
 
@@ -243,7 +239,7 @@ addDefaultLevels();
        // level_difficult.setPraises("dobrze;wspaniale;świetnie;ekstra;super;good;great;excellent;extra;super;");
         //level_difficult.setAmountOfEmotions("6");
         level_difficult.setPraisesBinary(level_difficult.allSelected(5));
-        level_difficult.setHintTypesAsNumber(8);
+        level_difficult.setHintTypesAsNumber(10);
         level_difficult.setEmotions(new ArrayList<Integer>() {
             {
                 add(0);
@@ -259,22 +255,22 @@ addDefaultLevels();
             {
                 add(6);
                 add(7);
-                add(8);
-
                 add(9);
-                add(10);
+
+                add(12);
+                add(13);
 
                 add(1);
                 add(2);
                 add(3);
 
-                add(11);
-                add(12);
+                add(17);
+                add(18);
+
+                add(19);
 
                 add(4);
                 add(5);
-
-                add(13);
 
 
 
@@ -311,6 +307,7 @@ addDefaultLevels();
     {
         ContentValues values = new ContentValues();
         values.put("emotion",emotion);
+        db.insertOrThrow("emotions", null, values);
         //System.out.println(db.insertOrThrow("emotions", null, values) + " addEmotion");
     }
 

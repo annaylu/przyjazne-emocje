@@ -144,6 +144,8 @@
     <string name="touch">Dotknij </string>
     <string name="point">Wskaż </string>
     <string name="selectConf">Wybierz</string>
+    <string name="test_mode">Tryb Testu</string>
+    <string name="learn_mode">Tryb Nauki</string>
 
     <string-array name="emotions_array_man">
         <item>wesoły</item>

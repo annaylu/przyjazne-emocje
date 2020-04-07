@@ -1,7 +1,9 @@
 package pg.autyzm.przyjazneemocje;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
@@ -9,6 +11,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SwitchCompat;
 import android.util.DisplayMetrics;
@@ -51,6 +55,11 @@ public class MainActivity extends AppCompatActivity {
 
     private final int REQ_CODE_CAMERA = 1000;
     private final List<LevelItem> levelList = new ArrayList<>();
+
+
+
+
+
     AdapterView.OnItemSelectedListener emotionSelectedListener = new AdapterView.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2,
@@ -161,10 +170,12 @@ public class MainActivity extends AppCompatActivity {
                     if (ifConstainsEmotionName(f.getName()))
                     {
                         extractFromDrawable(f, "Photos", ".jpg", Bitmap.CompressFormat.JPEG);
+                        System.out.println("Przzeniesione zdjęcia!!!!!!!!!!!!!!" + f.getName());
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+
             }
         }
 
