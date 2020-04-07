@@ -33,9 +33,6 @@
             android:name=".RewardAndHintActivity"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".Command"
-            android:screenOrientation="landscape" />
-        <activity
         android:name=".animation.AnimationActivity"
         android:screenOrientation="landscape" />
         <activity
@@ -49,7 +46,10 @@
             android:label="@string/title_activity_level_failed"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".VideoWelcomeActivity"
+        android:name=".VideoWelcomeActivity"
+        android:screenOrientation="landscape" />
+        <activity
+            android:name=".Blank"
             android:screenOrientation="landscape" />
 
         <!--activity

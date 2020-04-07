@@ -50,31 +50,43 @@ public class EndActivity extends Activity {
         int timeout = extras.getInt("TIMEOUT");
         TextView right = (TextView) findViewById(R.id.rightAnswers);
         right.setTextSize(TypedValue.COMPLEX_UNIT_PX, 50);
-        right.setText(getResources().getString(R.string.label_rightAnswers) + " " + rightAnswers);
+        right.setText(getResources().getString(R.string.label_rightAnswers) + " " );
+        TextView rightNumber = (TextView) findViewById(R.id.rightAnswersNumber);
+        rightNumber.setTextSize(TypedValue.COMPLEX_UNIT_PX, 50);
+        rightNumber.setText(" " + rightAnswers);
         TextView wrong = (TextView) findViewById(R.id.wrongAnswers);
         wrong.setTextSize(TypedValue.COMPLEX_UNIT_PX, 50);
-        wrong.setText(getResources().getString(R.string.label_wrongAnswers) + " " + wrongAnswers);
+        wrong.setText(getResources().getString(R.string.label_wrongAnswers) + " " );
+        TextView wrongNumber = (TextView) findViewById(R.id.wrongAnswersNumber);
+        wrongNumber.setTextSize(TypedValue.COMPLEX_UNIT_PX, 50);
+        wrongNumber.setText(" " + wrongAnswers);
 
 
 
         TextView time = (TextView) findViewById(R.id.timeout);
         time.setTextSize(TypedValue.COMPLEX_UNIT_PX, 50);
-        time.setText(getResources().getString(R.string.label_timeout) + " " + timeout);
+        time.setText(getResources().getString(R.string.label_timeout) + " ");
+        TextView timeNumber = (TextView) findViewById(R.id.timeOutsNumber);
+        timeNumber.setTextSize(TypedValue.COMPLEX_UNIT_PX, 50);
+        timeNumber.setText(" " + timeout);
 
         TextView statistics = (TextView) findViewById(R.id.statistics);
         statistics.setTextSize(TypedValue.COMPLEX_UNIT_PX, 50);
+        statistics.setText("Procent odpowiedzi prawidłowych: ");
+        TextView statisticsNumber = (TextView) findViewById(R.id.statisticsNumber);
+        statisticsNumber.setTextSize(TypedValue.COMPLEX_UNIT_PX, 50);
        // int result = rightAnswers / wrongAnswers * 100;
        // String.format()
         if (wrongAnswers != 0) {
             double result = ( (rightAnswers * 100)/ (double) (rightAnswers +wrongAnswers));
             //System.out.println(result);
-            statistics.setText("Procent odpowiedzi prawidłowych: " + String.format("%.1f ",result) + "%");
+            statisticsNumber.setText(" " + String.format("%.1f ",result) + "%");
             //System.out.println(String.format("%f ",result) + "%");
             //todo czemu zaokrągla??? co tu sie dzieje
             //System.out.println("STAAAAAAAATS" + rightAnswers / wrongAnswers * 100);
         }
         else
-            statistics.setText("Procent odpowiedzi prawidłowych: 100%");
+            statisticsNumber.setText("100%");
 
 
         repeat = 0;

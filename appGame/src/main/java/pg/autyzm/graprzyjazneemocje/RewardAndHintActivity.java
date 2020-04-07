@@ -21,7 +21,6 @@ import java.util.Random;
 public class RewardAndHintActivity extends Activity {
     private int chosenColor = generateRandomColor();
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +32,6 @@ public class RewardAndHintActivity extends Activity {
         Intent intentReward = getIntent();
         Intent intentHint = getIntent();
         String fileName = intentReward.getStringExtra("fileName");
-        String commandType = intentReward.getStringExtra("praise");
         String emotion = intentReward.getStringExtra("emotion");
 
         boolean hintMode = intentHint.getBooleanExtra("hintMode", true);
@@ -41,6 +39,7 @@ public class RewardAndHintActivity extends Activity {
         int praiseBinary = intentReward.getIntExtra("praises", 0);
 
 
+       // int whichTry = intent.getIntExtra("whichTry",1);
         List<String> praiseList = new ArrayList<String>();
         String[] praiseTab = getPraises(praiseBinary);
         for (String element : praiseTab) {
@@ -57,7 +56,7 @@ public class RewardAndHintActivity extends Activity {
             commandPraise = praiseList.get(position);
         }
 
-        String speakerText = commandPraise + commandType + emotion;
+        String speakerText = commandPraise +"! "+ emotion;
 
         if (hintMode) {
             rewardAndHintLayout.setBackgroundColor(getResources().getColor(R.color.background_center));
@@ -94,6 +93,10 @@ public class RewardAndHintActivity extends Activity {
 
             public void onFinish() {
                 finish();
+            /*    Intent intent = getIntent();
+                int whichTry = intent.getIntExtra("whichTry",1);
+                Speaker.getInstance(RewardAndHintActivity.this).speak("Próbeczka numer " + whichTry);*/
+
             }
         }.start();
 

@@ -31,6 +31,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dropbox.core.v2.teamlog.SmartSyncOptOutType;
+import com.j256.ormlite.stmt.query.In;
 
 import java.io.File;
 import java.io.IOException;
@@ -52,7 +53,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     int sublevelsLeft;
     List<Integer> sublevelsList;
-
+int whichTry = 1;
     List<String> photosWithEmotionSelected;
     List<String> photosWithRestOfEmotions;
     List<String> photosToUseInSublevel;
@@ -76,6 +77,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
     LinearLayout linearLayout1;
     private int listSize;
     LinearLayout.LayoutParams lp;
+    String speakerText;
+    int proba;
 
 
 
@@ -142,8 +145,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
                     public void onClick(View v) {
                         speaker.speak(commandText);
-                        MediaPlayer ring= MediaPlayer.create(MainActivity.this,R.raw.showwhereis);
-                        ring.start();
+                        //MediaPlayer ring= MediaPlayer.create(MainActivity.this,R.raw.showwhereis);
+                        //ring.start();
                     }
                 });
             }
@@ -224,7 +227,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
     }
 
     void generateSublevel(int emotionIndexInList) {
-        setAttempt(0);
+        attempt = 0;
+        whichTry = 1;
         subLevelMode = SubLevelMode.NO_WRONG_ANSWER;
         //System.out.println("Ustawiamy tu NO WRONG ANSWER");
         Cursor emotionCur = sqlm.giveEmotionName(emotionIndexInList);
@@ -260,6 +264,11 @@ public class MainActivity extends Activity implements View.OnClickListener {
         if (level.isLearnMode()) {
             startTimer(level);
         } else if (level.isTestMode()) {
+
+            Intent intent = new Intent(MainActivity.this,Blank.class);
+            startActivity(intent);
+            speakerText = "Próba numer jeden";
+            Speaker.getInstance(MainActivity.this).speak(speakerText);
             StartTimerForTest(level);
         }
 
@@ -432,17 +441,19 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
                 image.setOnClickListener(this);
                 final Bitmap captureBmp = Media.getBitmap(getContentResolver(), Uri.fromFile(fileOut));
-                image.setImageBitmap(captureBmp);
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
+/*if (level.isTestMode()) {*/
+    image.setImageBitmap(captureBmp);
+/*} else {
+    Handler handler = new Handler();
+    handler.postDelayed(new Runnable() {
+        @Override
+        public void run() {
+            image.setImageBitmap(captureBmp);
 
-                        linearLayout1.addView(image);
-                    }
-                }, 2000);
-
-
+        }
+    }, 2000);
+}*/
+                linearLayout1.addView(image);
             } catch (IOException e) {
                 System.out.println("IO Exception " + photoName);
             }
@@ -461,6 +472,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     }
 
     public void onClickTestMode(View v, boolean endTimer) {
+        int x;
         if (v.getId() == 1) {
             sublevelsLeft--;
 
@@ -469,8 +481,22 @@ public class MainActivity extends Activity implements View.OnClickListener {
             if (getAttempt()==0)
                 rightAnswers++;
 
+
+
+
+
+
+
+
+
             nextLevelOrEnd();
         } else {
+           /* speakerText = "Próba numer " + wrongAnswersSublevel;
+            Speaker.getInstance(MainActivity.this).speak(speakerText);*/
+            Intent intent = new Intent(MainActivity.this,Blank.class);
+                    startActivity(intent);
+
+
             TextView numberOfTries = (TextView) findViewById(R.id.numberOfTries);
             wrongAnswers++;
             wrongAnswersSublevel++;
@@ -478,23 +504,43 @@ public class MainActivity extends Activity implements View.OnClickListener {
             if (endTimer) {
                 timeout++;
                 timeoutSubLevel++;
+                x = wrongAnswersSublevel + 1;
+                if (x<=3) {
+                    speakerText = "Próba numer " + x;
+                    Speaker.getInstance(MainActivity.this).speak(speakerText);
+                }
             }
             if (wrongAnswersSublevel >= level.getNumberOfTriesInTest()) {
                 sublevelsLeft--;
                 numberOfTries.setVisibility(View.INVISIBLE);
                 nextLevelOrEnd();
             } else if (!endTimer) {
-                numberOfTries.setVisibility(View.VISIBLE);
-                numberOfTries.setText(getString(R.string.tries) + wrongAnswersSublevel + "/" + level.getNumberOfTriesInTest());
-                Toast.makeText(getApplicationContext(), "Odpowiedź nieprawidłowa\nSpróbuj ponownie.", Toast.LENGTH_LONG).show();
+              /*  speakerText = "Próba numer " + wrongAnswersSublevel;
+                Speaker.getInstance(MainActivity.this).speak(speakerText);*/
+                //numberOfTries.setVisibility(View.VISIBLE);
+                //numberOfTries.setText(getString(R.string.tries) + wrongAnswersSublevel + "/" + level.getNumberOfTriesInTest());
+                //Toast.makeText(getApplicationContext(), "Odpowiedź nieprawidłowa\nSpróbuj ponownie.", Toast.LENGTH_LONG).show();
+                x = wrongAnswersSublevel + 1;
+                if (x<=3) {
+                    speakerText = "Próba numer " + x;
+                    Speaker.getInstance(MainActivity.this).speak(speakerText);
+                }
                 timer.start();
             } else {
-                numberOfTries.setVisibility(View.VISIBLE);
-                numberOfTries.setText(getString(R.string.tries) + wrongAnswersSublevel + "/" + level.getNumberOfTriesInTest());
-                Toast.makeText(getApplicationContext(), "-Upłynął czas odpowiedzi.\n-Odpowiedź nieprawidłowa.\n-Spróbuj ponownie.", Toast.LENGTH_LONG).show();
+
+                //numberOfTries.setVisibility(View.VISIBLE);
+                //numberOfTries.setText(getString(R.string.tries) + wrongAnswersSublevel + "/" + level.getNumberOfTriesInTest());
+               // Toast.makeText(getApplicationContext(), "-Upłynął czas odpowiedzi.\n-Odpowiedź nieprawidłowa.\n-Spróbuj ponownie.", Toast.LENGTH_LONG).show();
+                timer.start();
+                x = wrongAnswersSublevel + 1;
+                if (x<=3) {
+                    speakerText = "Próba numer " + x;
+                    Speaker.getInstance(MainActivity.this).speak(speakerText);
+                }
                 timer.start();
             }
         }
+
     }
 
 /*    public void hideImages(ImageView image) {
@@ -508,14 +554,15 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     public void onClickLearnMode(View v) {
         System.out.println("## ONCLICKLEARNMODE Aktualny sublevel mode:  B " + subLevelMode);
+        Intent intent = new Intent(MainActivity.this,RewardAndHintActivity.class);
         if (v.getId() == 1) {
             //wybór prawidłowego zdjęcia
             //sublevelsLeft--;
             if (getAttempt() == 0) {
                 rightAnswers++;
-                setAttempt(1);
-
-
+                attempt = 1;
+                if (subLevelMode == SubLevelMode.AFTER_WRONG_ANSWER_1_CORRECT)
+                    attempt = 2;
 
             }
             ///TODO tata gra
@@ -524,6 +571,11 @@ public class MainActivity extends Activity implements View.OnClickListener {
             timer.cancel();
 
             clear_efects_on_all_images();
+/*            whichTry++;
+            speakerText = "Próba numer " + whichTry;
+            if (whichTry >3)
+                speakerText = "Kolejna próba";*/
+
             //startTimer(level);
 
             //image_grey_out(image,false);
@@ -539,22 +591,63 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 //usunelamteraz startTimer(level);
                 sublevelsLeft--;
                 startRewardActivity();
+                whichTry++;
+                intent.putExtra("whichTry",whichTry);
+             /*   whichTry++;
+                speakerText = "Próba numer " + whichTry;
+                if (whichTry >3)
+                    speakerText = "Kolejna próba";*/
+
 
             }
             else if (subLevelMode == SubLevelMode.AFTER_WRONG_ANSWER) {
                 subLevelMode = SubLevelMode.AFTER_WRONG_ANSWER_1_CORRECT;
                 // zostajemy na tym samym subLevelu
+                /*if (attempt ==2) {*/
+               /* whichTry++;
+                speakerText = "Próba numer " + whichTry;
+                if (whichTry >3)
+                    speakerText = "Kolejna próba";
+                Speaker.getInstance(MainActivity.this).speak(speakerText);*/
                 startHintActivity();
-                startTimer(level);
+                whichTry++;
+                intent.putExtra("whichTry",whichTry);
+              /*  whichTry++;
+                speakerText = "Próba numer " + whichTry;
+                if (whichTry >3)
+                    speakerText = "Kolejna próba";
+
+Speaker.getInstance(MainActivity.this).speak(speakerText);*/
+               /*     startTimer(level);
+                } else
+                    startRewardActivity();
+
+            */
+
             }
             else if (subLevelMode == SubLevelMode.AFTER_WRONG_ANSWER_1_CORRECT) {
                 subLevelMode = SubLevelMode.AFTER_WRONG_ANSWER_2_CORRECT;
 
                 //zostajemy na tym samym sublevelu, mieszamy kolejność zdjęć
-
-                startRewardActivity();
+               /*
+               whichTry++;
+               speakerText = "Próba numer " + whichTry;
+                if (whichTry >3)
+                    speakerText = "Kolejna próba";
+                Speaker.getInstance(MainActivity.this).speak(speakerText);
+                */
                 reorder_image();
+                startRewardActivity();
+                whichTry++;
+                intent.putExtra("whichTry",whichTry);
+               /* whichTry++;
+                speakerText = "Próba numer " + whichTry;
+                if (whichTry >3)
+                    speakerText = "Kolejna próba";
+
+                Speaker.getInstance(MainActivity.this).speak(speakerText);*/
                 startTimer(level);
+
             }
 
             System.out.println("Aktualny sublevel mode:  B " + subLevelMode);
@@ -571,11 +664,17 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         } else { //jesli nie wybrano wlasciwej
             //wczesniej było z IFem i również liczyło po jednej nieprawidłowej, teraz będzie liczyć każdą nieprawidłową
-            setAttempt(1);
+            attempt = 1;
             subLevelMode= SubLevelMode.AFTER_WRONG_ANSWER;
+        /*    whichTry++;
+            if (whichTry >3)
+                speakerText = "Kolejna próba";
+            speakerText = "Próba numer " + whichTry;
+            Speaker.getInstance(MainActivity.this).speak(speakerText);*/
             System.out.println("zla odpowiedz, sublevel mode: " + subLevelMode);
 timer.cancel();
 startTimer(level);
+
 //setLayoutMargins(image_selected,45/listSize,45/listSize,(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 790 / listSize, getResources().getDisplayMetrics()));
             wrongAnswers++;
             wrongAnswersSublevel++;
@@ -591,8 +690,22 @@ startTimer(level);
         if (!findNextActiveLevel()) {
             startEndActivity(true);
         } else {
-
+           /* Intent intent = new Intent(MainActivity.this,Blank.class);
+            startActivity(intent);*/
             generateView(photosToUseInSublevel);
+/*
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+
+
+                }
+            }, 600);
+*/
+
+
+
             //hideImages();
             System.out.println("Wygenerowano view");
         }
@@ -713,14 +826,6 @@ startTimer(level);
         }
 
         Intent intentReward = new Intent(MainActivity.this, RewardAndHintActivity.class);
-        if (level.getQuestionType().equals(Level.Question.SHOW_WHERE_IS_EMOTION_NAME))
-            commandText = getResources().getString(R.string.reward_complex);
-        else if (level.getQuestionType().equals(Level.Question.SHOW_EMOTION_NAME))
-            commandText = ", ";
-        else if (level.getQuestionType().equals(Level.Question.EMOTION_NAME))
-            commandText = ", ";
-
-        intentReward.putExtra("praise", commandText);
 
         String rightEmotion = goodAnswer.replace(".jpg", "").replaceAll("[0-9.]", "").replaceAll("_r_", "").replaceAll("_e_","");
         String emotion = getResources().getString(getResources().getIdentifier("emotion_" + rightEmotion, "string", getPackageName()));
@@ -792,18 +897,27 @@ startTimer(level);
 
     public void StartTimerForTest(final Level l) {
         //timer! seconds * 1000
+
+
         final TextView timeToAnswer = (TextView) findViewById(R.id.timeToAnswer);
-        timeToAnswer.setText(getString(R.string.timeToAnswer) + " " + l.getTimeLimitInTest() + "s / " + l.getTimeLimitInTest() + "s");
+        //timeToAnswer.setText(getString(R.string.timeToAnswer) + " " + l.getTimeLimitInTest() + "s / " + l.getTimeLimitInTest() + "s");
         timer = new CountDownTimer(l.getTimeLimitInTest() * 1000, 1000) {
 
+
             public void onTick(long millisUntilFinished) {
-                timeToAnswer.setText(getString(R.string.timeToAnswer) + " " + (millisUntilFinished / 1000) + "s / " + l.getTimeLimitInTest() + "s");
+                //timeToAnswer.setText(getString(R.string.timeToAnswer) + " " + (millisUntilFinished / 1000) + "s / " + l.getTimeLimitInTest() + "s");
+
             }
 
             public void onFinish() {
+
+
                 View badAnswer = new View(getApplicationContext());
                 badAnswer.setId(0);
                 onClickTestMode(badAnswer, true);
+                speakerText = "Próba numer jeden";
+                Speaker.getInstance(MainActivity.this).speak(speakerText);
+
             }
         }.start();
     }

@@ -202,8 +202,8 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        //Button smile = (Button) findViewById(R.id.uruchomSmileButton);
         Button smile = (Button) findViewById(R.id.uruchomSmileButton);
+        //ImageView smile = (ImageView) findViewById(R.id.smile);
         smile.setOnClickListener(new View.OnClickListener() {
 
             @Override
