@@ -49,7 +49,7 @@ import static pg.autyzm.przyjazneemocje.lib.SqliteManager.getInstance;
 public class LevelConfigurationActivity extends AppCompatActivity {
 
 
-    public static final int MATERIAL_FOR_TEST_DATA = 0;
+    public    static final int MATERIAL_FOR_TEST_DATA = 0;
 
     ArrayList<CheckboxGridBean> praiseList = new ArrayList<>();
    private Level level = Level.defaultLevel(); //???
@@ -216,10 +216,7 @@ public class LevelConfigurationActivity extends AppCompatActivity {
 
         checkBox = (CheckBox) findViewById(R.id.obramuj);
 
-        if (getLevel().isIs_default()) {
-            checkBox.setChecked(true);
 
-        }
 
         if ((1 & getLevel().getHintTypesAsNumber()) == 1) {
             checkBox.setChecked(true);
@@ -233,6 +230,7 @@ public class LevelConfigurationActivity extends AppCompatActivity {
         } else {
             checkBox.setChecked(false);
         }
+
 
         checkBox = (CheckBox) findViewById(R.id.porusz);
         if ((4 & getLevel().getHintTypesAsNumber()) == 4) {
@@ -652,6 +650,7 @@ public class LevelConfigurationActivity extends AppCompatActivity {
                 } else {
                     findViewById(R.id.button_prev).setVisibility(View.VISIBLE);
                 }
+                findViewById(R.id.button_save).setVisibility(View.VISIBLE);
                 ImageButton button = (ImageButton) findViewById(R.id.button_next);
                 ImageView savingButton = (ImageView) findViewById(R.id.button_save);
                 if ("tab5_save".equals(tab)) {
@@ -801,7 +800,7 @@ public class LevelConfigurationActivity extends AppCompatActivity {
                 CheckBox checkbox3 = (CheckBox) findViewById(R.id.point);
                 CheckBox checkbox4 = (CheckBox) findViewById(R.id.touch);
                 CheckBox checkbox5 = (CheckBox) findViewById(R.id.find);
-                if (i == 0) {
+                if (i == 0 || i ==1) {
                     checkbox1.setVisibility(View.INVISIBLE);
                     checkbox2.setVisibility(View.INVISIBLE);
                     checkbox3.setVisibility(View.INVISIBLE);
