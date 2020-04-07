@@ -56,7 +56,7 @@ public class RewardAndHintActivity extends Activity {
             commandPraise = praiseList.get(position);
         }
 
-        String speakerText = commandPraise +"! "+ emotion;
+        String speakerText = commandPraise +", "+ emotion;
 
         if (hintMode) {
             rewardAndHintLayout.setBackgroundColor(getResources().getColor(R.color.background_center));
@@ -84,6 +84,7 @@ public class RewardAndHintActivity extends Activity {
         if (!hintMode) correctPhoto.startAnimation(zoom);
         Speaker.getInstance(RewardAndHintActivity.this).speak(speakerText);
         hintMode = false;
+
         new CountDownTimer(time, 1) {
 
             public void onTick(long millisUntilFinished) {
@@ -92,10 +93,8 @@ public class RewardAndHintActivity extends Activity {
             }
 
             public void onFinish() {
-                finish();
-            /*    Intent intent = getIntent();
-                int whichTry = intent.getIntExtra("whichTry",1);
-                Speaker.getInstance(RewardAndHintActivity.this).speak("Próbeczka numer " + whichTry);*/
+
+         finish();
 
             }
         }.start();
