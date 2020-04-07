@@ -261,6 +261,7 @@ int whichTry = 1;
 
         // z tego co rozumiem w photosList powinny byc name wszystkich zdjec, jakie maja sie pojawic w lvl (czyli - 3 pozycje)
 
+
         if (level.isLearnMode()) {
             startTimer(level);
         } else if (level.isTestMode()) {
@@ -352,40 +353,33 @@ int whichTry = 1;
                 if ((commandTypes & CommandTypeValue(CommandType.TOUCH)) == CommandTypeValue(CommandType.TOUCH)) {
                     if (level.getQuestionType().equals(Level.Question.SHOW_WHERE_IS_EMOTION_NAME))
                         commandsSelected.add(getResources().getString(R.string.touch_where));
-                    else if (level.getQuestionType().equals(Level.Question.SHOW_EMOTION_NAME))
-                        commandsSelected.add(getResources().getString(R.string.touch));
 
                 }
                 //checkbox:1
                 if ((commandTypes & CommandTypeValue(CommandType.SHOW)) == CommandTypeValue(CommandType.SHOW)) {
                     if (level.getQuestionType().equals(Level.Question.SHOW_WHERE_IS_EMOTION_NAME))
                         commandsSelected.add(getResources().getString(R.string.show_where));
-                    else if (level.getQuestionType().equals(Level.Question.SHOW_EMOTION_NAME))
-                        commandsSelected.add(getResources().getString(R.string.show));
                 }
 
                 //checkbox: 4
                 if ((commandTypes & CommandTypeValue(CommandType.SHOW)) == CommandTypeValue(CommandType.POINT)) {
                     if (level.getQuestionType().equals(Level.Question.SHOW_WHERE_IS_EMOTION_NAME))
                         commandsSelected.add(getResources().getString(R.string.point_where));
-                    else if (level.getQuestionType().equals(Level.Question.SHOW_EMOTION_NAME))
-                        commandsSelected.add(getResources().getString(R.string.point));
+
                 }
 
                 //checkbox:2
                 if ((commandTypes & CommandTypeValue(CommandType.SELECT)) == CommandTypeValue(CommandType.SELECT)) {
                     if (level.getQuestionType().equals(Level.Question.SHOW_WHERE_IS_EMOTION_NAME))
                         commandsSelected.add(getResources().getString(R.string.select_where));
-                    else if (level.getQuestionType().equals(Level.Question.SHOW_EMOTION_NAME))
-                        commandsSelected.add(getResources().getString(R.string.select));
+
 
                 }
                 //checkbox: 16
                 if ((commandTypes & CommandTypeValue(CommandType.FIND)) == CommandTypeValue(CommandType.FIND)) {
                     if (level.getQuestionType().equals(Level.Question.SHOW_WHERE_IS_EMOTION_NAME))
                         commandsSelected.add(getResources().getString(R.string.find_where));
-                    else if (level.getQuestionType().equals(Level.Question.SHOW_EMOTION_NAME))
-                        commandsSelected.add(getResources().getString(R.string.find));
+
 
                 }
 
@@ -404,8 +398,11 @@ int whichTry = 1;
                 commandText = commandsToChoose[(int) Math.floor(Math.random() * (size))] + " " + rightEmotionLang;
 
             }
-            else
+            else if (level.getQuestionType().equals(Level.Question.SHOW_EMOTION_NAME)) {
+                commandText = getResources().getString(R.string.show) + rightEmotionLang;
+            } else if (level.getQuestionType().equals(Level.Question.EMOTION_NAME)) {
                 commandText = rightEmotionLang;
+            }
             /*commandIntent.putExtra("emotion",rightEmotionLang);
             commandIntent.putExtra("command",commandText);
             startActivity(commandIntent);*/
@@ -558,27 +555,26 @@ int whichTry = 1;
         if (v.getId() == 1) {
             //wybór prawidłowego zdjęcia
             //sublevelsLeft--;
+            whichTry = 1;
+            selected_image_unzoom();
             if (getAttempt() == 0) {
                 rightAnswers++;
                 attempt = 1;
-                if (subLevelMode == SubLevelMode.AFTER_WRONG_ANSWER_1_CORRECT)
+                if (subLevelMode == SubLevelMode.AFTER_WRONG_ANSWER_1_CORRECT) {
+                    selected_image_unzoom();
+                    setLayoutMargins(image_selected,45/listSize,45/listSize,(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 790 / listSize, getResources().getDisplayMetrics()));
                     attempt = 2;
+                }
+
 
             }
             ///TODO tata gra
             rightAnswersSublevel++;
 
             timer.cancel();
-
             clear_efects_on_all_images();
-/*            whichTry++;
-            speakerText = "Próba numer " + whichTry;
-            if (whichTry >3)
-                speakerText = "Kolejna próba";*/
 
-            //startTimer(level);
 
-            //image_grey_out(image,false);
 
 
             boolean correctness = true;
@@ -591,38 +587,30 @@ int whichTry = 1;
                 //usunelamteraz startTimer(level);
                 sublevelsLeft--;
                 startRewardActivity();
-                whichTry++;
-                intent.putExtra("whichTry",whichTry);
-             /*   whichTry++;
-                speakerText = "Próba numer " + whichTry;
-                if (whichTry >3)
-                    speakerText = "Kolejna próba";*/
+
 
 
             }
             else if (subLevelMode == SubLevelMode.AFTER_WRONG_ANSWER) {
                 subLevelMode = SubLevelMode.AFTER_WRONG_ANSWER_1_CORRECT;
                 // zostajemy na tym samym subLevelu
-                /*if (attempt ==2) {*/
-               /* whichTry++;
-                speakerText = "Próba numer " + whichTry;
-                if (whichTry >3)
-                    speakerText = "Kolejna próba";
-                Speaker.getInstance(MainActivity.this).speak(speakerText);*/
+
                 startHintActivity();
-                whichTry++;
-                intent.putExtra("whichTry",whichTry);
-              /*  whichTry++;
-                speakerText = "Próba numer " + whichTry;
-                if (whichTry >3)
-                    speakerText = "Kolejna próba";
+                Handler handler2 = new Handler();
+                handler2.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
 
-Speaker.getInstance(MainActivity.this).speak(speakerText);*/
-               /*     startTimer(level);
-                } else
-                    startRewardActivity();
+                        selected_image_unzoom();
 
-            */
+                        clear_efects_on_all_images();
+                        whichTry = 1;
+
+                    }
+                }, 200);
+                timer.cancel();
+                startTimer(level);
+
 
             }
             else if (subLevelMode == SubLevelMode.AFTER_WRONG_ANSWER_1_CORRECT) {
@@ -636,9 +624,46 @@ Speaker.getInstance(MainActivity.this).speak(speakerText);*/
                     speakerText = "Kolejna próba";
                 Speaker.getInstance(MainActivity.this).speak(speakerText);
                 */
-                reorder_image();
+
                 startRewardActivity();
-                whichTry++;
+                Handler handler2 = new Handler();
+                handler2.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+
+
+
+                        timer.cancel();
+                        clear_efects_on_all_images();
+
+
+
+                    }
+                }, 200);
+                reorder_image();
+
+
+
+
+       /*         Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+
+
+                    }
+                }, 300);*/
+
+
+
+
+
+
+
+
+                startTimer(level);
+
+
                 intent.putExtra("whichTry",whichTry);
                /* whichTry++;
                 speakerText = "Próba numer " + whichTry;
@@ -646,7 +671,7 @@ Speaker.getInstance(MainActivity.this).speak(speakerText);*/
                     speakerText = "Kolejna próba";
 
                 Speaker.getInstance(MainActivity.this).speak(speakerText);*/
-                startTimer(level);
+
 
             }
 
@@ -672,12 +697,20 @@ Speaker.getInstance(MainActivity.this).speak(speakerText);*/
             speakerText = "Próba numer " + whichTry;
             Speaker.getInstance(MainActivity.this).speak(speakerText);*/
             System.out.println("zla odpowiedz, sublevel mode: " + subLevelMode);
-timer.cancel();
-startTimer(level);
+
+            if (whichTry !=3) {
+             /*   timer.cancel();
+                selected_image_unzoom();
+
+                startTimer(level);*/
+            }
 
 //setLayoutMargins(image_selected,45/listSize,45/listSize,(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 790 / listSize, getResources().getDisplayMetrics()));
             wrongAnswers++;
             wrongAnswersSublevel++;
+            if (whichTry != 3)
+                timer.onFinish();
+            whichTry = 3;
             //ANIANOWEWIDOKI dodałam ifa:
         /*if (!isFirstWrong())
             sublevelsLeft--;
@@ -690,9 +723,28 @@ startTimer(level);
         if (!findNextActiveLevel()) {
             startEndActivity(true);
         } else {
-           /* Intent intent = new Intent(MainActivity.this,Blank.class);
+            if (level.isTestMode()) {
+          /* Intent intent = new Intent(MainActivity.this,Blank.class);
             startActivity(intent);*/
-            generateView(photosToUseInSublevel);
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        generateView(photosToUseInSublevel);
+                    }
+                }, 500);
+            } else {
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        generateView(photosToUseInSublevel);
+                    }
+                }, 300);
+            }
+        }
 /*
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
@@ -708,7 +760,6 @@ startTimer(level);
 
             //hideImages();
             System.out.println("Wygenerowano view");
-        }
     }
 
     boolean checkCorrectness() {
@@ -797,9 +848,14 @@ startTimer(level);
     }
 
     private void startHintActivity() {
+
+
         if (speaker == null) {
             speaker = Speaker.getInstance(MainActivity.this);
         }
+
+        timer.cancel();
+        selected_image_unzoom();
         String rightEmotion = goodAnswer.replace(".jpg", "").replaceAll("[0-9.]", "").replaceAll("_r_", "").replaceAll("_e_","");
         String emotion = getResources().getString(getResources().getIdentifier("emotion_" + rightEmotion, "string", getPackageName()));
         Intent intentHint = new Intent(MainActivity.this, RewardAndHintActivity.class);
@@ -817,7 +873,11 @@ startTimer(level);
         String fileName = (path.toString() + photoName + ".jpg");
 
         intentHint.putExtra("fileName", fileName);
-        startActivityForResult(intentHint,10);
+        startActivity(intentHint);
+        clear_efects_on_all_images();
+        selected_image_unzoom();
+
+
     }
 
     private void startRewardActivity() {
@@ -917,6 +977,7 @@ startTimer(level);
                 onClickTestMode(badAnswer, true);
                 speakerText = "Próba numer jeden";
                 Speaker.getInstance(MainActivity.this).speak(speakerText);
+                whichTry = 3;
 
             }
         }.start();
@@ -960,8 +1021,9 @@ startTimer(level);
         Animation zooming;
         zooming = AnimationUtils.loadAnimation(this, R.anim.zoom);
         zooming.scaleCurrentDuration(1.05f);
-        image.startAnimation(zooming);
         image.hasOverlappingRendering();
+        image.startAnimation(zooming);
+
 
 
 
@@ -971,9 +1033,9 @@ startTimer(level);
         Animation unzooming;
 
         if (image_selected != null) {
-            //setLayoutMargins(image_selected,45/listSize,45/listSize,(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 790 / listSize, getResources().getDisplayMetrics()));
+            setLayoutMargins(image_selected,45/listSize,45/listSize,(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 790 / listSize, getResources().getDisplayMetrics()));
             unzooming = AnimationUtils.loadAnimation(this, R.anim.unzoom);
-            unzooming.scaleCurrentDuration(1);
+            unzooming.scaleCurrentDuration(0);
             image_selected.startAnimation(unzooming);
 
 
@@ -1013,11 +1075,11 @@ startTimer(level);
 
         if (choose == 0) {
             swapRight();
-            //System.out.println("swapping RIGHT");
+            System.out.println("swapping RIGHT");
         }
         if (choose == 1) {
             swapLeft();
-            //System.out.println("swapping LEFT");
+            System.out.println("swapping LEFT");
         }
 
     }
@@ -1034,7 +1096,7 @@ startTimer(level);
 
     private void swapLeft() {
         int size = photosToUseInSublevel.size();
-        for (int i = 1; i < size; i++) {
+        for (int i = 1; i < size-1; i++) {
 
             Collections.swap(photosToUseInSublevel,i,i-1);
             //System.out.println("!!!!!!!!!!PHOTOS SUBLEVEL: " + photosToUseInSublevel);
@@ -1061,50 +1123,51 @@ startTimer(level);
                     ColorMatrix matrix = new ColorMatrix();
                     matrix.setSaturation((float) 0.1);
                     ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
+if (whichTry != 3) {
+    final int childcount = imagesLinear.getChildCount();
+    for (int i = 0; i < childcount; i++) {
+        ImageView image = (ImageView) imagesLinear.getChildAt(i);
+        //eeee zmienilam 1 na 0
+        if (l.isLearnMode()) {
 
-                    final int childcount = imagesLinear.getChildCount();
-                    for (int i = 0; i < childcount; i++) {
-                        ImageView image = (ImageView) imagesLinear.getChildAt(i);
-                        //eeee zmienilam 1 na 0
-                        if (l.isLearnMode()) {
+            //FRAME,ENLARGE,MOVE,GREY_OUT
+            if (image.getId() != 1) {
+                if ((hintTypes & HintTypeValue(HintType.GREY_OUT)) == HintTypeValue(HintType.GREY_OUT)) {
+                    image_grey_out(image, true);
+                }
+            } else {
 
-                            //FRAME,ENLARGE,MOVE,GREY_OUT
-                            if (image.getId() != 1) {
-                                if ((hintTypes & HintTypeValue(HintType.GREY_OUT)) == HintTypeValue(HintType.GREY_OUT) )
-                                {
-                                    image_grey_out(image, true);
-                                }
-                            } else {
+                if ((hintTypes & HintTypeValue(HintType.FRAME)) == HintTypeValue(HintType.FRAME)) {
+                    image_frame(image, true);
+                }
+                if ((hintTypes & HintTypeValue(HintType.MOVE)) == HintTypeValue(HintType.MOVE)) {
+                    Animation shake = AnimationUtils.loadAnimation(currentContext, R.anim.shake);
+                    image.startAnimation(shake);
+                }
+                if ((hintTypes & HintTypeValue(HintType.ENLARGE)) == HintTypeValue(HintType.ENLARGE)) {
 
-                                if ((hintTypes & HintTypeValue(HintType.FRAME)) == HintTypeValue(HintType.FRAME)) {
-                                    image_frame(image, true);
-                                }
-                                if ((hintTypes & HintTypeValue(HintType.MOVE)) == HintTypeValue(HintType.MOVE)) {
-                                    Animation shake = AnimationUtils.loadAnimation(currentContext, R.anim.shake);
-                                    image.startAnimation(shake);
-                                }
-                                if ((hintTypes & HintTypeValue(HintType.ENLARGE)) == HintTypeValue(HintType.ENLARGE)) {
-
-                                //setLayoutMargins(image,15,15,(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 790 / listSize, getResources().getDisplayMetrics()));
+                    //setLayoutMargins(image,15,15,(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 790 / listSize, getResources().getDisplayMetrics()));
                                    /* if (photosToUseInSublevel.size() == 1) {
                                         lp = new LinearLayout.LayoutParams(420, 420);
 
                                         lp.setMargins(30,50,30,30);
                                     }*/
-                                    image.hasOverlappingRendering();
-                                    image_zoom(image);
+
+                    image_zoom(image);
 
 
-                                   // image.hasOverlappingRendering();
+                    // image.hasOverlappingRendering();
 
 
-                                }
-                            }
+                }
+            }
 
-                        }
-                    }
-                    timeout++;
-                    timeoutSubLevel++;
+        }
+    }
+    timeout++;
+    timeoutSubLevel++;
+    whichTry = 3;
+}
                 }
             }.start();
 
