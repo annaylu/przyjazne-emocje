@@ -108,18 +108,22 @@
         android:layout_toRightOf="@+id/imageView"
         app:srcCompat="@drawable/country_flag_en" />
 
-    <ImageView
+    <Button
         android:id="@+id/uruchomSmileButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/textView9"
+        android:layout_above="@+id/deafultLevelsBtn"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="0dp"
-        android:layout_marginBottom="50dp"
-        android:background="@drawable/smile"
-        android:maxHeight="20dp" />
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/custom_button"
+        android:maxHeight="20dp"
+        android:text="@string/app"
+        android:textAlignment="center"
+        android:textColor="#3F51B5"
+        android:textStyle="bold" />
 
     <ImageButton
         android:id="@+id/button_take_photo"
@@ -141,16 +145,14 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/deafultLevelsBtn"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="3dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginBottom="3dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="70dp"
+        android:layout_marginBottom="10dp"
         android:layout_toStartOf="@+id/uruchomSmileButton"
         android:layout_toEndOf="@+id/imageView2"
-        android:maxWidth="40dp"
-        android:maxHeight="30dp"
-        android:minWidth="40dp"
-        android:minHeight="30dp" />
+        android:maxWidth="25dp"
+        android:maxHeight="15dp" />
 
     <Spinner
         android:id="@+id/spinner_emotions"
