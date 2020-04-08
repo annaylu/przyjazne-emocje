@@ -2,6 +2,8 @@
 <string name="app_name">Gra Przyjazne Emocje</string>
     <string name="label_show_emotion_short">Pokaż</string>
     <string name="label_show_emotion">Pokaż, gdzie jest</string>
+    <string name="proba2">Próba numer dwa</string>
+    <string name="proba3">Próba number trzy</string>
 
     <string name="label_congratulations">Gratulacje!</string>
     <string name="label_rightAnswers">Poprawne odpowiedzi:</string>
@@ -64,6 +66,8 @@
         <item>Wybierz</item>
 
     </string-array>
+
+    <string name="first_try">Próba numer jeden</string>
 
     <string name="show_where">Pokaż gdzie jest </string>
 <string name="find_where">  Znajdź gdzie jest</string>

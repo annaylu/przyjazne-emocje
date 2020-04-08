@@ -2,6 +2,10 @@
     <string name="app_name">Frendly Emotions - Game</string>
     <string name="label_show_emotion">Choose which is</string>
     <string name="label_show_emotion_short">Choose</string>
+
+    <string name="proba2">Attempt number too</string>
+    <string name="proba3">Attempt number three</string>
+
     <string name="label_congratulations">Congratulations!</string>
     <string name="label_rightAnswers">Right answers:</string>
     <string name="label_wrongAnswers">Wrong answers:</string>
@@ -52,6 +56,8 @@
     <string name="touch">Touch</string>
     <string name="point">Point </string>
     <string name="select">Select</string>
+
+    <string name="first_try">Attempt number one</string>
 
     <string-array name="praise_array">
         <item>good</item>

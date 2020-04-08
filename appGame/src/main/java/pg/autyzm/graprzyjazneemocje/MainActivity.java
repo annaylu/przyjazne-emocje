@@ -268,9 +268,9 @@ int whichTry = 1;
             startTimer(level);
         } else if (level.isTestMode()) {
 
-            Intent intent = new Intent(MainActivity.this,Blank.class);
-            startActivity(intent);
-            speakerText = "Próba numer jeden";
+            /*Intent intent = new Intent(MainActivity.this,Blank.class);
+            startActivity(intent);*/
+            speakerText = getResources().getString(R.string.first_try);
             Speaker.getInstance(MainActivity.this).speak(speakerText);
             StartTimerForTest(level);
         }
@@ -346,7 +346,7 @@ int whichTry = 1;
 
             System.out.println("levelQuestionType " + level.getQuestionType());
             System.out.println("ANIAAA EMOTION_NAME " + Level.Question.EMOTION_NAME);*/
-            if (level.getQuestionType() != Level.Question.EMOTION_NAME && level.getQuestionType() != Level.Question.SHOW_EMOTION_NAME) {
+
                 if (level.getQuestionType().equals(Level.Question.SHOW_WHERE_IS_EMOTION_NAME)) {
                     final int commandTypes = level.getCommandTypesAsNumber();
                 /*System.out.println("commanDtypes: " + commandTypes);
@@ -408,7 +408,7 @@ int whichTry = 1;
             startActivity(commandIntent);*/
                 txt.setText(commandText);
                 System.out.println("!!!!!!!!!!!!!! " + commandText);
-            }
+
 
         }
 
@@ -472,6 +472,8 @@ int whichTry = 1;
 
     public void onClickTestMode(View v, boolean endTimer) {
         int x;
+        String proba2 = getResources().getString(R.string.proba2);
+        String proba3 = getResources().getString(R.string.proba3);
         if (v.getId() == 1) {
             sublevelsLeft--;
 
@@ -505,7 +507,10 @@ int whichTry = 1;
                 timeoutSubLevel++;
                 x = wrongAnswersSublevel + 1;
                 if (x<=3) {
-                    speakerText = "Próba numer " + x;
+if (x == 2)
+                    speakerText = proba2;
+if (x == 3)
+    speakerText = proba3;
                     Speaker.getInstance(MainActivity.this).speak(speakerText);
                 }
             }
@@ -521,7 +526,10 @@ int whichTry = 1;
                 //Toast.makeText(getApplicationContext(), "Odpowiedź nieprawidłowa\nSpróbuj ponownie.", Toast.LENGTH_LONG).show();
                 x = wrongAnswersSublevel + 1;
                 if (x<=3) {
-                    speakerText = "Próba numer " + x;
+                    if (x == 2)
+                        speakerText = proba2;
+                    if (x == 3)
+                        speakerText = proba3;
                     Speaker.getInstance(MainActivity.this).speak(speakerText);
                 }
                 timer.start();
@@ -533,7 +541,10 @@ int whichTry = 1;
                 timer.start();
                 x = wrongAnswersSublevel + 1;
                 if (x<=3) {
-                    speakerText = "Próba numer " + x;
+                    if (x == 2)
+                        speakerText = proba2;
+                    if (x == 3)
+                        speakerText = proba3;
                     Speaker.getInstance(MainActivity.this).speak(speakerText);
                 }
                 timer.start();
@@ -598,18 +609,20 @@ int whichTry = 1;
                 // zostajemy na tym samym subLevelu
 
                 startHintActivity();
-                Handler handler2 = new Handler();
+                clear_efects_on_all_images();
+                whichTry = 1;
+     /*      Handler handler2 = new Handler();
                 handler2.postDelayed(new Runnable() {
                     @Override
                     public void run() {
 
-                        selected_image_unzoom();
 
-                        clear_efects_on_all_images();
-                        whichTry = 1;
+
 
                     }
-                }, 300);
+                }, 150);*/
+
+
                 timer.cancel();
                 startTimer(level);
 
@@ -627,52 +640,29 @@ int whichTry = 1;
                 Speaker.getInstance(MainActivity.this).speak(speakerText);
                 */
 
+
+
+
+
                 startRewardActivity();
-                Handler handler2 = new Handler();
-                handler2.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
+
+                clear_efects_on_all_images();
 
 
 
-                        timer.cancel();
-                        clear_efects_on_all_images();
-
-
-
-                    }
-                }, 350);
-                reorder_image();
-
-
-
-
-       /*         Handler handler = new Handler();
+/*
+          Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
 
 
                     }
-                }, 300);*/
+                }, 50);*/
 
-
-
-
-
-
-
-
+                timer.cancel();
                 startTimer(level);
-
-
-                intent.putExtra("whichTry",whichTry);
-               /* whichTry++;
-                speakerText = "Próba numer " + whichTry;
-                if (whichTry >3)
-                    speakerText = "Kolejna próba";
-
-                Speaker.getInstance(MainActivity.this).speak(speakerText);*/
+                reorder_image();
 
 
             }
@@ -737,14 +727,15 @@ int whichTry = 1;
                     }
                 }, 500);
             } else {
-                Handler handler = new Handler();
+                generateView(photosToUseInSublevel);
+                /*Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
 
-                        generateView(photosToUseInSublevel);
+
                     }
-                }, 300);
+                }, 300);*/
             }
         }
 /*
@@ -876,8 +867,7 @@ int whichTry = 1;
 
         intentHint.putExtra("fileName", fileName);
         startActivity(intentHint);
-        clear_efects_on_all_images();
-        selected_image_unzoom();
+
 
 
     }
@@ -977,8 +967,8 @@ int whichTry = 1;
                 View badAnswer = new View(getApplicationContext());
                 badAnswer.setId(0);
                 onClickTestMode(badAnswer, true);
-                speakerText = "Próba numer jeden";
-                Speaker.getInstance(MainActivity.this).speak(speakerText);
+                /*speakerText = getResources().getString(R.string.first_try);
+                Speaker.getInstance(MainActivity.this).speak(speakerText);*/
                 whichTry = 3;
 
             }
@@ -1077,7 +1067,6 @@ int whichTry = 1;
 
     public void reorder_image()
     {
-
         long choose = Math.round(Math.random());
 
         if (choose == 0) {
@@ -1087,8 +1076,7 @@ int whichTry = 1;
         if (choose == 1) {
             swapLeft();
             System.out.println("swapping LEFT");
-        }
-
+       }
     }
 
     private void swapRight() {
@@ -1096,6 +1084,7 @@ int whichTry = 1;
         for (int i = 0; i < size-1; i++) {
 
             Collections.swap(photosToUseInSublevel,i,i+1);
+            System.out.println("TRALALA i: " + i + " i+1 : " + (i+1) + "size " + size );
             //System.out.println("!!!!!!!!!!PHOTOS SUBLEVEL: " + photosToUseInSublevel);
         }
         generateView(photosToUseInSublevel);
@@ -1103,7 +1092,7 @@ int whichTry = 1;
 
     private void swapLeft() {
         int size = photosToUseInSublevel.size();
-        for (int i = 1; i < size-1; i++) {
+        for (int i = size-1; i > 0; i--) {
 
             Collections.swap(photosToUseInSublevel,i,i-1);
             //System.out.println("!!!!!!!!!!PHOTOS SUBLEVEL: " + photosToUseInSublevel);

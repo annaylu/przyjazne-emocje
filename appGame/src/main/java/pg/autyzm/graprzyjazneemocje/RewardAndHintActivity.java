@@ -85,6 +85,7 @@ public class RewardAndHintActivity extends Activity {
         Speaker.getInstance(RewardAndHintActivity.this).speak(speakerText);
         hintMode = false;
 
+
         new CountDownTimer(time, 1) {
 
             public void onTick(long millisUntilFinished) {

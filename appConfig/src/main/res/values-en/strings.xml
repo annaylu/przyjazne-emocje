@@ -191,7 +191,7 @@ _
 
     </string-array>
 
-    <string name="InPhoto">In the photo you will be:</string>
+    <string name="InPhoto">Emotion:</string>
 
     <string name="commandWarning">Choose at least one command type!</string>
     <string name="everyEmotionOnePhotoWarning">Choose at least one picture for each emotion!</string>
