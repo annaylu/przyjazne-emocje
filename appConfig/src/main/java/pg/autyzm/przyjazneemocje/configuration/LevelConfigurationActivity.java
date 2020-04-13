@@ -1,6 +1,7 @@
 package pg.autyzm.przyjazneemocje.configuration;
 
 import java.lang.StringBuilder;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -21,12 +22,14 @@ import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Dictionary;
 import java.util.Locale;
 
 import pg.autyzm.przyjazneemocje.LevelValidator;
@@ -37,7 +40,6 @@ import pg.autyzm.przyjazneemocje.View.CheckboxImageAdapter;
 import pg.autyzm.przyjazneemocje.View.GridCheckboxImageBean;
 import pg.autyzm.przyjazneemocje.adapter.LevelItem;
 import pg.autyzm.przyjazneemocje.lib.SqliteManager;
-import pg.autyzm.przyjazneemocje.lib.entities.Dictionary;
 import pg.autyzm.przyjazneemocje.lib.entities.Level;
 
 import static pg.autyzm.przyjazneemocje.lib.SqliteManager.getInstance;
@@ -49,10 +51,10 @@ import static pg.autyzm.przyjazneemocje.lib.SqliteManager.getInstance;
 public class LevelConfigurationActivity extends AppCompatActivity {
 
 
-    public    static final int MATERIAL_FOR_TEST_DATA = 0;
+    public static final int MATERIAL_FOR_TEST_DATA = 0;
 
     ArrayList<CheckboxGridBean> praiseList = new ArrayList<>();
-   private Level level = Level.defaultLevel(); //???
+    private Level level = Level.defaultLevel(); //???
 
 
     public int getCommandTypesAsNumber() {
@@ -164,9 +166,6 @@ public class LevelConfigurationActivity extends AppCompatActivity {
         commandChckBox = (CheckBox) findViewById(R.id.show);
 
 
-
-
-
         if ((1 & getLevel().getCommandTypesAsNumber()) == 1) {
             commandChckBox.setChecked(true);
         } else {
@@ -201,6 +200,13 @@ public class LevelConfigurationActivity extends AppCompatActivity {
         } else {
             commandChckBox.setChecked(false);
         }
+//one or different sexes below command
+        RadioButton plciOpcja1 = (RadioButton) findViewById(R.id.plci_opcja1);
+
+        RadioButton plciOpcja2 = (RadioButton) findViewById(R.id.plci_opcja2);
+
+        plciOpcja1.setChecked(!(getLevel().isOptionDifferentSexes()));
+        plciOpcja2.setChecked(getLevel().isOptionDifferentSexes());
 
         // should questin be read aloud checkbox
         CheckBox isShouldQuestionBeReadAloud = (CheckBox) findViewById(R.id.checkBox);
@@ -215,7 +221,6 @@ public class LevelConfigurationActivity extends AppCompatActivity {
         CheckBox checkBox;
 
         checkBox = (CheckBox) findViewById(R.id.obramuj);
-
 
 
         if ((1 & getLevel().getHintTypesAsNumber()) == 1) {
@@ -271,7 +276,7 @@ public class LevelConfigurationActivity extends AppCompatActivity {
             praisePositionOfCheckbox *= 2;
 
 
-    }
+        }
 
 
         updateGridPraise();
@@ -305,7 +310,7 @@ public class LevelConfigurationActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 level.setMaterialForTest(b);
-                if(b){
+                if (b) {
                     findViewById(R.id.materialForTestInfo).setVisibility(View.INVISIBLE);
                     findViewById(R.id.materialForTest).setVisibility(View.INVISIBLE);
                     findViewById(R.id.button_save).setVisibility(View.VISIBLE);
@@ -363,85 +368,84 @@ public class LevelConfigurationActivity extends AppCompatActivity {
         gatherInfoFromGUI();
         Level level = getLevel();
 
-         TextView LearnInfo = (TextView) findViewById(R.id.LearnInfo);
-         StringBuilder learnInfo = new StringBuilder();
-         //informacje.append(BLUE_COLOUR_OPEN).append(BOLD_OPEN).append("lalal").append(BLUE_COLOUR_CLOSE).append(BOLD_CLOSE).trimToSize();
+        TextView LearnInfo = (TextView) findViewById(R.id.LearnInfo);
+        StringBuilder learnInfo = new StringBuilder();
+        //informacje.append(BLUE_COLOUR_OPEN).append(BOLD_OPEN).append("lalal").append(BLUE_COLOUR_CLOSE).append(BOLD_CLOSE).trimToSize();
         //informacje.append(String.format("<font color=\"blue\">%s</font>","lalalala"));
 
-        learnInfo.append(("\n"+ getString(R.string.label1_material) + " " + level.getAmountOfEmotions()));
-        learnInfo.append("     "+ getString(R.string.label2_material) + " " + getEmotionsNameInLocalLang());
-        learnInfo.append("\n"+ getString(R.string.label0_material)+ " " + level.getPhotosOrVideosIdList().size());
-       learnInfo.append("\n"+ getString(R.string.label1_1_learning_ways) + " " + level.getPhotosOrVideosShowedForOneQuestion());
-        learnInfo.append("\n"+ getString(R.string.label1_2_learning_ways) + " " + level.getSublevelsPerEachEmotion());
-        learnInfo.append("\n"+ getString(R.string.label2_1_learning_ways)+ " " + getKindOfCommand( level.getQuestionType().toString()));
-        learnInfo.append("\n"+ getString(R.string.label2_2_learning_ways)+ " "  + yesOrNoLocalLanguage(level.isShouldQuestionBeReadAloud()));
-       learnInfo.append("\n"+ getString(R.string.label2_4_learning_ways)+ " " + level.getTimeLimit() + " " + getString(R.string.after_seconds));
-       learnInfo.append("\n"+ getString(R.string.label2_6_learning_ways)+ " " + getHintName());
+        learnInfo.append(("\n" + getString(R.string.label1_material) + " " + level.getAmountOfEmotions()));
+        learnInfo.append("     " + getString(R.string.label2_material) + " " + getEmotionsNameInLocalLang());
+        learnInfo.append("\n" + getString(R.string.label0_material) + " " + level.getPhotosOrVideosIdList().size());
+        learnInfo.append("\n" + getString(R.string.label1_1_learning_ways) + " " + level.getPhotosOrVideosShowedForOneQuestion());
+        learnInfo.append("\n" + getString(R.string.label1_2_learning_ways) + " " + level.getSublevelsPerEachEmotion());
+        learnInfo.append("\n" + getString(R.string.label2_1_learning_ways) + " " + getKindOfCommand(level.getQuestionType().toString()));
+        learnInfo.append("\n" + getString(R.string.label1_5_1) + " " + yesOrNoLocalLanguage(level.isOptionDifferentSexes()));
+        learnInfo.append("\n" + getString(R.string.label2_2_learning_ways) + " " + yesOrNoLocalLanguage(level.isShouldQuestionBeReadAloud()));
+        learnInfo.append("\n" + getString(R.string.label2_4_learning_ways) + " " + level.getTimeLimit() + " " + getString(R.string.after_seconds));
+        learnInfo.append("\n" + getString(R.string.label2_6_learning_ways) + " " + getHintName());
         //todo
-        learnInfo.append("\n"+ getString(R.string.label1_consolidation)+ " " + getPraises() + "\n");
+        learnInfo.append("\n" + getString(R.string.label1_consolidation) + " " + getPraises() + "\n");
 
-       //informacje.toString();
-       //String.format(,informacje);
+        //informacje.toString();
+        //String.format(,informacje);
 
         LearnInfo.setText(learnInfo);
         TextView TestInfo = (TextView) findViewById(R.id.TestInfo);
         StringBuilder testInfo = new StringBuilder();
-        testInfo.append("\n"+ getString(R.string.test_no_photos) + " " + level.getPhotosOrVideosIdListInTest().size());
-        testInfo.append("\n"+ getString(R.string.test_time_for_answer) + " " + level.getTimeLimitInTest() + " "  +getString(R.string.seconds));
-        testInfo.append("\n"+ getString(R.string.test_tries) + " " + level.getNumberOfTriesInTest());
+        testInfo.append("\n" + getString(R.string.test_no_photos) + " " + level.getPhotosOrVideosIdListInTest().size());
+        testInfo.append("\n" + getString(R.string.test_time_for_answer) + " " + level.getTimeLimitInTest() + " " + getString(R.string.seconds));
+        testInfo.append("\n" + getString(R.string.test_tries) + " " + level.getNumberOfTriesInTest());
         TestInfo.setText(testInfo);
     }
 
     public String getPraises() {
-        Dictionary dictionary = new Dictionary();
         String[] praises = getResources().getStringArray(R.array.praise_array);
         //String[] praises = dictionary.getAllPraises();
         int praisePositionBinary = 1;
         String result = "";
         int praiseBinary = getLevel().getPraisesBinary();
-        for (String praise: praises) {
+        for (String praise : praises) {
             if ((praisePositionBinary & praiseBinary) == praisePositionBinary) {
-                result=result+praise+", ";
+                result = result + praise + ", ";
             }
             praisePositionBinary++;
 
 
         }
-        if (result.length() == 0 ) return "Brak";
+        if (result.length() == 0) return "Brak";
 
-        result = result.substring(0,result.length()-2);
-        return  result;
+        result = result.substring(0, result.length() - 2);
+        return result;
 
     }
 
 
-
-    private String getKindOfCommand (String polecenie) {
+    private String getKindOfCommand(String polecenie) {
         switch (polecenie) {
             case "EMOTION_NAME":
                 return getResources().getStringArray(R.array.spinner_command)[0];
             case "SHOW_WHERE_IS_EMOTION_NAME":
                 return getResources().getStringArray(R.array.spinner_command)[2];
-            case "SHOW_EMOTION_NAME" :
+            case "SHOW_EMOTION_NAME":
                 return getResources().getStringArray(R.array.spinner_command)[1];
         }
         return "Polecenie nie zostało wybrane";
     }
 
     private String yesOrNoLocalLanguage(boolean word) {
-                if (word)
-                    return this.getString(R.string.yes);
-                else
-                    return this.getString(R.string.no);
+        if (word)
+            return this.getString(R.string.yes);
+        else
+            return this.getString(R.string.no);
     }
 
     private StringBuilder getEmotionsNameInLocalLang() {
         StringBuilder emotionName = new StringBuilder();
-        for (int i : level.getEmotions() ){
-            emotionName.append(getEmotionNameInLocalLanguage(i) + ", ") ;
+        for (int i : level.getEmotions()) {
+            emotionName.append(getEmotionNameInLocalLanguage(i) + ", ");
         }
         if (emotionName.length() == 0) emotionName.append("Brak wybranych emocji");
-        else emotionName.deleteCharAt(emotionName.length()-2);
+        else emotionName.deleteCharAt(emotionName.length() - 2);
         return emotionName;
     }
 
@@ -456,19 +460,18 @@ public class LevelConfigurationActivity extends AppCompatActivity {
     }
 
     /**
-    private void activateAddPraiseButton() {
-
-        Button button = (Button) findViewById(R.id.buttonAddPraise);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                final String newItem = ((TextView) findViewById(R.id.newPraise)).getText().toString();
-                praiseList.add(new CheckboxGridBean(newItem, true));
-                updateGridPraise();
-            }
-        });
-    }
-
+     * private void activateAddPraiseButton() {
+     * <p>
+     * Button button = (Button) findViewById(R.id.buttonAddPraise);
+     * button.setOnClickListener(new View.OnClickListener() {
+     *
+     * @Override public void onClick(View view) {
+     * final String newItem = ((TextView) findViewById(R.id.newPraise)).getText().toString();
+     * praiseList.add(new CheckboxGridBean(newItem, true));
+     * updateGridPraise();
+     * }
+     * });
+     * }
      */
 
     private void createGridPraise() {
@@ -478,7 +481,7 @@ public class LevelConfigurationActivity extends AppCompatActivity {
 
         for (String praise : praises) {
             praiseList.add(new CheckboxGridBean(praise, true));
-  //checkboxy nie wiadomo gdzie
+            //checkboxy nie wiadomo gdzie
             //System.out.println("pochwała: " + praise + " i: " + i);
         }
         updateGridPraise();
@@ -517,7 +520,7 @@ public class LevelConfigurationActivity extends AppCompatActivity {
         minusButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 int newValue = Integer.parseInt(textLabel.getText().toString()) - 1;
-                if(newValue > 0){
+                if (newValue > 0) {
                     textLabel.setText(Integer.toString(newValue));
                 }
             }
@@ -599,10 +602,9 @@ public class LevelConfigurationActivity extends AppCompatActivity {
         listView.setAdapter(adapter);
     }
 
-    private void updateSelectedEmotions(){
+    private void updateSelectedEmotions() {
         createDefaultStepName();
     }
-
 
 
     private void activeNumberEmotionPlusMinus() {
@@ -612,7 +614,7 @@ public class LevelConfigurationActivity extends AppCompatActivity {
         minusButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 int newValue = getLevel().getEmotions().size() - 1;
-                if(newValue > 0) {
+                if (newValue > 0) {
                     getLevel().deleteEmotion(newValue);
                     //System.out.println("!!activeNumberEmptionPlusMinus numer emocji: " + getLevel().lastEmotionNumber());
                     updateEmotionsGrid(getLevel().lastEmotionNumber());
@@ -625,7 +627,7 @@ public class LevelConfigurationActivity extends AppCompatActivity {
         final Button plusButton = (Button) findViewById(R.id.button_plus);
         plusButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                int numberOfEmotions=Integer.parseInt(nrEmotions.getText().toString());
+                int numberOfEmotions = Integer.parseInt(nrEmotions.getText().toString());
                 //TODO ograniczenie liczby dodawanych emocji
                 //System.out.println("CHCEMY DODAĆ EMOCJĘ newEmotionId" + numberOfEmotions);
                 if (numberOfEmotions < getAllEmotionsQuantity()) {
@@ -675,22 +677,23 @@ public class LevelConfigurationActivity extends AppCompatActivity {
                 CheckBox checkbox3 = (CheckBox) findViewById(R.id.point);
                 CheckBox checkbox4 = (CheckBox) findViewById(R.id.touch);
                 CheckBox checkbox5 = (CheckBox) findViewById(R.id.find);
+                RadioButton plciOpcja1 = (RadioButton) findViewById(R.id.plci_opcja1);
+                RadioButton plciOpcja2 = (RadioButton) findViewById(R.id.plci_opcja2);
                 /*System.out.println("1checkbox checked!!!!!!!!!!" + checkbox1.isChecked());
                 System.out.println(!(checkbox1.isChecked() ||  checkbox2.isChecked() || checkbox3.isChecked() || checkbox4.isChecked() || checkbox5.isChecked()));
                 System.out.println("material for test " + level.isMaterialForTest());*/
                 if (!levelValidator.everyEmotionHasAtLestOnePhoto()) {
                     Toast.makeText(LevelConfigurationActivity.this, R.string.everyEmotionOnePhotoWarning, Toast.LENGTH_LONG).show();
-                }
-                else if (!(checkbox1.isChecked() ||  checkbox2.isChecked() || checkbox3.isChecked() || checkbox4.isChecked() || checkbox5.isChecked()))
-                {
+                } else if (!(checkbox1.isChecked() || checkbox2.isChecked() || checkbox3.isChecked() || checkbox4.isChecked() || checkbox5.isChecked())) {
                     //System.out.println("2checkbox checked!!!!!!!!!!" + checkbox1.isChecked());
                     Toast.makeText(LevelConfigurationActivity.this, R.string.commandWarning, Toast.LENGTH_LONG).show();
-                } else if(level.isMaterialForTest()){
+                } else if (!(plciOpcja1.isChecked() || plciOpcja2.isChecked())){
+                    Toast.makeText(LevelConfigurationActivity.this, R.string.differentSexesWarning, Toast.LENGTH_LONG).show();
+                } else if (level.isMaterialForTest()) {
                     save();
-                } else if(level.getPhotosOrVideosIdListInTest().isEmpty()){
+                } else if (level.getPhotosOrVideosIdListInTest().isEmpty()) {
                     Toast.makeText(LevelConfigurationActivity.this, "Wybierz zdjecia dla trybu testowego", Toast.LENGTH_SHORT).show();
-                }
-                else {
+                } else {
 
                     save();
                 }
@@ -712,20 +715,20 @@ public class LevelConfigurationActivity extends AppCompatActivity {
 
         TabHost tabs = (TabHost) findViewById(R.id.tabHost);
 
-        if(tabs.getCurrentTab() == 4){
-            if(level.isMaterialForTest() ){
+        if (tabs.getCurrentTab() == 4) {
+            if (level.isMaterialForTest()) {
                 save();
-            } else if(level.getPhotosOrVideosIdListInTest().isEmpty()) {
+            } else if (level.getPhotosOrVideosIdListInTest().isEmpty()) {
                 Toast.makeText(LevelConfigurationActivity.this, "Wybierz zdjecia dla trybu testowego", Toast.LENGTH_LONG).show();
             } else {
                 save();
             }
-        }else{
+        } else {
             tabs.setCurrentTab(tabs.getCurrentTab() + 1);
         }
     }
 
-    void save(){
+    void save() {
 
         gatherInfoFromGUI();
         saveLevelToDatabaseAndShowLevelSavedText();
@@ -734,7 +737,7 @@ public class LevelConfigurationActivity extends AppCompatActivity {
     }
 
 
-    void saveLevelToDatabaseAndShowLevelSavedText(){
+    void saveLevelToDatabaseAndShowLevelSavedText() {
 
         SqliteManager sqlm = getInstance(this);
 
@@ -743,11 +746,11 @@ public class LevelConfigurationActivity extends AppCompatActivity {
         finish();
     }
 
-    private void showTextInformation(int intMessage){
+    private void showTextInformation(int intMessage) {
         showTextInformation(getResources().getString(intMessage));
     }
 
-    private void showTextInformation(String textMessage){
+    private void showTextInformation(String textMessage) {
 
         final TextView msg = (TextView) findViewById(R.id.status_info);
         msg.setText(textMessage);
@@ -760,7 +763,7 @@ public class LevelConfigurationActivity extends AppCompatActivity {
 
     }
 
-    void gatherInfoFromGUI(){
+    void gatherInfoFromGUI() {
         // 1 panel
 
         // save selected photos
@@ -778,7 +781,7 @@ public class LevelConfigurationActivity extends AppCompatActivity {
         Spinner spinner = (Spinner) findViewById(R.id.spinner_command);
         int spinnerPosition = spinner.getSelectedItemPosition();
 
-        switch(spinnerPosition){
+        switch (spinnerPosition) {
             case 0:
                 getLevel().setQuestionType(Level.Question.EMOTION_NAME);
                 break;
@@ -791,7 +794,6 @@ public class LevelConfigurationActivity extends AppCompatActivity {
         }
 
 
-
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -800,7 +802,7 @@ public class LevelConfigurationActivity extends AppCompatActivity {
                 CheckBox checkbox3 = (CheckBox) findViewById(R.id.point);
                 CheckBox checkbox4 = (CheckBox) findViewById(R.id.touch);
                 CheckBox checkbox5 = (CheckBox) findViewById(R.id.find);
-                if (i == 0 || i ==1) {
+                if (i == 0 || i == 1) {
                     checkbox1.setVisibility(View.INVISIBLE);
                     checkbox2.setVisibility(View.INVISIBLE);
                     checkbox3.setVisibility(View.INVISIBLE);
@@ -823,9 +825,18 @@ public class LevelConfigurationActivity extends AppCompatActivity {
 
             }
         });
+//should photos below command be of one sex or of both sexes
 
+        RadioButton plciOpcja1 = (RadioButton) findViewById(R.id.plci_opcja1);
+        if (plciOpcja1.isChecked())
+            getLevel().setOptionDifferentSexes(false);
+        RadioButton plciOpcja2 = (RadioButton) findViewById(R.id.plci_opcja2);
+        if (plciOpcja2.isChecked())
+            getLevel().setOptionDifferentSexes(true);
+
+        System.out.println("#########different sexes: " + level.isOptionDifferentSexes());
         // should questin be read aloud checkbox
-        CheckBox checkBox = (CheckBox)findViewById(R.id.checkBox);
+        CheckBox checkBox = (CheckBox) findViewById(R.id.checkBox);
         getLevel().setShouldQuestionBeReadAloud(checkBox.isChecked());
 
         TextView secondsToHint = (TextView) findViewById(R.id.time);
@@ -835,66 +846,65 @@ public class LevelConfigurationActivity extends AppCompatActivity {
         //commandTypes
 
         getLevel().setCommandTypesAsNumber(0); //yyyy co tu sie dzieje
-        checkBox = (CheckBox)findViewById(R.id.show);
-        if(checkBox.isChecked()){
+        checkBox = (CheckBox) findViewById(R.id.show);
+        if (checkBox.isChecked()) {
             getLevel().addCommandTypeAsNumber(1);
             //checkBox.setChecked(true); //anka
 
         }
 
-        checkBox = (CheckBox)findViewById(R.id.select);
-        if(checkBox.isChecked()){
+        checkBox = (CheckBox) findViewById(R.id.select);
+        if (checkBox.isChecked()) {
             getLevel().addCommandTypeAsNumber(2);
             //checkBox.setChecked(true); //anka
         }
 
-        checkBox = (CheckBox)findViewById(R.id.point);
-        if(checkBox.isChecked()){
+        checkBox = (CheckBox) findViewById(R.id.point);
+        if (checkBox.isChecked()) {
             getLevel().addCommandTypeAsNumber(4);
             //checkBox.setChecked(true); //anka
 
         }
 
-        checkBox = (CheckBox)findViewById(R.id.touch);
-        if(checkBox.isChecked()){
+        checkBox = (CheckBox) findViewById(R.id.touch);
+        if (checkBox.isChecked()) {
             getLevel().addCommandTypeAsNumber(8);
             //anka
         }
 
-        checkBox = (CheckBox)findViewById(R.id.find);
-        if(checkBox.isChecked()){
+        checkBox = (CheckBox) findViewById(R.id.find);
+        if (checkBox.isChecked()) {
             getLevel().addCommandTypeAsNumber(16);
             //anka
         }
-
 
 
         // hint types
 
 
         getLevel().setHintTypesAsNumber(0); //yyyy co tu sie dzieje
-        checkBox = (CheckBox)findViewById(R.id.obramuj);
-        if(checkBox.isChecked()){
+        checkBox = (CheckBox) findViewById(R.id.obramuj);
+        if (checkBox.isChecked()) {
             getLevel().addHintTypeAsNumber(1);
             //checkBox.setChecked(true); //anka
 
         }
 
-        checkBox = (CheckBox)findViewById(R.id.powieksz);
-        if(checkBox.isChecked()){
+        checkBox = (CheckBox) findViewById(R.id.powieksz);
+        if (checkBox.isChecked()) {
             getLevel().addHintTypeAsNumber(2);
             //checkBox.setChecked(true); //anka
         }
 
-        checkBox = (CheckBox)findViewById(R.id.porusz);
-        if(checkBox.isChecked()){
+        checkBox = (CheckBox) findViewById(R.id.porusz);
+        if (checkBox.isChecked()) {
             getLevel().addHintTypeAsNumber(4);
             //checkBox.setChecked(true); //anka
 
         }
 
-        checkBox = (CheckBox)findViewById(R.id.wyszarz);
-        if(checkBox.isChecked()){
+        checkBox = (CheckBox) findViewById(R.id.wyszarz);
+        if (checkBox.isChecked()) {
             getLevel().addHintTypeAsNumber(8);
             //anka
         }
@@ -904,7 +914,7 @@ public class LevelConfigurationActivity extends AppCompatActivity {
         // praises
         int praisePositionCheckbox = 1;
         getLevel().setPraiseBinaryTypesAsNumber(); //yyyy co tu sie dzieje
-        for(CheckboxGridBean objectItem : praiseList) {
+        for (CheckboxGridBean objectItem : praiseList) {
             if (objectItem.isChecked()) {
                 level.addPraiseBinaryTypesAsNumber(praisePositionCheckbox);
             }
@@ -929,14 +939,14 @@ public class LevelConfigurationActivity extends AppCompatActivity {
     }
 
 
-    public StringBuilder  getHintName() {
+    public StringBuilder getHintName() {
         StringBuilder str = new StringBuilder();
-        CheckBox []checkBoxList = {(CheckBox) findViewById(R.id.obramuj),
-                        (CheckBox) findViewById(R.id.wyszarz),
-                        (CheckBox) findViewById(R.id.powieksz),
-                        (CheckBox) findViewById(R.id.porusz) };
+        CheckBox[] checkBoxList = {(CheckBox) findViewById(R.id.obramuj),
+                (CheckBox) findViewById(R.id.wyszarz),
+                (CheckBox) findViewById(R.id.powieksz),
+                (CheckBox) findViewById(R.id.porusz)};
 
-        for (CheckBox ch:checkBoxList ) {
+        for (CheckBox ch : checkBoxList) {
             if (ch.isChecked()) {
                 str.append(ch.getText() + ";");
             }
@@ -946,8 +956,9 @@ public class LevelConfigurationActivity extends AppCompatActivity {
             str.deleteCharAt(str.length() - 1);
         return str;
     }
+
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == MATERIAL_FOR_TEST_DATA && resultCode == Activity.RESULT_OK) {
             level = (Level) data.getExtras().getSerializable("level");
             findViewById(R.id.button_save).setVisibility(View.VISIBLE);
@@ -968,8 +979,8 @@ public class LevelConfigurationActivity extends AppCompatActivity {
     }
 
     private String getResourceString(String resourceName) {
-       return getString(getResource(resourceName, "string"));
-       //return getResource(resourceName, "string") + "";
+        return getString(getResource(resourceName, "string"));
+        //return getResource(resourceName, "string") + "";
     }
 
     public Level getLevel() {
@@ -997,9 +1008,10 @@ public class LevelConfigurationActivity extends AppCompatActivity {
             return getLevel().getEmotions().get(n);
         }
 
-        public void addCommandTypeAsNumber(int newType){
+        public void addCommandTypeAsNumber(int newType) {
             setCommandTypesAsNumber(getCommandTypesAsNumber() + newType);
         }
+
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
             LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
@@ -1031,11 +1043,11 @@ public class LevelConfigurationActivity extends AppCompatActivity {
                     System.out.println("ANIA TATUŚ  I CAŁA RODZINKA ****** emotionList " + level.getEmotions());*/
                     if (getLevel().isEmotionNew(emotionSelectedId)) {
                         //System.out.println("ANIA TATUŚ  I CAŁA RODZINKA **** UPDATE WESZLIŚMY ");
-                       // updateEmotionsGrid(position);
+                        // updateEmotionsGrid(position);
                         getLevel().getEmotions().set(position, emotionSelectedId);
                         //position - który spiner, i - która emocja (licząc od 0)
 
-                } else {
+                    } else {
                         //System.out.println("ANIA TATUŚ  I CAŁA RODZINKA ****** UNDO " +  getLevel().getEmotions().get(position));
                         spinner.setSelection(getLevel().getEmotions().get(position));
                         /*else {
@@ -1047,7 +1059,6 @@ public class LevelConfigurationActivity extends AppCompatActivity {
                 }
 
 
-
                 @Override
                 public void onNothingSelected(AdapterView<?> adapterView) {
 
@@ -1057,25 +1068,21 @@ public class LevelConfigurationActivity extends AppCompatActivity {
             return convertView;
         }
     }
-//TODO może zrezygnować - przeniesiona do levelu
-    public void selectAllPictures(int newEmotionId){
-            SqliteManager sqlm = getInstance(this);
 
-            //Cursor cursor = sqlm.givePhotosWithEmotion(currentEmotionName);
-            Cursor cursor = sqlm.givePhotosWithEmotion(getEmotionNameinBaseLanguage(newEmotionId));
-            while (cursor.moveToNext()) {
-                getLevel().addPhoto(cursor.getInt(cursor.getColumnIndex("id")));
+    //TODO może zrezygnować - przeniesiona do levelu
+    public void selectAllPictures(int newEmotionId) {
+        SqliteManager sqlm = getInstance(this);
 
-                //aniadzisiaj System.out.println("aneczka cursor.getInt(0) " + cursor.getInt(0));
-            }
+        //Cursor cursor = sqlm.givePhotosWithEmotion(currentEmotionName);
+        Cursor cursor = sqlm.givePhotosWithEmotion(getEmotionNameinBaseLanguage(newEmotionId));
+        while (cursor.moveToNext()) {
+            getLevel().addPhoto(cursor.getInt(cursor.getColumnIndex("id")));
+
+            //aniadzisiaj System.out.println("aneczka cursor.getInt(0) " + cursor.getInt(0));
+        }
 
 
     }
-
-
-
-
-
 
 
 }

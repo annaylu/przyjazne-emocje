@@ -59,13 +59,18 @@ public class SqliteManager extends SQLiteOpenHelper {
 
 
         createTablesInDatabase();
+        addDefaultLanguages();
         addEmotionsToDatabase();
-addDefaultLevels();
-    }
+//addDefaultLevels();
 
-    private void addDefaultLevels() {
-        addLang(1, "pl", 1);
-        addLang(2, "en", 0);
+    }
+private void addDefaultLanguages() {
+    addLang(1, "pl", 1);
+    addLang(2, "en", 0);
+}
+    public void AddDefaultLevelsIfNeeded() {
+if (countAll("levels")  > 0)
+    return;
 //todo sprawdzicz czemu dodana liczba zdjec to 68???
         Level level_easy_icons = new Level();
         level_easy_icons.setPhotosOrVideosIdList(new ArrayList<Integer>());
@@ -76,6 +81,7 @@ addDefaultLevels();
         level_easy_icons.setSublevelsPerEachEmotion(2);
         level_easy_icons.setPhotosOrVideosShowedForOneQuestion(3);
         level_easy_icons.setForTests(true);
+        level_easy_icons.setOptionDifferentSexes(false);
         level_easy_icons.setShouldQuestionBeReadAloud(true);
         //level_easy_icons.setHintTypes();
         level_easy_icons.setQuestionType(Level.Question.EMOTION_NAME);
@@ -95,13 +101,21 @@ addDefaultLevels();
         });
         level_easy_icons.setPhotosOrVideosIdList(new ArrayList<Integer>() {
             {//OGARNIJ CZEMU TO NIE DZIAŁA
-                add(8);
+         /*       add(8);
                 add(10);
                 add(11);
 
                 add(14);
                 add(15);
-                add(16);
+                add(16);*/
+
+         add(givePhotoIdFromName("happy_woman_r_03.jpg"));
+         add(givePhotoIdFromName("happy_woman_r_05.jpg"));
+         add(givePhotoIdFromName("happy_woman_r_06.jpg"));
+
+         add(givePhotoIdFromName("sad_woman_r_03.jpg"));
+         add(givePhotoIdFromName("sad_woman_r_04.jpg"));
+         add(givePhotoIdFromName("sad_woman_r_05.jpg"));
 
 
             }
@@ -129,6 +143,7 @@ addDefaultLevels();
         level_easy_photos.setSublevelsPerEachEmotion(2);
         level_easy_photos.setPhotosOrVideosShowedForOneQuestion(3);
         level_easy_photos.setForTests(true);
+        level_easy_photos.setOptionDifferentSexes(false);
         level_easy_photos.setShouldQuestionBeReadAloud(true);
         level_easy_photos.setQuestionType(Level.Question.EMOTION_NAME);    /// PÓXNIEJ jak wszystko będzie działało zmienić na EMOTION_NAME
         level_easy_photos.setPraisesBinary(level_easy_photos.allSelected(5));
@@ -143,13 +158,19 @@ addDefaultLevels();
         });
         //todo z Integer na String i podać nazwy zdjęć
         level_easy_photos.setPhotosOrVideosIdList(new ArrayList<Integer>() {
+        //level_easy_photos.setPhotosOrVideosNameList(new ArrayList<String>() {
             {
-                add(6);
+         /*       add(6);
                 add(7);
                 add(9);
 
                 add(12);
-                add(13);
+                add(13);*/
+         add(givePhotoIdFromName("happy_woman_r_04.jpg"));
+         add(givePhotoIdFromName("happy_man_r_01.jpg"));
+         add(givePhotoIdFromName("happy_man_r_02.jpg"));
+         add(givePhotoIdFromName("sad_woman_r_01.jpg"));
+         add(givePhotoIdFromName("sad_woman_r_02.jpg"));
 
 
             }
@@ -181,6 +202,7 @@ addDefaultLevels();
         level_medium.setSublevelsPerEachEmotion(2);
         level_medium.setForTests(true);
         level_medium.setShouldQuestionBeReadAloud(true);
+        level_medium.setOptionDifferentSexes(true);
         level_medium.setQuestionType(Level.Question.SHOW_EMOTION_NAME);
         level_medium.setAmountOfEmotions(Integer.toString(level_medium.getEmotions().size()));
         //level_medium.setCommandTypesAsNumber(level_medium.allSelected(5));
@@ -196,8 +218,9 @@ addDefaultLevels();
             }
         });
         level_medium.setPhotosOrVideosIdList(new ArrayList<Integer>() {
+        //level_medium.setPhotosOrVideosNameList(new ArrayList<String>() {
             {
-                add(6);
+         /*       add(6);
                 add(7);
                 add(9);
 
@@ -209,7 +232,19 @@ addDefaultLevels();
                 add(3);
 
                 add(17);
-                add(18);
+                add(18);*/
+                add(givePhotoIdFromName("happy_woman_r_04.jpg"));
+                add(givePhotoIdFromName("happy_man_r_01.jpg"));
+                add(givePhotoIdFromName("happy_man_r_02.jpg"));
+                add(givePhotoIdFromName("sad_woman_r_01.jpg"));
+                add(givePhotoIdFromName("sad_woman_r_02.jpg"));
+
+                add(givePhotoIdFromName("angry_man_r_01.jpg"));
+                add(givePhotoIdFromName("angry_man_r_02.jpg"));
+                add(givePhotoIdFromName("angry_woman_r_03.jpg"));
+
+                add(givePhotoIdFromName("scared_man_r_01.jpg"));
+                add(givePhotoIdFromName("scared_woman_r_02.jpg"));
             }
         });
 
@@ -232,6 +267,7 @@ addDefaultLevels();
         level_difficult.setSublevelsPerEachEmotion(2);
         level_difficult.setPhotosOrVideosShowedForOneQuestion(3);
         level_difficult.setForTests(true);
+        level_difficult.setOptionDifferentSexes(true);
         level_difficult.setShouldQuestionBeReadAloud(true);
         level_difficult.setQuestionType(Level.Question.SHOW_WHERE_IS_EMOTION_NAME);
         level_difficult.setCommandTypesAsNumber(level_difficult.allSelected(5));
@@ -251,9 +287,11 @@ addDefaultLevels();
                 add(5);
             }
         });
-        level_difficult.setPhotosOrVideosIdList(new ArrayList<Integer>() {
+     level_difficult.setPhotosOrVideosIdList(new ArrayList<Integer>()
+            //level_difficult.setPhotosOrVideosNameList(new ArrayList<String>()
+        {
             {
-                add(6);
+           /*     add(6);
                 add(7);
                 add(9);
 
@@ -270,12 +308,24 @@ addDefaultLevels();
                 add(19);
 
                 add(4);
-                add(5);
+                add(5);*/
+                add(givePhotoIdFromName("happy_woman_r_04.jpg"));
+                add(givePhotoIdFromName("happy_man_r_01.jpg"));
+                add(givePhotoIdFromName("happy_man_r_02.jpg"));
+                add(givePhotoIdFromName("sad_woman_r_01.jpg"));
+                add(givePhotoIdFromName("sad_woman_r_02.jpg"));
 
+                add(givePhotoIdFromName("angry_man_r_01.jpg"));
+                add(givePhotoIdFromName("angry_man_r_02.jpg"));
+                add(givePhotoIdFromName("angry_woman_r_03.jpg"));
 
+                add(givePhotoIdFromName("scared_man_r_01.jpg"));
+                add(givePhotoIdFromName("scared_woman_r_02.jpg"));
 
+                add(givePhotoIdFromName("surprised_woman_r_01.jpg"));
 
-
+                add(givePhotoIdFromName("bored_man_r_02.jpg"));
+                add(givePhotoIdFromName("bored_woman_r_01.jpg"));
             }
         });
 
@@ -352,6 +402,7 @@ addDefaultLevels();
         values.put("question_type", level.getQuestionType().toString());
         values.put("hint_types_as_number", level.getHintTypesAsNumber());
         values.put("command_types_as_number", level.getCommandTypesAsNumber());
+        values.put("optionDifferentSexes", level.isOptionDifferentSexes());
         //System.out.println("AGAGAGAG command_types_as_number" + level.getCommandTypesAsNumber() +" name " + level.getName());
         values.put("praisesBinary",level.getPraisesBinary());
         values.put("shouldQuestionBeReadAloud", level.isShouldQuestionBeReadAloud());
@@ -509,6 +560,30 @@ addDefaultLevels();
         return cursor;
     }
 
+    public List<Integer> givePhotosId(List<String> photosNames) {
+String[] columns = {"id","path","emotion","name","sex"};
+List<Integer> idzdjec = new ArrayList<>();
+        for (int i = 0; i < photosNames.size(); i++) {
+            Cursor cursor = db.query("photos", columns,"name like " + photosNames.get(i) + "%'", null, null, null, null);
+            if (cursor != null) idzdjec.add(cursor.getInt(cursor.getColumnIndex("id")));
+        }
+
+return idzdjec;
+
+    }
+
+    public Integer givePhotoIdFromName(String photoName) {
+        String[] columns = {"id","path","emotion","name","sex"};
+
+
+            Cursor cursor = db.query("photos", columns,"name = '" + photoName+"'", null, null, null, null);
+            cursor.moveToFirst();
+        if(cursor!=null && cursor.getCount()>0) return (cursor.getInt(cursor.getColumnIndex("id")));
+            //zdjęcie, którego nie ma
+        System.out.println("!!!!!!!!!!!nieprawidłowe zdjęcie, return -1,  metoda givePhotoIdFromName zdj: " + photoName);
+        return -1;
+    }
+
     public Cursor givePhotoWithId(int id)
     {
         String[] columns = {"id", "path", "emotion", "name"};
@@ -552,7 +627,8 @@ addDefaultLevels();
     public Cursor giveEmotionName(int id){
 
         String[] columns = {"id", "emotion"};
-        Cursor cursor = db.query("emotions", columns,"id like " + "'%" + id + "%'", null, null, null, null);
+        Cursor cursor = db.query("emotions", columns,"id = " + id, null, null, null, null);
+        //Cursor cursor = db.query("emotions", columns,"id like " + "'%" + id + "%'", null, null, null, null);
         return cursor;
 
     }
@@ -596,7 +672,7 @@ addDefaultLevels();
                 + "emotion text,"+ "name text," +  "sex text);" + "");
         db.execSQL("create table emotions(" + "id integer primary key autoincrement," + "emotion text);" + "");
         db.execSQL("create table levels(" + "id integer primary key autoincrement, photos_or_videos text, photos_or_videos_per_level int, " +
-                "time_limit int, is_level_active int, is_learn_mode int, is_test_mode int, number_of_tries_in_test int, time_limit_in_test int, material_for_test int, name text, correctness int, sublevels_per_each_emotion int, is_for_tests int, question_type text, hint_types_as_number int, command_types_as_number int, praisesBinary int, shouldQuestionBeReadAloud boolean,is_default boolean);" + "");
+                "time_limit int, is_level_active int, is_learn_mode int, is_test_mode int, number_of_tries_in_test int, time_limit_in_test int, material_for_test int, name text, correctness int, sublevels_per_each_emotion int, is_for_tests int, question_type text, hint_types_as_number int, command_types_as_number int, praisesBinary int, optionDifferentSexes boolean, shouldQuestionBeReadAloud boolean,is_default boolean);" + "");
         db.execSQL("create table levels_photos(" + "id integer primary key autoincrement,"  + "levelid integer references levels(id)," + "material_for_test integer," + "photoid integer references photos(id));" + "");
         db.execSQL("create table levels_emotions(" + "id integer primary key autoincrement," + "levelid integer references levels(id),"  + "material_for_test integer," + "emotionid integer references emotions(id));" + "");
         db.execSQL("create table videos(" + "id integer primary key autoincrement," + "path int," + "emotion text," + "name text);" + "");

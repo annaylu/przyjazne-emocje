@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import pg.autyzm.graprzyjazneemocje.animation.AnimationEndActivity;
+import pg.autyzm.przyjazneemocje.lib.entities.Level;
 
 /**
  * Created by Ann on 12.11.2016.
@@ -21,6 +22,8 @@ public class EndActivity extends Activity {
     public static int getRepeat() {
         return repeat;
     }
+
+    Level level = new Level();
 
     public static void setRepeat(int repeat) {
         repeat = repeat;
@@ -128,8 +131,11 @@ public class EndActivity extends Activity {
     }
 
     private void passLevel() {
-        Intent i = new Intent(this, AnimationEndActivity.class);
-        startActivity(i);
+
+        if (!level.isTestMode()) {
+            Intent i = new Intent(this, AnimationEndActivity.class);
+            startActivity(i);
+        }
 
         TextView txt = (TextView) findViewById(R.id.endTextMain);
         txt.setText(getResources().getString(R.string.label_congratulations));
@@ -139,8 +145,11 @@ public class EndActivity extends Activity {
     }
 
     private void failLevel(){
-        ImageView sunImage = (ImageView) findViewById(R.id.sun_image_end);
-        sunImage.setVisibility(View.VISIBLE);
+        if (!level.isTestMode()) {
+            //NIE DZIAŁA!!!!!!!!!!!!
+            ImageView sunImage = (ImageView) findViewById(R.id.sun_image_end);
+            sunImage.setVisibility(View.VISIBLE);
+        }
 
         TextView txt = (TextView) findViewById(R.id.endTextMain);
         txt.setText(getResources().getString(R.string.failed_level));

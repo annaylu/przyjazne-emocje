@@ -77,7 +77,8 @@ public class Level implements Serializable {
 
             //
             setPraisesBinary(curLevel.getInt(curLevel.getColumnIndex("praisesBinary")));
-            setShouldQuestionBeReadAloud(curLevel.getInt(curLevel.getColumnIndex("shouldQuestionBeReadAloud")) != 0);
+            setOptionDifferentSexes(curLevel.getInt(curLevel.getColumnIndex("optionDifferentSexes")) != 0);
+            setShouldQuestionBeReadAloud(curLevel.getInt(curLevel.getColumnIndex("shouldQuestionBeReadAloud")) == 1);
             setIs_default(curLevel.getInt(curLevel.getColumnIndex("is_default"))==1);
 
 
@@ -155,6 +156,8 @@ public class Level implements Serializable {
 
 
     private List<Integer> photosOrVideosIdList;
+
+
     private List<Integer> photosOrVideosIdListInTest;
     private List<Integer> emotions = new ArrayList<>();
     private List<Integer> emotionsInTest = new ArrayList<>();
@@ -207,6 +210,16 @@ public class Level implements Serializable {
     }
     private int secondsToHint;
     private boolean shouldQuestionBeReadAloud;
+
+    public boolean isOptionDifferentSexes() {
+        return optionDifferentSexes;
+    }
+
+    public void setOptionDifferentSexes(boolean optionDifferentSexes) {
+        this.optionDifferentSexes = optionDifferentSexes;
+    }
+
+    private boolean optionDifferentSexes;
 
     private Question questionType;
     private List<Hint> hintTypes = new ArrayList<>();
@@ -403,12 +416,15 @@ public class Level implements Serializable {
     }
 
     public List<Integer> getPhotosOrVideosIdList() {
+
         return photosOrVideosIdList;
     }
 
     public void setPhotosOrVideosIdList(List<Integer> photosOrVideosIdList) {
         this.photosOrVideosIdList = photosOrVideosIdList;
     }
+
+
 public int lastEmotionNumber() {
         return emotions.get(emotions.size()-1);
 }

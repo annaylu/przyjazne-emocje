@@ -1,9 +1,7 @@
 package pg.autyzm.przyjazneemocje;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
@@ -11,16 +9,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SwitchCompat;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.SurfaceView;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -28,7 +21,6 @@ import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -156,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
         sqlm.cleanTable("photos"); //TODO not clean and add, but only update
         sqlm.cleanTable("videos");
 
-        //nie wiem czy to potrzebne
+
         String root = Environment.getExternalStorageDirectory().getAbsolutePath() + "/";
 
         File createDir = new File(root + "FriendlyEmotions/Photos" + File.separator);
@@ -211,7 +203,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-
+        sqlm.AddDefaultLevelsIfNeeded();
 
         Button smile = (Button) findViewById(R.id.uruchomSmileButton);
         //ImageView smile = (ImageView) findViewById(R.id.smile);
@@ -226,7 +218,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);*/
 
                 //startActivity(new Intent("pg.smile.MainActivity"));
-                Intent intent = new Intent(MainActivity.this, pg.smile.MainActivity.class);
+                Intent intent = new Intent();
+                intent.setClassName("pg.autyzm.graprzyjazneemocje","MainActivity");
                 startActivity(intent);
             }
         });
@@ -273,12 +266,17 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Spinner spinner_emocje = findViewById(R.id.spinner_emotions);
                 //Spinner spinner_sex= findViewById(R.id.spinner_sex);
-                Bundle bundle2 = new Bundle();
+              /*  Bundle bundle2 = new Bundle();
                 bundle2.putString("SpinnerValue_Emotion", spinner_emocje.getSelectedItem().toString());
                 //bundle2.putString("SpinnerValue_Sex", spinner_sex.getSelectedItem().toString());
                 Intent in = new Intent(MainActivity.this, CameraActivity.class);
                 in.putExtras(bundle2);
-                startActivityForResult(in, REQ_CODE_CAMERA);
+                startActivityForResult(in, REQ_CODE_CAMERA);*/
+                Bundle bundle2 = new Bundle();
+                bundle2.putString("SpinnerValue_Emotion", spinner_emocje.getSelectedItem().toString());
+                Intent in2Cam = new Intent(MainActivity.this, PictureActivity.class);
+                in2Cam.putExtras(bundle2);
+                startActivity(in2Cam);
             }
         });
     }

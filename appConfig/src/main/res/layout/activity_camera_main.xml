@@ -4,48 +4,50 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".customCamera.MainActivity">
+    tools:context=".MainCameraActivity">
 
     <LinearLayout
+        android:id="@+id/cPreview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:id="@+id/cPreview">
+        android:orientation="vertical">
 
 
     </LinearLayout>
 
     <RelativeLayout
         android:id="@+id/overlay"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#FFFFFF"
-        android:layout_alignParentBottom="true">
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:background="#87CEFA">
 
         <!--- Put your Content Here -->
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="bottom|center"
+            android:gravity="center"
             android:orientation="vertical">
 
             <Button
+                android:id="@+id/btnCam"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/btnCam"
                 android:layout_marginTop="50dp"
-                android:textSize="15sp"
-                android:text="Take Photo"/>
+                android:text="Take Photo"
+                android:background="#FFFFFF"
+                android:textSize="15sp" />
 
             <Button
+                android:id="@+id/btnSwitch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/btnSwitch"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="50dp"
-                android:textSize="15sp"
-                android:text="Switch Camera"/>
+                android:text="Switch Camera"
+                android:background="#FFFFFF"
+                android:textSize="15sp" />
 
         </LinearLayout>
 

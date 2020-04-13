@@ -218,11 +218,11 @@
         android:layout_weight="1"
         android:background="@color/colorBackground"
         android:orientation="vertical"
-        android:paddingBottom="5dp"
-        android:paddingEnd="5dp"
         android:paddingLeft="20dp"
+        android:paddingTop="5dp"
+        android:paddingEnd="5dp"
         android:paddingRight="20dp"
-        android:paddingTop="5dp">
+        android:paddingBottom="5dp">
 
         <TextView
             android:id="@+id/textView3"
@@ -232,6 +232,32 @@
             android:gravity="center"
             android:text="@string/label2_learning_ways"
             android:textAppearance="@style/TitleStyle" />
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/plci_opcja1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/label2_0_learning_ways_opcja1" />
+
+            <RadioButton
+                android:id="@+id/plci_opcja2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/label2_0_learning_ways_opcja2" />
+        </RadioGroup>
 
         <CheckBox
             android:id="@+id/checkBox"
@@ -243,19 +269,19 @@
             android:textAppearance="@style/OptionStyle" />
 
         <!--<CheckBox-->
-            <!--android:id="@+id/checkBox2"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginTop="10dp"-->
-            <!--android:layout_weight="1"-->
-            <!--android:text="@string/label2.3_learning_ways"-->
-            <!--android:textAppearance="@style/OptionStyle" />-->
+        <!--android:id="@+id/checkBox2"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="10dp"-->
+        <!--android:layout_weight="1"-->
+        <!--android:text="@string/label2.3_learning_ways"-->
+        <!--android:textAppearance="@style/OptionStyle" />-->
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
             android:layout_weight="1"
+            android:gravity="center_horizontal"
             android:orientation="horizontal">
 
             <TextView
@@ -340,15 +366,15 @@
                         android:checked="true"
                         android:text="@string/prompt_type1"
                         android:textAppearance="@style/OptionStyle"
-                        android:textSize="18dp"/>
+                        android:textSize="18dp" />
 
                     <CheckBox
                         android:id="@+id/powieksz"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/prompt_type2"
-                        android:textSize="18dp"
-                        android:textAppearance="@style/OptionStyle" />
+                        android:textAppearance="@style/OptionStyle"
+                        android:textSize="18dp" />
                 </TableRow>
 
                 <TableRow
@@ -360,8 +386,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/prompt_type3"
-                        android:textSize="18dp"
-                        android:textAppearance="@style/OptionStyle" />
+                        android:textAppearance="@style/OptionStyle"
+                        android:textSize="18dp" />
 
                     <CheckBox
                         android:id="@+id/wyszarz"
@@ -369,8 +395,8 @@
                         android:layout_height="wrap_content"
                         android:checked="true"
                         android:text="@string/prompt_type4"
-                        android:textSize="18dp"
-                        android:textAppearance="@style/OptionStyle" />
+                        android:textAppearance="@style/OptionStyle"
+                        android:textSize="18dp" />
 
                 </TableRow>
 

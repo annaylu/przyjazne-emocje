@@ -60,6 +60,7 @@ int whichTry = 1;
     List<String> photosWithRestOfEmotions;
     List<String> photosToUseInSublevel;
     String goodAnswer;
+    boolean onePicDisplayed;
     Cursor cur0;
     Cursor videoCursor;
     SqliteManager sqlm;
@@ -81,6 +82,8 @@ int whichTry = 1;
     LinearLayout.LayoutParams lp;
     String speakerText;
     int proba;
+
+
 
 
 
@@ -215,7 +218,29 @@ int whichTry = 1;
 
         for (int i = 0; i < level.getEmotions().size(); i++) {
             for (int j = 0; j < level.getSublevelsPerEachEmotion(); j++) {
-                sublevelsList.add(level.getEmotions().get(i));
+
+                System.out.println("########## emocja " + level.getEmotions().get(i));
+                long  rand = Math.round(Math.random());
+                int female = level.getEmotions().get(i);
+                int male = level.getEmotions().get(i) + 6;
+                Cursor curEmotionFemale = sqlm.giveEmotionName(female);
+                Cursor curEmotionMale = sqlm.giveEmotionName(male);
+                if (rand == 0) {
+                    if (curEmotionFemale.getCount() != 0)
+                        sublevelsList.add(female);
+                    else
+                        sublevelsList.add(male);
+                }
+                else {
+                    if (curEmotionFemale.getCount() != 0)
+                        sublevelsList.add(male);
+                    else
+                        sublevelsList.add(male);
+
+                }
+
+                //sublevelsList.add(level.getEmotions().get(i));
+
             }
         }
 
@@ -234,6 +259,7 @@ int whichTry = 1;
         subLevelMode = SubLevelMode.NO_WRONG_ANSWER;
         //System.out.println("Ustawiamy tu NO WRONG ANSWER");
         Cursor emotionCur = sqlm.giveEmotionName(emotionIndexInList);
+        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!emotionId: " + emotionIndexInList);
 
         emotionCur.moveToFirst();
         String selectedEmotionName = emotionCur.getString(emotionCur.getColumnIndex("emotion"));
@@ -250,6 +276,7 @@ int whichTry = 1;
         }
 
         // z listy a wybieramy jedno zdjecie, ktore bedzie prawidlowa odpowiedzia
+        //wybór z photosWithEmotionSelected
         goodAnswer = selectPhotoWithSelectedEmotion();
 
         // z listy b wybieramy zdjecia nieprawidlowe
@@ -306,25 +333,63 @@ int whichTry = 1;
     }
 
     void selectedPhotosForGame(List<Integer> photos, String selectedEmotionName) {
+        boolean differentSexes = level.isOptionDifferentSexes();
+        System.out.println("@@@@@@@@@ 1 selectedPhotosForGame emotion: " + selectedEmotionName + " idPhoto: " + photos);
         for (int e : photos) {
             //System.out.println("Id zdjecia: " + e);
             Cursor curEmotion = sqlm.givePhotoWithId(e);
+Cursor curSelectedEmotion = sqlm.givePhotosWithEmotion(selectedEmotionName);
+            System.out.println("CURSELECTEDEMOTION SIZE " + curSelectedEmotion.getCount());
 
 
-
-            if (curEmotion.getCount() != 0){
+            if (curEmotion.getCount() != 0){ //obejście  z tata
                 curEmotion.moveToFirst();
                 String photoEmotionName = curEmotion.getString(curEmotion.getColumnIndex("emotion"));
                 String photoName = curEmotion.getString(curEmotion.getColumnIndex("name"));
 
                 if (photoEmotionName.equals(selectedEmotionName)) {
                     photosWithEmotionSelected.add(photoName);
+                    System.out.println("@@@@@@@@@ ŚCIEŻKA IF selectedPhotosForGame idzdjecia: " + e + " photoName " + photoName + " PHPTPEmotionName " + photoEmotionName);
                 } else {
-                    photosWithRestOfEmotions.add(photoName);
+                    if (differentSexes) {
+                        if (photoEmotionName.contains(selectedEmotionName.replace("woman","").replace("man",""))) {
+
+                        }
+                        else
+                        photosWithRestOfEmotions.add(photoName);
+                        System.out.println("róża");
+                    } else
+                    {
+                        if (selectedEmotionName.contains("woman")) {
+                            if (photoName.contains("woman")) {
+                                photosWithRestOfEmotions.add(photoName);
+                            }
+                            System.out.println("tulipan " + photoName);
+                        }
+
+                        else if (selectedEmotionName.contains("_man")) {
+                            if (photoName.contains("_man")) {
+                                photosWithRestOfEmotions.add(photoName);
+                            }
+                            System.out.println("słonecznik " + photoName);
+                        }
+                    }
+
+                    System.out.println("@@@@@@@@@ ŚCIEŻKA ELSE selectedPhotosForGame idzdjecia: " + e + " photoName " + photoName + " PHPTPEmotionName " + photoEmotionName);
                 }
             }
+
         }
-    }
+            if (photosWithEmotionSelected.size() == 0) {
+            if (selectedEmotionName.contains("woman"))
+                selectedEmotionName = selectedEmotionName.replace("woman","man");
+            else if (selectedEmotionName.contains("_man"))
+                selectedEmotionName = selectedEmotionName.replace("man","woman");
+
+            selectedPhotosForGame(photos,selectedEmotionName);
+        }
+        System.out.println("SELECTEDEMOTIONNAME " + selectedEmotionName);
+        }
 
     public void generateView(List<String> photosList) {
 
@@ -349,8 +414,8 @@ int whichTry = 1;
 
                 if (level.getQuestionType().equals(Level.Question.SHOW_WHERE_IS_EMOTION_NAME)) {
                     final int commandTypes = level.getCommandTypesAsNumber();
-                /*System.out.println("commanDtypes: " + commandTypes);
-                System.out.println("question type: " + level.getQuestionType());*/
+                System.out.println("commanDtypes: " + commandTypes);
+                System.out.println("question type: " + level.getQuestionType());
                     ArrayList<String> commandsSelected = new ArrayList<>();
                     //checkbox: 8
 
@@ -366,7 +431,7 @@ int whichTry = 1;
                     }
 
                     //checkbox: 4
-                    if ((commandTypes & CommandTypeValue(CommandType.SHOW)) == CommandTypeValue(CommandType.POINT)) {
+                    if ((commandTypes & CommandTypeValue(CommandType.POINT)) == CommandTypeValue(CommandType.POINT)) {
                         commandsSelected.add(getResources().getString(R.string.point_where));
 
                     }
@@ -391,12 +456,14 @@ int whichTry = 1;
 
 
 
-          /*      System.out.println("anusia  size: " + size);
+           /*System.out.println("anusia  size: " + size);
                 System.out.println("commandsToChoose" + commandsToChoose.toString());
                 System.out.println("commandsSelected: " + commandsSelected.toString());
-                System.out.println("commands to choose length" + commandsToChoose.length);*/
+                System.out.println("commands to choose length" + commandsToChoose.length);
 
+                    System.out.println("########## size " + size);*/
                     commandText = commandsToChoose[(int) Math.floor(Math.random() * (size))] + " " + rightEmotionLang;
+
 
                 } else if (level.getQuestionType().equals(Level.Question.SHOW_EMOTION_NAME)) {
                     commandText = getResources().getString(R.string.show) + " " + rightEmotionLang;
@@ -407,7 +474,7 @@ int whichTry = 1;
             commandIntent.putExtra("command",commandText);
             startActivity(commandIntent);*/
                 txt.setText(commandText);
-                System.out.println("!!!!!!!!!!!!!! " + commandText);
+            /*    System.out.println("!!!!!!!!!!!!!! " + commandText);*/
 
 
         }
@@ -775,7 +842,7 @@ if (x == 3)
     */
     String selectPhotoWithSelectedEmotion() {
         Random rand = new Random();
-
+        System.out.println("selectPhotoWithSelectedWEmotion " + photosWithEmotionSelected.size() );
         int photoWithSelectedEmotionIndex = rand.nextInt(photosWithEmotionSelected.size());
 
         String name = photosWithEmotionSelected.get(photoWithSelectedEmotionIndex);
@@ -999,7 +1066,7 @@ if (x == 3)
         }
 
         image.setPadding(border,border,border,border);
-        image.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+        image.setBackgroundColor(getResources().getColor(R.color.frame));
         System.out.println("imageframe imageid:" + image.getId() +" set: " + set);
       /* try {Thread.sleep(2000);}
        catch (InterruptedException ex) {};*/
@@ -1225,11 +1292,17 @@ if (whichTry != 3) {
             lp = new LinearLayout.LayoutParams(height, height);
             lp.setMargins(leftMargin,10,rightMargin,margin);
 
-       /* if (photosList.size() == 1) {
-            lp = new LinearLayout.LayoutParams(410, 410);
-            lp.setMargins(45,30,45,30);
-        }*/
+            onePicDisplayed = (photosToUseInSublevel.size() == 1);
+if (onePicDisplayed) {
+    lp = new LinearLayout.LayoutParams(420, 420);
+
+    lp.setMargins(30,50,30,30);
+}
        lp.gravity =Gravity.CENTER;
             image.setLayoutParams(lp);
+
+
+
     }
+
 }

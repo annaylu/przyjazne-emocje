@@ -11,8 +11,6 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.ArrayMap;
 import android.view.SurfaceView;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.RelativeLayout;
 
 import java.io.File;
@@ -68,8 +66,9 @@ public class CameraActivity extends Activity {
     private static final int TAKE_PHOTO_CODE = 1;
 
     public void takePhoto() {
-        final Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(getTempFile()));
+       //final Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        final Intent intent = new Intent(CameraActivity.this, MainCameraActivity.class);
+        //intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(getTempFile()));
         startActivityForResult(intent, TAKE_PHOTO_CODE);
     }
 

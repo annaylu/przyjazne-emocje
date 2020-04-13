@@ -9,4 +9,5 @@
     <color name="background_down">#348700</color>
     <color name="background_center">#1597fa</color>
     <color name="background_street">#181818</color>
+    <color name="frame">#98FB98</color>
 </resources>

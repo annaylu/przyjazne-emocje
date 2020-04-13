@@ -13,7 +13,8 @@
         android:icon="@drawable/kolo"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:screenOrientation="landscape">
         <activity
             android:name=".SplashActivity"
             android:screenOrientation="landscape">
@@ -39,7 +40,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainCameraActivity"
-            >
+            android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
@@ -70,6 +71,14 @@
                 <!--category android:name="android.intent.category.DEFAULT" /-->
             </intent-filter>
         </activity>
+
+       <!-- <activity
+
+            android:name="pg.autyzm.graprzyjazneemocje.MainActivity"
+            android:label="@string/title_choose_img"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.Dialog" />-->
+
 
     </application>
 

@@ -75,6 +75,8 @@
         <item>Choose [Name of emotion]</item>
         <item>Choose where is [Name of emotion]</item>
     </string-array>
+    <string name="label2_0_learning_ways_opcja1">Only one sex below one command</string>
+    <string name="label2_0_learning_ways_opcja2">Both sexes below one command</string>
     <string name="label2_2_learning_ways">Read the command:</string>
     <string name="label2_3_learning_ways">Differentiation of sexes</string>
     <string name="label2_4_learning_ways">Show prompt after:  </string>
@@ -105,6 +107,7 @@ The test mode does not use hints and reinforcements, the therapist should refrai
     <string name="tab5_save">Save</string>
     <string name="label1.1_save">Step name</string>
     <string name="label1.2_save">Information about the step</string>
+    <string name="label1_5_1">Different sexes below one command:</string>
 
 
     <string name="emotion_happy">happy</string>
@@ -195,6 +198,7 @@ _
 
     <string name="commandWarning">Choose at least one command type!</string>
     <string name="everyEmotionOnePhotoWarning">Choose at least one picture for each emotion!</string>
+    <string name="differentSexesWarning">Choose kinds of sexes for command</string>
 
 
 </resources>

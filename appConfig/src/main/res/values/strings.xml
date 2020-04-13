@@ -63,6 +63,8 @@
 
     <string name="yes">Tak</string>
     <string name="no">Nie</string>
+    <string name="label2_0_learning_ways_opcja1">Jeden rodzaj odmiany emocji pod poleceniem</string>
+    <string name="label2_0_learning_ways_opcja2">Oba rodzaje odmiany emocji pod poleceniem</string>
     <string name="label2_2_learning_ways">Czytanie polecenia: </string>
     <string name="label2_3_learning_ways">Rozróżnianie płci</string>
     <string name="label2_4_learning_ways">Pokaż podpowiedź po:  </string>
@@ -92,6 +94,7 @@
     <string name="tab5_save">Zapisz</string>
     <string name="label1.1_save">Nazwa kroku</string>
     <string name="label1.2_save">Informacje o kroku</string>
+    <string name="label1_5_1">Różne odmiany emocji pod poleceniem:</string>
 
 
     <string name="emotion_happy">wesoły</string>
@@ -189,6 +192,7 @@
 
     <string name="commandWarning">Wybierz conajmniej jeden rodzaj polecenia!</string>
     <string name="everyEmotionOnePhotoWarning">Wybierz conajmniej po jedym zdjęciu dla każdej emocji!</string>
+    <string name="differentSexesWarning">Wybierz rodzaj odmiany emocji</string>
 
 
 
