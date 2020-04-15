@@ -31,10 +31,10 @@ public class CameraActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Bundle extras = getIntent().getExtras();
-        String emotion = extras.getString("SpinnerValue_Emotion");
+        /*Bundle extras = getIntent().getExtras();
+        String emotion = extras.getString("SpinnerValue_Emotion");*/
 
-        fileName = getFileName(emotion);
+        //fileName = getFileName(emotion);
         // Optional: Hide the status bar at the top of the window
    /*     requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -112,7 +112,9 @@ public class CameraActivity extends Activity {
             cur.moveToLast();
             String lastPhotoName = cur.getString(cur.getColumnIndex("name"));
             String[] nameSeg = lastPhotoName.split("_");
-            maxNumber = Integer.parseInt(nameSeg[3].replace(".jpg",""));
+            System.out.println("maxNumber: " + maxNumber + "nameSeg: " + nameSeg);
+            //maxNumber = Integer.parseInt(nameSeg[3].replace(".jpg",""));
+            maxNumber = Integer.parseInt(nameSeg[nameSeg.length - 1].replace(".jpg",""));
         }
         //todo liczenie zdjęć
         //System.out.println("########nazwapliku: " + emotionAndSex +"_" + ++maxNumber);

@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
     private final int REQ_CODE_CAMERA = 1000;
     private final List<LevelItem> levelList = new ArrayList<>();
-
+    public String emocja;
 
 
 
@@ -213,14 +213,22 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //Toast.makeText(MainActivity.this,"Hello", Toast.LENGTH_LONG).show();
 
-          /*   Intent intent = new Intent();
+        /*   Intent intent = new Intent();
                 intent.setClassName("pg.smile", "GameActivity");
                 startActivity(intent);*/
 
                 //startActivity(new Intent("pg.smile.MainActivity"));
-                Intent intent = new Intent();
-                intent.setClassName("pg.autyzm.graprzyjazneemocje","MainActivity");
-                startActivity(intent);
+
+                Intent launchIntent = getPackageManager().getLaunchIntentForPackage("pg.smile");
+                if (launchIntent != null) {
+                    startActivity(launchIntent);
+                } else {
+                    Toast.makeText(MainActivity.this, "There is no package available in android", Toast.LENGTH_LONG).show();
+                    //Intent in = new Intent(EndActivity.this,pg.autyzm.przyjazneemocje.MainActivity.class);
+
+
+                }
+
             }
         });
 
@@ -240,8 +248,12 @@ public class MainActivity extends AppCompatActivity {
 
 
                 }
-                Intent in = new Intent(MainActivity.this,MainActivity.class);
-                startActivity(in);
+                //Intent in = new Intent(MainActivity.this,MainActivity.class);
+                //startActivity(in);
+
+              /*  Intent intent = new Intent();
+                intent.setClassName("pg.autyzm.graprzyjazneemocje","MainActivity");
+                startActivity(intent);*/
             }
         });
 
@@ -266,17 +278,18 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Spinner spinner_emocje = findViewById(R.id.spinner_emotions);
                 //Spinner spinner_sex= findViewById(R.id.spinner_sex);
-              /*  Bundle bundle2 = new Bundle();
+               Bundle bundle2 = new Bundle();
                 bundle2.putString("SpinnerValue_Emotion", spinner_emocje.getSelectedItem().toString());
                 //bundle2.putString("SpinnerValue_Sex", spinner_sex.getSelectedItem().toString());
-                Intent in = new Intent(MainActivity.this, CameraActivity.class);
+               Intent in = new Intent(MainActivity.this, MainCameraActivity.class);
                 in.putExtras(bundle2);
-                startActivityForResult(in, REQ_CODE_CAMERA);*/
-                Bundle bundle2 = new Bundle();
-                bundle2.putString("SpinnerValue_Emotion", spinner_emocje.getSelectedItem().toString());
-                Intent in2Cam = new Intent(MainActivity.this, PictureActivity.class);
-                in2Cam.putExtras(bundle2);
-                startActivity(in2Cam);
+               // startActivityForResult(in, REQ_CODE_CAMERA);
+               //Intent in2Cam = new Intent(MainActivity.this, );
+                //in2Cam.putExtras(bundle2);
+
+                emocja = spinner_emocje.getSelectedItem().toString();
+                System.out.println("MAIN ACTIVITY EMOCJA " + emocja);
+                startActivity(in);
             }
         });
     }

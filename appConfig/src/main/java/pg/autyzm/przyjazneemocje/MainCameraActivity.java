@@ -28,6 +28,7 @@ public class MainCameraActivity extends AppCompatActivity {
     private boolean cameraFront = false;
     public static Bitmap bitmap;
     private RelativeLayout overlay;
+    public String emotion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +37,11 @@ public class MainCameraActivity extends AppCompatActivity {
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         myContext = this;
+
+     Bundle extras = getIntent().getExtras();
+        emotion = extras.getString("SpinnerValue_Emotion");
+
+        System.out.println("EMOCJA BUNDLEEEEE " + emotion);
 
         mCamera =  Camera.open();
 
@@ -74,6 +80,16 @@ public class MainCameraActivity extends AppCompatActivity {
             }
         });
 
+        Button exitCamera = (Button) findViewById(R.id.btnExit);
+        exitCamera.setOnClickListener(new View.OnClickListener() {
+                                          @Override
+                                          public void onClick(View v) {
+                                              //get the number of cameras
+                                              int camerasNumber = Camera.getNumberOfCameras();
+                                              Intent intent = new Intent(MainCameraActivity.this,MainActivity.class);
+                                              startActivity(intent);
+                                          }
+                                      });
         mCamera.startPreview();
 
     }
@@ -182,6 +198,7 @@ public class MainCameraActivity extends AppCompatActivity {
             public void onPictureTaken(byte[] data, Camera camera) {
                 bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
                 Intent intent = new Intent(MainCameraActivity.this,PictureActivity.class);
+                intent.putExtra("emocja",emotion);
                 startActivity(intent);
                 try {
                     bitmap = processImage(data); //DOPISAŁAM bitmap
@@ -227,7 +244,8 @@ public class MainCameraActivity extends AppCompatActivity {
         bitmap.recycle();
 
         // Scale down to the output size
-        Bitmap scaledBitmap = Bitmap.createScaledBitmap(cropped, 600, 600, true);
+        Bitmap scaledBitmap = Bitmap.createScaledBitmap(cropped, 400, 400, true);
+        //było 600
         cropped.recycle();
 
         return scaledBitmap;

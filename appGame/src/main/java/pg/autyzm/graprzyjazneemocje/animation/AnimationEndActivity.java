@@ -8,6 +8,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import pg.autyzm.graprzyjazneemocje.R;
+import pg.autyzm.przyjazneemocje.lib.entities.Level;
 
 //import AnimationActivity;
 
@@ -19,15 +20,17 @@ public class AnimationEndActivity extends Activity implements Animation.Animatio
 
     protected ImageView animImage;
     protected Animation anim;
+    private Level level;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        randomAward();
 
-        anim.setAnimationListener(this);
-        animImage.startAnimation(anim);
+            randomAward();
+
+            anim.setAnimationListener(this);
+            animImage.startAnimation(anim);
 
     }
 

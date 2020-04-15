@@ -122,8 +122,8 @@ public class EndActivity extends Activity {
 
 
                 }
-                Intent in = new Intent(EndActivity.this,MainActivity.class);
-                startActivity(in);
+                /*Intent in = new Intent(EndActivity.this,MainActivity.class);
+                startActivity(in);*/
             }
 
 

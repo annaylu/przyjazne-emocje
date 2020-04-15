@@ -72,12 +72,17 @@
             </intent-filter>
         </activity>
 
-       <!-- <activity
+<!--  <activity
 
-            android:name="pg.autyzm.graprzyjazneemocje.MainActivity"
-            android:label="@string/title_choose_img"
+            android:name="pg.autyzm.graprzyjazneemocje."
+
             android:screenOrientation="landscape"
-            android:theme="@android:style/Theme.Dialog" />-->
+            >
+          <intent-filter>
+             <action android:name="android.intent.action.MAIN" />
+
+          </intent-filter>
+      </activity>-->
 
 
     </application>
