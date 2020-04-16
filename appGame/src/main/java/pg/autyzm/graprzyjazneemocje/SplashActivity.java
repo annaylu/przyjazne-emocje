@@ -7,6 +7,8 @@ import android.content.res.Resources;
 import android.os.Handler;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.view.Window;
+import android.view.WindowManager;
 
 import java.util.Locale;
 
@@ -22,7 +24,13 @@ public class SplashActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_splash);
+
+
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+      //  setContentView(R.layout.activity_splash);
+
         sqlm = SqliteManager.getInstance(this);
         setLocale(sqlm.getCurrentLang());
     }

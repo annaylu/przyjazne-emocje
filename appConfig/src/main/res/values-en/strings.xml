@@ -17,6 +17,12 @@
     <string name="selectConf">Select</string>
 
 
+    <string name="picture_activity_super">Super!</string>
+    <string name="picture_activity_delete">Delete photo</string>
+    <string name="picture_activity_another">Take another photo</string>
+    <string name="camera_activity_take_photo">Take a photo</string>
+    <string name="camera_activity_switch_camera">Switch camera</string>
+    <string name="camera_activity_exit">Exit</string>
 
 
     <string name="newPhoto">Take a new photo</string>
@@ -131,13 +137,6 @@ The test mode does not use hints and reinforcements, the therapist should refrai
     <string name="emotion_scared_man">scared</string>
     <string name="emotion_bored_man">bored</string>
 
-    <string name="emotion_happy_child">happy</string>
-    <string name="emotion_sad_child">sad</string>
-    <string name="emotion_surprised_child">surprised</string>
-    <string name="emotion_angry_child">angry</string>
-    <string name="emotion_scared_child">scared</string>
-    <string name="emotion_bored_child">bored</string>
-_
 
 
     <string name="sex">Photo of:</string>
@@ -169,14 +168,6 @@ _
         <item>bored</item>
     </string-array>
 
-    <string-array name="emotions_array_child">
-        <item>happy</item>
-        <item>sad</item>
-        <item>surprised</item>
-        <item>angry</item>
-        <item>scared</item>
-        <item>bored</item>
-    </string-array>
 
     <string-array name="praise_array">
         <item>good</item>
@@ -189,8 +180,7 @@ _
     <string-array name="sex">
         <item>a woman</item>
         <item>a man</item>
-        <item>a child</item>
-        <item>an emoticon</item>
+        <item>an icon</item>
 
     </string-array>
 

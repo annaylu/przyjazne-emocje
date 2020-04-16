@@ -29,6 +29,7 @@ public class MainCameraActivity extends AppCompatActivity {
     public static Bitmap bitmap;
     private RelativeLayout overlay;
     public String emotion;
+    public String sex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +41,7 @@ public class MainCameraActivity extends AppCompatActivity {
 
      Bundle extras = getIntent().getExtras();
         emotion = extras.getString("SpinnerValue_Emotion");
+        sex = extras.getString("SpinnerValue_Sex");
 
         System.out.println("EMOCJA BUNDLEEEEE " + emotion);
 
@@ -199,6 +201,7 @@ public class MainCameraActivity extends AppCompatActivity {
                 bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
                 Intent intent = new Intent(MainCameraActivity.this,PictureActivity.class);
                 intent.putExtra("emocja",emotion);
+                intent.putExtra("sex", sex);
                 startActivity(intent);
                 try {
                     bitmap = processImage(data); //DOPISAŁAM bitmap
@@ -244,7 +247,7 @@ public class MainCameraActivity extends AppCompatActivity {
         bitmap.recycle();
 
         // Scale down to the output size
-        Bitmap scaledBitmap = Bitmap.createScaledBitmap(cropped, 400, 400, true);
+        Bitmap scaledBitmap = Bitmap.createScaledBitmap(cropped, 500, 500, true);
         //było 600
         cropped.recycle();
 

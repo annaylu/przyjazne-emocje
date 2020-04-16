@@ -3,9 +3,12 @@ package pg.autyzm.graprzyjazneemocje;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -35,18 +38,30 @@ public class EndActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         setContentView(R.layout.activity_end);
+
+        System.out.println("LEARN MODE " + level.isLearnMode());
+        System.out.println("TEST MODE " + level.isTestMode());
+
 
         Bundle extras = getIntent().getExtras();
         boolean pass = extras.getBoolean("PASS");
-
-        if (pass) {
-            passLevel();
-        } else {
-            failLevel();
-        }
+/*if (!level.isLearnMode()) {
+    if (pass) {
+        passLevel();
+    } else {
+        failLevel();
+    }
+}*/
 
 //        txt.setTextSize(TypedValue.COMPLEX_UNIT_PX, 100);
+
+        TextView txt = (TextView) findViewById(R.id.endTextMain);
+        txt.setText(getResources().getString(R.string.label_congratulations));
 
         int wrongAnswers = extras.getInt("WRONG");
         int rightAnswers = extras.getInt("RIGHT");
@@ -131,14 +146,15 @@ public class EndActivity extends Activity {
     }
 
     private void passLevel() {
+        MediaPlayer ring= MediaPlayer.create(EndActivity.this,R.raw.fanfare3);
+        ring.start();
 
         if (!level.isTestMode()) {
             Intent i = new Intent(this, AnimationEndActivity.class);
             startActivity(i);
         }
 
-        TextView txt = (TextView) findViewById(R.id.endTextMain);
-        txt.setText(getResources().getString(R.string.label_congratulations));
+
 
 
 
@@ -149,6 +165,8 @@ public class EndActivity extends Activity {
             //NIE DZIAŁA!!!!!!!!!!!!
             ImageView sunImage = (ImageView) findViewById(R.id.sun_image_end);
             sunImage.setVisibility(View.VISIBLE);
+            MediaPlayer ring= MediaPlayer.create(EndActivity.this,R.raw.fanfare1);
+            ring.start();
         }
 
         TextView txt = (TextView) findViewById(R.id.endTextMain);

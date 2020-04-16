@@ -97,12 +97,6 @@ public class CameraActivity extends Activity {
         mapEmo.put(getResources().getString(R.string.emotion_scared_woman), "scared_woman");
         mapEmo.put(getResources().getString(R.string.emotion_surprised_woman), "surprised_woman");
         mapEmo.put(getResources().getString(R.string.emotion_bored_woman), "bored_woman");
-        mapEmo.put(getResources().getString(R.string.emotion_happy_child), "happy_child");
-        mapEmo.put(getResources().getString(R.string.emotion_sad_child), "sad_child");
-        mapEmo.put(getResources().getString(R.string.emotion_angry_child), "angry_child");
-        mapEmo.put(getResources().getString(R.string.emotion_scared_child), "scared_child");
-        mapEmo.put(getResources().getString(R.string.emotion_surprised_child), "surprised_child");
-        mapEmo.put(getResources().getString(R.string.emotion_bored_child), "bored_child");
         String emotionAndSex = mapEmo.get(emotionLang);
         Cursor cur = sqlm.givePhotosWithEmotionSource(emotionAndSex, SqliteManager.Source.EXTERNAL);
 

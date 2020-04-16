@@ -2,53 +2,80 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#d4ebf2"
     tools:context=".PictureActivity">
 
     <ImageView
         android:id="@+id/img"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:foregroundGravity="left"
-        android:padding="20dp"
-        android:src="@mipmap/ic_launcher" />
+        android:layout_gravity="center_horizontal|center_vertical"
+        android:layout_weight="1"
+        android:padding="40dp"
+        android:src="@mipmap/ic_launcher"
+        android:contentDescription="TODO" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_weight="1"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/photo_emocja"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp"
+            android:gravity="center_horizontal"
             android:text="You have just taken below picture"
+            android:textColor="#212C6A"
             android:textSize="30sp" />
 
         <TextView
             android:id="@+id/photo_plec"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView" />
-
-        <Button
-            android:id="@+id/photo_delete"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Button" />
-
-        <Button
-            android:id="@+id/another_photo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Button" />
+            android:layout_marginTop="10dp"
+            android:gravity="center_horizontal"
+            android:text="TextView"
+            android:textColor="#4E62CF"
+            android:textSize="20sp" />
 
         <Button
             android:id="@+id/photo_super"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Button" />
+            android:layout_marginLeft="90dp"
+            android:layout_marginRight="90dp"
+            android:layout_marginBottom="30dp"
+            android:layout_marginTop="60dp"
+            android:text="@string/picture_activity_super"
+            android:background="@color/white"/>
+
+        <Button
+            android:id="@+id/photo_delete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="90dp"
+            android:layout_marginRight="90dp"
+            android:layout_marginBottom="30dp"
+            android:background="@color/white"
+            android:text="@string/picture_activity_delete"/>
+
+        <Button
+            android:id="@+id/another_photo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="90dp"
+            android:layout_marginRight="90dp"
+            android:layout_marginBottom="90dp"
+            android:text="@string/picture_activity_another"
+            android:background="@color/white"/>
+
+
     </LinearLayout>
 
 </LinearLayout>

@@ -44,6 +44,7 @@ import java.util.List;
 import java.util.Random;
 
 import pg.autyzm.graprzyjazneemocje.animation.AnimationActivity;
+import pg.autyzm.graprzyjazneemocje.animation.AnimationEndActivity;
 import pg.autyzm.przyjazneemocje.lib.SqliteManager;
 import pg.autyzm.przyjazneemocje.lib.entities.Level;
 
@@ -904,6 +905,10 @@ if (x == 3)
                 generateSublevel(sublevelsList.get(sublevelsLeft - 1));
 
                 break;
+
+            case 4:
+                startResults();
+                break;
         }
     }
 
@@ -1006,12 +1011,12 @@ if (x == 3)
 
 
     private void startEndActivity(boolean pass) {
-        Intent in = new Intent(this, EndActivity.class);
-        in.putExtra("PASS", pass);
-        in.putExtra("WRONG", wrongAnswers);
-        in.putExtra("RIGHT", rightAnswers);
-        in.putExtra("TIMEOUT", timeout);
-        startActivityForResult(in, 2);
+        if (level.isLearnMode())
+            passLevel();
+        else {
+
+          startResults();
+        }
     }
 
     public void StartTimerForTest(final Level l) {
@@ -1303,6 +1308,28 @@ if (onePicDisplayed) {
 
 
 
+    }
+
+    private void passLevel() {
+        MediaPlayer ring= MediaPlayer.create(MainActivity.this,R.raw.fanfare3);
+        ring.start();
+
+            Intent i = new Intent(this, AnimationEndActivity.class);
+            startActivityForResult(i,4);
+
+
+
+
+
+    }
+
+    private void startResults() {
+        Intent in = new Intent(this, EndActivity.class);
+        //in.putExtra("PASS", pass);
+        in.putExtra("WRONG", wrongAnswers);
+        in.putExtra("RIGHT", rightAnswers);
+        in.putExtra("TIMEOUT", timeout);
+        startActivityForResult(in, 2);
     }
 
 }

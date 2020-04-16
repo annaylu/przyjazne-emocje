@@ -1,5 +1,9 @@
 <resources>
 
+
+        <string name="adam_key">Adam polski</string>
+
+
     <string-array name="praise__array">
         <item>dobrze</item>
         <item>super</item>

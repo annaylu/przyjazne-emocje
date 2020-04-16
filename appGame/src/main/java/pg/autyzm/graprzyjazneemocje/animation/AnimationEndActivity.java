@@ -2,11 +2,14 @@ package pg.autyzm.graprzyjazneemocje.animation;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
+import pg.autyzm.graprzyjazneemocje.MainActivity;
 import pg.autyzm.graprzyjazneemocje.R;
 import pg.autyzm.przyjazneemocje.lib.entities.Level;
 
@@ -31,6 +34,10 @@ public class AnimationEndActivity extends Activity implements Animation.Animatio
 
             anim.setAnimationListener(this);
             animImage.startAnimation(anim);
+        MediaPlayer ring= MediaPlayer.create(AnimationEndActivity.this,R.raw.fanfare3);
+        ring.start();
+
+
 
     }
 

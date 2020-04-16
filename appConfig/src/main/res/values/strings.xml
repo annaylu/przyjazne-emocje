@@ -44,6 +44,13 @@
     <string name="test_time_for_answer">Czas na udzielenie odpowiedzi: </string>
     <string name="test_tries">Liczba prób:</string>
 
+    <string name="picture_activity_super">Super!</string>
+    <string name="picture_activity_delete">Usuń zdjęcie</string>
+    <string name="picture_activity_another">Zrób kolejne zdjęcie</string>
+    <string name="camera_activity_take_photo">Zrób zdjęcie</string>
+    <string name="camera_activity_switch_camera">Odwróć aparat</string>
+    <string name="camera_activity_exit">Wyjdź</string>
+
     <string name="tab1_material">Materiał</string>
     <string name="label0_material">Liczba wybranych zdjęć: </string>
     <string name="label1_material">Liczba uczonych emocji: </string>
@@ -121,13 +128,6 @@
     <string name="emotion_bored_man">znudzony</string>
 
 
-    <string name="emotion_happy_child">wesołe</string>
-    <string name="emotion_sad_child">smutne</string>
-    <string name="emotion_surprised_child">zdziwione</string>
-    <string name="emotion_angry_child">złe</string>
-    <string name="emotion_scared_child">przestraszone</string>
-    <string name="emotion_bored_child">znudzone</string>
-
 
     <string name="sex">Zdjęcie:</string>
 
@@ -166,14 +166,7 @@
         <item>przestraszona</item>
         <item>znudzona</item>
     </string-array>
-    <string-array name="emotions_array_child">
-        <item>wesołe</item>
-        <item>smutne</item>
-        <item>zdziwione</item>
-        <item>złe</item>
-        <item>przestraszone</item>
-        <item>znudzone</item>
-    </string-array>
+
     <string-array name="praise_array">
         <item>dobrze</item>
         <item>super</item>
@@ -185,8 +178,7 @@
     <string-array name="sex">
         <item>kobiety</item>
         <item>mężczyzny</item>
-        <item>dziecka</item>
-        <item>emotikona</item>
+        <item>ikony</item>
 
     </string-array>
 

@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -59,7 +60,7 @@ public class CheckboxImageAdapter extends ArrayAdapter<GridCheckboxImageBean> {
             holder = new RowBeanHolder();
             holder.imgIcon = (ImageView) row.findViewById(R.id.imgIcon);
             holder.checkBox = (CheckBox) row.findViewById(R.id.checkBoxImagesToChoose);
-            holder.delete_photo_button = (ImageButton) row.findViewById(R.id.delete_photo);
+            holder.delete_photo_button = (Button) row.findViewById(R.id.delete_photo);
 
             row.setTag(holder);
         } else {
@@ -120,7 +121,7 @@ public class CheckboxImageAdapter extends ArrayAdapter<GridCheckboxImageBean> {
 
         //8****************************
 
-        final ImageButton delete_photo_button = holder.delete_photo_button;
+        final Button delete_photo_button = holder.delete_photo_button;
 
         //TODO PHOTO DELETION
         //System.out.println("photoname inicjalizacja zdec nie wiadomo kosz " + photoWithCheckBox.photoName);
@@ -179,6 +180,6 @@ public class CheckboxImageAdapter extends ArrayAdapter<GridCheckboxImageBean> {
     static class RowBeanHolder {
         public ImageView imgIcon;
         public CheckBox checkBox;
-        public ImageButton delete_photo_button;
+        public Button delete_photo_button;
     }
 }

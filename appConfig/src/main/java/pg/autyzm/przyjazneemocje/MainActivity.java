@@ -80,16 +80,7 @@ public class MainActivity extends AppCompatActivity {
                 dataAdapter2.notifyDataSetChanged();
 
                 spinner_emocje.setAdapter(dataAdapter2);
-            }
 
-            if (plec.equals("dziecka") || plec.equals("a child")) {
-                Toast.makeText(MainActivity.this, "child", Toast.LENGTH_LONG);
-                ArrayAdapter<CharSequence> dataAdapter3 = ArrayAdapter
-                        .createFromResource(MainActivity.this, R.array.emotions_array_child,
-                                android.R.layout.simple_spinner_dropdown_item);
-                dataAdapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                dataAdapter3.notifyDataSetChanged();
-                spinner_emocje.setAdapter(dataAdapter3);
             }
         }
 
@@ -277,10 +268,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Spinner spinner_emocje = findViewById(R.id.spinner_emotions);
-                //Spinner spinner_sex= findViewById(R.id.spinner_sex);
+                Spinner spinner_sex= findViewById(R.id.spinner_sex);
                Bundle bundle2 = new Bundle();
                 bundle2.putString("SpinnerValue_Emotion", spinner_emocje.getSelectedItem().toString());
-                //bundle2.putString("SpinnerValue_Sex", spinner_sex.getSelectedItem().toString());
+                bundle2.putString("SpinnerValue_Sex", spinner_sex.getSelectedItem().toString());
                Intent in = new Intent(MainActivity.this, MainCameraActivity.class);
                 in.putExtras(bundle2);
                // startActivityForResult(in, REQ_CODE_CAMERA);

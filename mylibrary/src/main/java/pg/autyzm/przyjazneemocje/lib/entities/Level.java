@@ -1,5 +1,6 @@
 package pg.autyzm.przyjazneemocje.lib.entities;
 
+import android.content.res.Configuration;
 import android.database.Cursor;
 
 import java.io.Serializable;
@@ -8,6 +9,7 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import pg.autyzm.przyjazneemocje.lib.R;

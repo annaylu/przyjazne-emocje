@@ -29,10 +29,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Dictionary;
 import java.util.Locale;
 
-import pg.autyzm.przyjazneemocje.LevelValidator;
 import pg.autyzm.przyjazneemocje.R;
 import pg.autyzm.przyjazneemocje.View.CheckboxGridAdapter;
 import pg.autyzm.przyjazneemocje.View.CheckboxGridBean;
@@ -572,7 +570,7 @@ public class LevelConfigurationActivity extends AppCompatActivity {
         return tabPhotos;
     }
 
-    private String getEmotionNameinBaseLanguage(int emotionNumber) {
+    public String getEmotionNameinBaseLanguage(int emotionNumber) {
         Configuration config = new Configuration(getBaseContext().getResources().getConfiguration());
         config.setLocale(Locale.ENGLISH);
         return getBaseContext().createConfigurationContext(config).getResources().getStringArray(R.array.emotions_array)[emotionNumber];
@@ -671,7 +669,7 @@ public class LevelConfigurationActivity extends AppCompatActivity {
         ImageView savingButton = (ImageView) findViewById(R.id.button_save);
         savingButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                LevelValidator levelValidator = new LevelValidator(getLevel());
+                LevelValidator levelValidator = new LevelValidator(getLevel(),LevelConfigurationActivity.this);
                 CheckBox checkbox1 = (CheckBox) findViewById(R.id.show);
                 CheckBox checkbox2 = (CheckBox) findViewById(R.id.select);
                 CheckBox checkbox3 = (CheckBox) findViewById(R.id.point);
@@ -682,20 +680,20 @@ public class LevelConfigurationActivity extends AppCompatActivity {
                 /*System.out.println("1checkbox checked!!!!!!!!!!" + checkbox1.isChecked());
                 System.out.println(!(checkbox1.isChecked() ||  checkbox2.isChecked() || checkbox3.isChecked() || checkbox4.isChecked() || checkbox5.isChecked()));
                 System.out.println("material for test " + level.isMaterialForTest());*/
-                if (!levelValidator.everyEmotionHasAtLestOnePhoto()) {
+               /* if (!levelValidator.everyEmotionHasAtLestOnePhoto()) {
                     Toast.makeText(LevelConfigurationActivity.this, R.string.everyEmotionOnePhotoWarning, Toast.LENGTH_LONG).show();
-                } else if (!(checkbox1.isChecked() || checkbox2.isChecked() || checkbox3.isChecked() || checkbox4.isChecked() || checkbox5.isChecked())) {
+                } else*/ if (!(checkbox1.isChecked() || checkbox2.isChecked() || checkbox3.isChecked() || checkbox4.isChecked() || checkbox5.isChecked())) {
                     //System.out.println("2checkbox checked!!!!!!!!!!" + checkbox1.isChecked());
                     Toast.makeText(LevelConfigurationActivity.this, R.string.commandWarning, Toast.LENGTH_LONG).show();
                 } else if (!(plciOpcja1.isChecked() || plciOpcja2.isChecked())){
                     Toast.makeText(LevelConfigurationActivity.this, R.string.differentSexesWarning, Toast.LENGTH_LONG).show();
                 } else if (level.isMaterialForTest()) {
-                    save();
+                    save(LevelConfigurationActivity.this);
                 } else if (level.getPhotosOrVideosIdListInTest().isEmpty()) {
                     Toast.makeText(LevelConfigurationActivity.this, "Wybierz zdjecia dla trybu testowego", Toast.LENGTH_SHORT).show();
                 } else {
 
-                    save();
+                    save(LevelConfigurationActivity.this);
                 }
             }
         });
@@ -717,22 +715,27 @@ public class LevelConfigurationActivity extends AppCompatActivity {
 
         if (tabs.getCurrentTab() == 4) {
             if (level.isMaterialForTest()) {
-                save();
+                save(LevelConfigurationActivity.this);
             } else if (level.getPhotosOrVideosIdListInTest().isEmpty()) {
                 Toast.makeText(LevelConfigurationActivity.this, "Wybierz zdjecia dla trybu testowego", Toast.LENGTH_LONG).show();
             } else {
-                save();
+                save(LevelConfigurationActivity.this);
             }
         } else {
             tabs.setCurrentTab(tabs.getCurrentTab() + 1);
         }
     }
 
-    void save() {
+    void save(Object obj) {
 
         gatherInfoFromGUI();
-        saveLevelToDatabaseAndShowLevelSavedText();
-        getLevel().setId(0);
+        LevelValidator lv = new LevelValidator(getLevel(), obj);
+        if (lv.validateLevel() ) {
+
+            saveLevelToDatabaseAndShowLevelSavedText();
+            getLevel().setId(0);
+        }
+        //else POZOSTAJEMY W TRYBIE EDYCJI
 
     }
 

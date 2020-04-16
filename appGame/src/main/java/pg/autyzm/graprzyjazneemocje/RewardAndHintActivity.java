@@ -5,8 +5,11 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -20,11 +23,20 @@ import java.util.Random;
 
 public class RewardAndHintActivity extends Activity {
     private int chosenColor = generateRandomColor();
+    MediaPlayer ring;
+    String speakerText;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_reward);
+
+
+
+
         LinearLayout rewardAndHintLayout = (LinearLayout) findViewById(R.id.activity_reward);
         rewardAndHintLayout.setBackgroundColor(chosenColor);
         int time = 3000;
@@ -56,7 +68,62 @@ public class RewardAndHintActivity extends Activity {
             commandPraise = praiseList.get(position);
         }
 
-        String speakerText = commandPraise +", "+ emotion;
+        speakerText = commandPraise +", "+ emotion;
+
+        switch (commandPraise) {
+            case "dobrze":
+                ring= MediaPlayer.create(RewardAndHintActivity.this,R.raw.dobrze2);
+                speakerText = emotion;
+                ring.start();
+                while (ring.isPlaying()) {
+
+                }
+                Speaker.getInstance(RewardAndHintActivity.this).speak(speakerText);
+                break;
+            case "super":
+                 ring= MediaPlayer.create(RewardAndHintActivity.this,R.raw.sup2);
+                speakerText = emotion;
+                ring.start();
+                while (ring.isPlaying()) {
+
+                }
+                Speaker.getInstance(RewardAndHintActivity.this).speak(speakerText);
+                break;
+            case "świetnie":
+                ring= MediaPlayer.create(RewardAndHintActivity.this,R.raw.swietnie1);
+                speakerText =  emotion;
+                ring.start();
+                while (ring.isPlaying()) {
+
+                }
+                Speaker.getInstance(RewardAndHintActivity.this).speak(speakerText);
+                break;
+            case "ekstra":
+                ring= MediaPlayer.create(RewardAndHintActivity.this,R.raw.ekstra3);
+                speakerText =  emotion;
+                ring.start();
+                while (ring.isPlaying()) {
+
+                }
+                Speaker.getInstance(RewardAndHintActivity.this).speak(speakerText);
+                break;
+            case "wspaniale":
+                ring= MediaPlayer.create(RewardAndHintActivity.this,R.raw.fantastycznie1);
+                speakerText = emotion;
+                ring.start();
+                while (ring.isPlaying()) {
+
+                }
+                Speaker.getInstance(RewardAndHintActivity.this).speak(speakerText);
+                break;
+        }
+
+
+
+        System.out.println("9999999999999commandPraise" + commandPraise);
+
+
+
 
         if (hintMode) {
             rewardAndHintLayout.setBackgroundColor(getResources().getColor(R.color.background_center));
@@ -82,7 +149,15 @@ public class RewardAndHintActivity extends Activity {
         Animation zoom = AnimationUtils.loadAnimation(RewardAndHintActivity.this, R.anim.zoom);
         correctPhoto.setImageBitmap(bitmap);
         if (!hintMode) correctPhoto.startAnimation(zoom);
+
+ /*       do {
+            if (!ring.isPlaying()) Speaker.getInstance(RewardAndHintActivity.this).speak(speakerText);
+        }
+        while (ring.isPlaying()) ;*/
+
         Speaker.getInstance(RewardAndHintActivity.this).speak(speakerText);
+
+
         hintMode = false;
 
 
@@ -96,6 +171,7 @@ public class RewardAndHintActivity extends Activity {
             public void onFinish() {
 
          finish();
+
 
             }
         }.start();
