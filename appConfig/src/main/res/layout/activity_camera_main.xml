@@ -10,7 +10,7 @@
         android:id="@+id/cPreview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
 
     </LinearLayout>
@@ -30,14 +30,35 @@
             android:gravity="center"
             android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/photo_emocja"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="30dp"
+                android:gravity="center_horizontal"
+                android:text=""
+                android:textColor="#212C6A"
+                android:textSize="30sp" />
+
+            <TextView
+                android:id="@+id/photo_plec"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center_horizontal"
+                android:text=""
+                android:textColor="#4E62CF"
+                android:textSize="20sp" />
+
             <Button
                 android:id="@+id/btnCam"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="90dp"
+                android:layout_marginTop="60dp"
                 android:layout_marginRight="90dp"
                 android:layout_marginBottom="30dp"
-                android:layout_marginTop="60dp"
                 android:background="@color/white"
                 android:text="@string/camera_activity_take_photo"
                 android:textSize="15sp" />
@@ -61,8 +82,8 @@
                 android:layout_marginTop="40dp"
                 android:layout_marginRight="90dp"
                 android:layout_marginBottom="90dp"
-                android:text="@string/camera_activity_exit"
                 android:background="@color/white"
+                android:text="@string/camera_activity_exit"
                 android:textSize="15sp" />
 
         </LinearLayout>

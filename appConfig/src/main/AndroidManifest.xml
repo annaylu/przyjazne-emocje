@@ -11,7 +11,6 @@
     <application
         android:allowBackup="true"
         android:icon="@drawable/kolo"
-        android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:screenOrientation="landscape">
@@ -40,6 +39,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainCameraActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

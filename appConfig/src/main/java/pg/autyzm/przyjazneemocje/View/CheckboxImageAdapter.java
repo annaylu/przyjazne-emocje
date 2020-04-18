@@ -17,6 +17,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import java.io.File;
+import java.sql.SQLOutput;
 import java.util.List;
 
 import pg.autyzm.przyjazneemocje.R;
@@ -125,9 +126,16 @@ public class CheckboxImageAdapter extends ArrayAdapter<GridCheckboxImageBean> {
 
         //TODO PHOTO DELETION
         //System.out.println("photoname inicjalizacja zdec nie wiadomo kosz " + photoWithCheckBox.photoName);
-        if (photoWithCheckBox.photoName.contains("_r_")) {
+        //TU ZAKOMENTOWAŁAM - ODKOMENTOWAĆ!!!
+  if (photoWithCheckBox.photoName.contains("_r_")) {
             holder.delete_photo_button.setVisibility(View.INVISIBLE);
+      System.out.println("getView od images resources " + photoWithCheckBox.photoName + " position " + position );
         }
+  else {
+      System.out.println("getView od images external " + photoWithCheckBox.photoName + " position " + position);
+      holder.delete_photo_button.setVisibility(View.VISIBLE);
+  }
+
         //holder.imgIcon.get
 //ustawienie buttona od zdjęcia w zależności  od właściwości levela
         /*if(isForTest && !level.getPhotosOrVideosIdListInTest().isEmpty()) {

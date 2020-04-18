@@ -5,6 +5,8 @@ import android.hardware.Camera;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.Window;
+import android.view.WindowManager;
 
 import java.io.IOException;
 
@@ -12,10 +14,14 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     private SurfaceHolder mHolder;
     private Camera mCamera;
 
+
     public CameraPreview(Context context, Camera camera) {
         super(context);
+
         mCamera = camera;
         mHolder = getHolder();
+        mHolder.setFixedSize(mCamera.getParameters().getPictureSize().width,mCamera.getParameters().getPictureSize().height);
+        System.out.println("AAAAAAA WIDTH " + mCamera.getParameters().getPictureSize().width + " HEIGHT " + mCamera.getParameters().getPictureSize().height);
         mHolder.addCallback(this);
         // deprecated setting, but required on Android versions prior to 3.0
         mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
@@ -34,6 +40,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     }
 
     public void refreshCamera(Camera camera) {
+
         if (mHolder.getSurface() == null) {
             // preview surface does not exist
             return;
@@ -49,6 +56,10 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         // start preview with new settings
         setCamera(camera);
         try {
+            mHolder.setFixedSize(mCamera.getParameters().getPictureSize().width,mCamera.getParameters().getPictureSize().height);
+            //mHolder.setFixedSize(300,100);
+
+            System.out.println("bbbbbbbAAAAAAA WIDTH " + mCamera.getParameters().getPictureSize().width + " HEIGHT " + mCamera.getParameters().getPictureSize().height);
             mCamera.setPreviewDisplay(mHolder);
             mCamera.startPreview();
         } catch (Exception e) {

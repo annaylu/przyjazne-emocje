@@ -37,7 +37,7 @@ public class MaterialForTestActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_material_for_test);
-        setTitle(R.string.app_name);
+        setTitle(R.string.title_choose_img);
 
         if(getIntent().getExtras() != null && !getIntent().getExtras().isEmpty()){
             level = (Level) getIntent().getExtras().getSerializable("level");

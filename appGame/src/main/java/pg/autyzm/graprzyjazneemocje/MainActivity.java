@@ -2,14 +2,12 @@ package pg.autyzm.graprzyjazneemocje;
 
 import android.app.Activity;
 
-import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
-import android.media.Image;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -28,16 +26,10 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.dropbox.core.v2.teamlog.SmartSyncOptOutType;
-import com.j256.ormlite.stmt.query.In;
 
 import java.io.File;
 import java.io.IOException;
-import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -137,8 +129,9 @@ int whichTry = 1;
             startActivity(i);
             setContentView(R.layout.activity_videos);
         }
-
+        System.out.println("doszszlam 1SUBLEVELMODE " + subLevelMode);
         findNextActiveLevel();
+        System.out.println("SWAPPING ONCREATE");
         generateView(photosToUseInSublevel);
 
         if (!videos) {
@@ -170,6 +163,7 @@ int whichTry = 1;
 
         if (sublevelsLeft != 0) {
             wrongAnswersSublevel = 0;
+            System.out.println("WOŁAM Z FINDNEXTACTIVELEVEL");
             generateSublevel(sublevelsList.get(sublevelsLeft - 1));
             return true;
         }
@@ -246,6 +240,7 @@ int whichTry = 1;
         }
 
         java.util.Collections.shuffle(sublevelsList);
+        System.out.println("WOŁAM Z LOAD LEVEL");
         generateSublevel(sublevelsList.get(sublevelsLeft - 1));
 
         // wylosuj emocje z wybranych emocji, odczytaj jej imie (bo mamy liste id)
@@ -255,6 +250,7 @@ int whichTry = 1;
     }
 
     void generateSublevel(int emotionIndexInList) {
+        System.out.println("WESZLIŚMY W GENERATESUBLEVEL");
         attempt = 0;
         whichTry = 1;
         subLevelMode = SubLevelMode.NO_WRONG_ANSWER;
@@ -335,12 +331,12 @@ int whichTry = 1;
 
     void selectedPhotosForGame(List<Integer> photos, String selectedEmotionName) {
         boolean differentSexes = level.isOptionDifferentSexes();
-        System.out.println("@@@@@@@@@ 1 selectedPhotosForGame emotion: " + selectedEmotionName + " idPhoto: " + photos);
+        //System.out.println("@@@@@@@@@ 1 selectedPhotosForGame emotion: " + selectedEmotionName + " idPhoto: " + photos);
         for (int e : photos) {
             //System.out.println("Id zdjecia: " + e);
             Cursor curEmotion = sqlm.givePhotoWithId(e);
 Cursor curSelectedEmotion = sqlm.givePhotosWithEmotion(selectedEmotionName);
-            System.out.println("CURSELECTEDEMOTION SIZE " + curSelectedEmotion.getCount());
+            //System.out.println("CURSELECTEDEMOTION SIZE " + curSelectedEmotion.getCount());
 
 
             if (curEmotion.getCount() != 0){ //obejście  z tata
@@ -350,7 +346,7 @@ Cursor curSelectedEmotion = sqlm.givePhotosWithEmotion(selectedEmotionName);
 
                 if (photoEmotionName.equals(selectedEmotionName)) {
                     photosWithEmotionSelected.add(photoName);
-                    System.out.println("@@@@@@@@@ ŚCIEŻKA IF selectedPhotosForGame idzdjecia: " + e + " photoName " + photoName + " PHPTPEmotionName " + photoEmotionName);
+                    //System.out.println("@@@@@@@@@ ŚCIEŻKA IF selectedPhotosForGame idzdjecia: " + e + " photoName " + photoName + " PHPTPEmotionName " + photoEmotionName);
                 } else {
                     if (differentSexes) {
                         if (photoEmotionName.contains(selectedEmotionName.replace("woman","").replace("man",""))) {
@@ -358,25 +354,25 @@ Cursor curSelectedEmotion = sqlm.givePhotosWithEmotion(selectedEmotionName);
                         }
                         else
                         photosWithRestOfEmotions.add(photoName);
-                        System.out.println("róża");
+
                     } else
                     {
                         if (selectedEmotionName.contains("woman")) {
                             if (photoName.contains("woman")) {
                                 photosWithRestOfEmotions.add(photoName);
                             }
-                            System.out.println("tulipan " + photoName);
+
                         }
 
                         else if (selectedEmotionName.contains("_man")) {
                             if (photoName.contains("_man")) {
                                 photosWithRestOfEmotions.add(photoName);
                             }
-                            System.out.println("słonecznik " + photoName);
+
                         }
                     }
 
-                    System.out.println("@@@@@@@@@ ŚCIEŻKA ELSE selectedPhotosForGame idzdjecia: " + e + " photoName " + photoName + " PHPTPEmotionName " + photoEmotionName);
+                    //System.out.println("@@@@@@@@@ ŚCIEŻKA ELSE selectedPhotosForGame idzdjecia: " + e + " photoName " + photoName + " PHPTPEmotionName " + photoEmotionName);
                 }
             }
 
@@ -488,11 +484,12 @@ Cursor curSelectedEmotion = sqlm.givePhotosWithEmotion(selectedEmotionName);
         listSize = photosList.size();
 
 
-
+        System.out.println("SWAPPING generateView start " + photosList);
         for(
                 String photoName :photosList)
 
         {
+            //System.out.println("SWAPPING generateView photoName " + photoName);
             String root = Environment.getExternalStorageDirectory().getAbsolutePath() + "/";
             File fileOut = new File(root + "FriendlyEmotions/Photos" + File.separator + photoName);
             try {
@@ -641,7 +638,7 @@ if (x == 3)
             if (getAttempt() == 0) {
                 rightAnswers++;
                 attempt = 1;
-                if (subLevelMode == SubLevelMode.AFTER_WRONG_ANSWER_1_CORRECT) {
+                if (subLevelMode == SubLevelMode.AFTER_WRONG_ANSWER_2_CORRECT) {
                     selected_image_unzoom();
                     setLayoutMargins(image_selected,45/listSize,45/listSize,(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 790 / listSize, getResources().getDisplayMetrics()));
                     attempt = 2;
@@ -660,7 +657,7 @@ if (x == 3)
 
             boolean correctness = true;
 
-            if ((subLevelMode == SubLevelMode.NO_WRONG_ANSWER) || (subLevelMode == SubLevelMode.AFTER_WRONG_ANSWER_2_CORRECT) ) {
+            if ((subLevelMode == SubLevelMode.NO_WRONG_ANSWER) || (subLevelMode == SubLevelMode.AFTER_WRONG_ANSWER_3_CORRECT) ) {
 
                 //udzialona od razu odpowiedź prawidłowa
                 System.out.println("Udizelona prawidłowa, chcemy przzekść do następnego; Sublevel.mode= " + subLevelMode);
@@ -672,8 +669,8 @@ if (x == 3)
 
 
             }
-            else if (subLevelMode == SubLevelMode.AFTER_WRONG_ANSWER) {
-                subLevelMode = SubLevelMode.AFTER_WRONG_ANSWER_1_CORRECT;
+            else if (subLevelMode == SubLevelMode.AFTER_WRONG_ANSWER_1_CORRECT) {
+                subLevelMode = SubLevelMode.AFTER_WRONG_ANSWER_2_CORRECT;
                 // zostajemy na tym samym subLevelu
 
                 startHintActivity();
@@ -696,8 +693,8 @@ if (x == 3)
 
 
             }
-            else if (subLevelMode == SubLevelMode.AFTER_WRONG_ANSWER_1_CORRECT) {
-                subLevelMode = SubLevelMode.AFTER_WRONG_ANSWER_2_CORRECT;
+            else if (subLevelMode == SubLevelMode.AFTER_WRONG_ANSWER_2_CORRECT) {
+                subLevelMode = SubLevelMode.AFTER_WRONG_ANSWER_3_CORRECT;
 
                 //zostajemy na tym samym sublevelu, mieszamy kolejność zdjęć
                /*
@@ -750,7 +747,7 @@ if (x == 3)
         } else { //jesli nie wybrano wlasciwej
             //wczesniej było z IFem i również liczyło po jednej nieprawidłowej, teraz będzie liczyć każdą nieprawidłową
             attempt = 1;
-            subLevelMode= SubLevelMode.AFTER_WRONG_ANSWER;
+            subLevelMode= SubLevelMode.AFTER_WRONG_ANSWER_1_CORRECT;
         /*    whichTry++;
             if (whichTry >3)
                 speakerText = "Kolejna próba";
@@ -780,7 +777,9 @@ if (x == 3)
 
     void nextLevelOrEnd() {
         timer.cancel();
+        System.out.println("doszszlam 2 SUBLEVELMODE " + subLevelMode);
         if (!findNextActiveLevel()) {
+
             startEndActivity(true);
         } else {
             if (level.isTestMode()) {
@@ -790,11 +789,12 @@ if (x == 3)
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-
+                        System.out.println("TEST NEXTLEVELOREND SWAPPING");
                         generateView(photosToUseInSublevel);
                     }
                 }, 500);
             } else {
+                System.out.println("NEXTLEVELOREND SWAPPING");
                 generateView(photosToUseInSublevel);
                 /*Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
@@ -876,15 +876,16 @@ if (x == 3)
                 //System.out.println("praises: " + praises);
                 startAnimationActivity();
                 break;
-            case 2:
+            case 2://koniec animacji
                 animationEnds = true;
-
+                System.out.println("doszszlam 3 SUBLEVELMODE " + subLevelMode);
                 if (!findNextActiveLevel()) {
 
                     startEndActivity(true);
                 } else {
+                    System.out.println("SWAPOWANIE Wygenerowano view " + photosToUseInSublevel);
                     generateView(photosToUseInSublevel);
-                    System.out.println("Wygenerowano view");
+
                 }
 
 
@@ -902,6 +903,7 @@ if (x == 3)
                 rightAnswersSublevel = 0;
                 timeoutSubLevel = 0;
 
+                System.out.println("WOŁAM Z CASE 3");
                 generateSublevel(sublevelsList.get(sublevelsLeft - 1));
 
                 break;
@@ -1142,33 +1144,41 @@ if (x == 3)
         long choose = Math.round(Math.random());
 
         if (choose == 0) {
-            swapRight();
             System.out.println("swapping RIGHT");
+            swapRight();
+
         }
         if (choose == 1) {
-            swapLeft();
             System.out.println("swapping LEFT");
+            swapLeft();
+
        }
+        System.out.println("SWAP END");
     }
 
     private void swapRight() {
         int size = photosToUseInSublevel.size();
+        System.out.println("photosToUSE SWAPPING " + photosToUseInSublevel.toString());
         for (int i = 0; i < size-1; i++) {
 
             Collections.swap(photosToUseInSublevel,i,i+1);
-            System.out.println("TRALALA i: " + i + " i+1 : " + (i+1) + "size " + size );
+            System.out.println("SWAPING TRALALA i: " + i + " i+1: " + (i+1) + " size " + size );
             //System.out.println("!!!!!!!!!!PHOTOS SUBLEVEL: " + photosToUseInSublevel);
         }
+        System.out.println("photosToUSE SWAPPING " + photosToUseInSublevel.toString());
         generateView(photosToUseInSublevel);
     }
 
     private void swapLeft() {
         int size = photosToUseInSublevel.size();
+        System.out.println("photosToUSE SWAPPING " + photosToUseInSublevel.toString());
         for (int i = size-1; i > 0; i--) {
 
             Collections.swap(photosToUseInSublevel,i,i-1);
+            System.out.println("SWAPING TRALALA i: " + i + " i+1: " + (i+1) + " size " + size );
             //System.out.println("!!!!!!!!!!PHOTOS SUBLEVEL: " + photosToUseInSublevel);
         }
+        System.out.println("photosToUSE SWAPPING " + photosToUseInSublevel.toString());
         generateView(photosToUseInSublevel);
     }
 
@@ -1277,7 +1287,10 @@ if (whichTry != 3) {
     }
 
     public enum SubLevelMode {
-        NO_WRONG_ANSWER,AFTER_WRONG_ANSWER,AFTER_WRONG_ANSWER_1_CORRECT,AFTER_WRONG_ANSWER_2_CORRECT
+        NO_WRONG_ANSWER,
+        AFTER_WRONG_ANSWER_1_CORRECT,  //zalivzony 1 piziom ale z błędem
+        AFTER_WRONG_ANSWER_2_CORRECT, //zaliczony drug
+        AFTER_WRONG_ANSWER_3_CORRECT
     }
 
     @Override

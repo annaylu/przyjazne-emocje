@@ -4,7 +4,12 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
+import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.CheckBox;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -12,12 +17,9 @@ import java.util.List;
 import java.util.Locale;
 
 import pg.autyzm.przyjazneemocje.R;
-import pg.autyzm.przyjazneemocje.configuration.LevelConfigurationActivity;
 import pg.autyzm.przyjazneemocje.lib.Adam;
 import pg.autyzm.przyjazneemocje.lib.SqliteManager;
 import pg.autyzm.przyjazneemocje.lib.entities.Level;
-
-import static pg.autyzm.przyjazneemocje.lib.SqliteManager.getInstance;
 
 /**
  * Created by user on 26.08.2017.
@@ -25,9 +27,22 @@ import static pg.autyzm.przyjazneemocje.lib.SqliteManager.getInstance;
 
 public class LevelValidator extends AppCompatActivity {
 
+
     Level validatedLevel;
     Context currentContext;
     SqliteManager sqliteManager = SqliteManager.getAppContext();
+    //final LayoutInflater factory = getLayoutInflater();
+
+/*    View tab2 = getLayoutInflater().inflate(R.layout.tab2_learning_ways,null);
+
+
+    CheckBox checkBox1 = (CheckBox) tab2.findViewById(R.id.show);
+    CheckBox checkBox2 = (CheckBox) tab2.findViewById(R.id.select);
+    CheckBox checkBox3 = (CheckBox) tab2.findViewById(R.id.point);
+    CheckBox checkBox4 = (CheckBox) tab2.findViewById(R.id.touch);
+    CheckBox checkBox5 = (CheckBox) tab2.findViewById(R.id.find);
+    RadioButton plciOpcja1 = (RadioButton) tab2.findViewById(R.id.plci_opcja1);
+    RadioButton plciOpcja2 = (RadioButton) tab2.findViewById(R.id.plci_opcja2);*/
 
     public LevelValidator(Level l, Object obj) {
         validatedLevel = l;
@@ -37,27 +52,60 @@ public class LevelValidator extends AppCompatActivity {
 
     public boolean validateLevel() {
 
-        test_adam();
+        //test_adam();
 
         // sprawdzenie dlugosci nazwy poziomu
-        if (validatedLevel.getName().length() == 0 || validatedLevel.getName().length() > 50) {
-            Toast.makeText(currentContext, "blalalal", Toast.LENGTH_LONG).show();
+        if (validatedLevel.getName().length() == 0 ) {
+            Toast.makeText(currentContext, "Name of the level should contain at least one character", Toast.LENGTH_LONG).show();
             return false;
         }
-        // prosta walidacja, czy w ogle zaznaczono jakies emocje (minimum dwa)/zdjecia
-        if (validatedLevel.getEmotions().size() < 2) {
-            //Toast.makeText("Wybierz conajmniej jedną emocję",Toast.LENGTH_LONG);
+        if (validatedLevel.getName().length() > 50) {
+            Toast.makeText(currentContext, "Name of the level should be shorter - max 50 characters", Toast.LENGTH_LONG).show();
             return false;
         }
-        if (everyEmotionHasAtLestOnePhoto()) {
-            return true;
-        } else {
+        if (!everyEmotionHasAtLestOnePhoto()) {
             Toast.makeText(currentContext, "Select one photo for emotion ", Toast.LENGTH_LONG);
             return false;
         }
+      /*  if (plciOpcja2.isChecked() && !photosOfBothSexesChosen()) {
+            Toast.makeText(currentContext,"You should select photos of both sexes",Toast.LENGTH_LONG);
+            return false;
+        }
+        if (!(checkBox1.isChecked() || checkBox2.isChecked() || checkBox3.isChecked() || checkBox4.isChecked() || checkBox5.isChecked())) {
+            Toast.makeText(currentContext, R.string.commandWarning, Toast.LENGTH_LONG).show();
+            return false;
+        }
+        if (!(plciOpcja1.isChecked() || plciOpcja2.isChecked())) {
+            Toast.makeText(currentContext, R.string.differentSexesWarning, Toast.LENGTH_LONG).show();
+            return false;
+        }*/ else
+            return true;
     }
 
-    public boolean everyEmotionHasAtLestOnePhoto() {
+    private boolean photosOfBothSexesChosen() {
+        int womanPhotos = 0, manPhotos = 0;
+
+        Cursor cursorLevelPhotos = sqliteManager.givePhotosInLevel(validatedLevel.getId());
+        for (int i=0;i<cursorLevelPhotos.getCount();i++) {
+            //System.out.println("Id zdjecia: " + e);
+            Cursor cursorPhotoId = sqliteManager.givePhotoWithId(cursorLevelPhotos.getInt(cursorLevelPhotos.getColumnIndex("photoId")));
+            String photoName = cursorPhotoId.getString(cursorPhotoId.getColumnIndex("name"));
+
+            if (photoName.contains("woman")) {
+                womanPhotos++;
+            }
+            if (photoName.contains("man")) {
+                manPhotos++;
+            }
+
+            if (womanPhotos == 0 || manPhotos == 0)
+                return false;
+
+        }
+        return true;
+    }
+
+    private boolean everyEmotionHasAtLestOnePhoto() {
         String emotionNameWithoutSex;
         LevelConfigurationActivity lca = new LevelConfigurationActivity();
         for (int emotion : validatedLevel.getEmotions()) {

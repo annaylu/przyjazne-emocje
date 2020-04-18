@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
@@ -75,45 +76,36 @@ public class RewardAndHintActivity extends Activity {
                 ring= MediaPlayer.create(RewardAndHintActivity.this,R.raw.dobrze2);
                 speakerText = emotion;
                 ring.start();
-                while (ring.isPlaying()) {
 
-                }
+              ringWait();
                 Speaker.getInstance(RewardAndHintActivity.this).speak(speakerText);
                 break;
             case "super":
                  ring= MediaPlayer.create(RewardAndHintActivity.this,R.raw.sup2);
                 speakerText = emotion;
                 ring.start();
-                while (ring.isPlaying()) {
-
-                }
+                ringWait();
                 Speaker.getInstance(RewardAndHintActivity.this).speak(speakerText);
                 break;
             case "świetnie":
                 ring= MediaPlayer.create(RewardAndHintActivity.this,R.raw.swietnie1);
                 speakerText =  emotion;
                 ring.start();
-                while (ring.isPlaying()) {
-
-                }
+                ringWait();
                 Speaker.getInstance(RewardAndHintActivity.this).speak(speakerText);
                 break;
             case "ekstra":
                 ring= MediaPlayer.create(RewardAndHintActivity.this,R.raw.ekstra3);
                 speakerText =  emotion;
                 ring.start();
-                while (ring.isPlaying()) {
-
-                }
+                ringWait();
                 Speaker.getInstance(RewardAndHintActivity.this).speak(speakerText);
                 break;
             case "wspaniale":
                 ring= MediaPlayer.create(RewardAndHintActivity.this,R.raw.fantastycznie1);
                 speakerText = emotion;
                 ring.start();
-                while (ring.isPlaying()) {
-
-                }
+                ringWait();
                 Speaker.getInstance(RewardAndHintActivity.this).speak(speakerText);
                 break;
         }
@@ -233,6 +225,23 @@ public class RewardAndHintActivity extends Activity {
         super.onBackPressed();
         finish();
         System.exit(0);
+    }
+
+    public void mySleep(int duration) {
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+            }
+        }, duration);
+    }
+
+    public void ringWait(){
+        return;
+       /* while (ring.isPlaying()) {
+            mySleep(5000);
+        }*/
     }
 
 }

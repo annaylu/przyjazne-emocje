@@ -30,9 +30,9 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="30dp"
             android:gravity="center_horizontal"
-            android:text="You have just taken below picture"
             android:textColor="#212C6A"
-            android:textSize="30sp" />
+            android:text=""
+        android:textSize="30sp" />
 
         <TextView
             android:id="@+id/photo_plec"
@@ -40,8 +40,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:gravity="center_horizontal"
-            android:text="TextView"
             android:textColor="#4E62CF"
+            android:text=""
             android:textSize="20sp" />
 
         <Button

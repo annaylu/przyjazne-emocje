@@ -14,6 +14,8 @@ import android.support.v7.widget.SwitchCompat;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -48,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
     private final int REQ_CODE_CAMERA = 1000;
     private final List<LevelItem> levelList = new ArrayList<>();
     public String emocja;
+    private int sumOfAnother;
 
 
 
@@ -114,7 +117,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTitle(R.string.app_name);
+
+        //setTitle(R.string.app_name);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
 
         initAdapter();
@@ -138,6 +145,8 @@ public class MainActivity extends AppCompatActivity {
 
         sqlm.cleanTable("photos"); //TODO not clean and add, but only update
         sqlm.cleanTable("videos");
+
+        sumOfAnother = 0;
 
 
         String root = Environment.getExternalStorageDirectory().getAbsolutePath() + "/";
@@ -272,6 +281,7 @@ public class MainActivity extends AppCompatActivity {
                Bundle bundle2 = new Bundle();
                 bundle2.putString("SpinnerValue_Emotion", spinner_emocje.getSelectedItem().toString());
                 bundle2.putString("SpinnerValue_Sex", spinner_sex.getSelectedItem().toString());
+                bundle2.putInt("sumOfAnother",sumOfAnother);
                Intent in = new Intent(MainActivity.this, MainCameraActivity.class);
                 in.putExtras(bundle2);
                // startActivityForResult(in, REQ_CODE_CAMERA);

@@ -10,6 +10,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.ArrayMap;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -26,14 +28,16 @@ import pg.autyzm.przyjazneemocje.lib.entities.Level;
 import static pg.autyzm.przyjazneemocje.lib.SqliteManager.getInstance;
 
 public class PictureActivity extends AppCompatActivity {
-Button exit;
+Button saveandexit;
 Button delete;
-Button another_photo;
+Button saveandtakephoto;
 TextView emocja;
 TextView plec;
 private Level level;
 String fileName, emotion, sex;
 boolean deleted = false;
+int sumOfAnother;
+
 
     private ImageView imageView;
     private static final String IMAGE_DIRECTORY = "/FriendlyEmotions/Photos/";
@@ -41,7 +45,9 @@ boolean deleted = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_picture);
 
         //POWINNO SIE O WIEEEEEEEEEELE ŁADNIEJ ZROBIĆ TO
@@ -49,13 +55,14 @@ boolean deleted = false;
 
     emotion = getIntent().getStringExtra("emocja");
    sex = getIntent().getStringExtra("sex");
+   sumOfAnother=getIntent().getIntExtra("sumOfAnother",0);
         fileName = getFileName(emotion);
         System.out.println("EMOCJAAAAAAAAAAA " + emotion);
         imageView = findViewById(R.id.img);
 
 
         imageView.setImageBitmap(MainCameraActivity.bitmap);
-saveImage(MainCameraActivity.bitmap);
+        saveImage(MainCameraActivity.bitmap);
 
         emocja = findViewById(R.id.photo_emocja);
        plec = findViewById(R.id.photo_plec);
@@ -63,11 +70,11 @@ saveImage(MainCameraActivity.bitmap);
        plec.setText(sex.replace("a ","").replace("an ","").replace("ty","ta").replace("ny","na"));
 
        delete = (Button) findViewById(R.id.photo_delete);
-       exit = (Button) findViewById(R.id.photo_super);
-another_photo = (Button) findViewById(R.id.another_photo);
+       saveandexit = (Button) findViewById(R.id.photo_super);
+        saveandtakephoto = (Button) findViewById(R.id.another_photo);
 
 
-another_photo.setOnClickListener(new View.OnClickListener() {
+saveandtakephoto.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View view) {
    /*     if (!deleted) {
@@ -77,6 +84,8 @@ another_photo.setOnClickListener(new View.OnClickListener() {
         Intent intent = new Intent(PictureActivity.this,MainCameraActivity.class);
         intent.putExtra("SpinnerValue_Emotion",emotion);
         intent.putExtra("SpinnerValue_Sex",sex);
+
+        intent.putExtra("sumOfAnother",++sumOfAnother);
         startActivity(intent);
     }
 });
@@ -85,7 +94,8 @@ another_photo.setOnClickListener(new View.OnClickListener() {
            public void onClick(View view) {
               imageView.setVisibility(View.GONE);
               delete.setVisibility(View.GONE);
-              exit.setText(getResources().getString(R.string.camera_activity_exit));
+              saveandexit.setText(getResources().getString(R.string.camera_activity_exit));
+
 
               deleted = true;
            }
@@ -93,7 +103,7 @@ another_photo.setOnClickListener(new View.OnClickListener() {
 
 
 
-       exit.setOnClickListener(new View.OnClickListener() {
+       saveandexit.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
               /* if (!deleted) saveImage(MainCameraActivity.bitmap);
@@ -108,6 +118,7 @@ another_photo.setOnClickListener(new View.OnClickListener() {
 
 
     public String saveImage(Bitmap myBitmap) {
+        sumOfAnother = getIntent().getIntExtra("sumOfAnother",0);
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         myBitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
         File wallpaperDirectory = new File(
@@ -169,6 +180,7 @@ another_photo.setOnClickListener(new View.OnClickListener() {
         }
         //todo liczenie zdjęć
         //System.out.println("########nazwapliku: " + emotionAndSex +"_" + ++maxNumber);
-        return emotionAndSex +"_e_" + ++maxNumber;
+        int sum = ++maxNumber + sumOfAnother;
+        return emotionAndSex +"_e_" + sum;
     }
 }

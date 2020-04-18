@@ -6,11 +6,14 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
@@ -77,8 +80,11 @@ public class LevelConfigurationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         //tworzenie nowego levelu
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.tab_view);
-        setTitle(R.string.app_name);
+        //setTitle(R.string.app_name);
 
 
         createTabMaterial();
@@ -664,30 +670,29 @@ public class LevelConfigurationActivity extends AppCompatActivity {
         });
         tab.setup();
         ///anka
-
+        final CheckBox checkBox1 = (CheckBox) findViewById(R.id.show);
+        final CheckBox checkBox2 = (CheckBox) findViewById(R.id.select);
+        final CheckBox checkBox3 = (CheckBox) findViewById(R.id.point);
+        final CheckBox checkBox4 = (CheckBox) findViewById(R.id.touch);
+        final CheckBox checkBox5 = (CheckBox) findViewById(R.id.find);
+        final RadioButton plciOpcja1 = (RadioButton) findViewById(R.id.plci_opcja1);
+        final RadioButton plciOpcja2 = (RadioButton) findViewById(R.id.plci_opcja2);
 
         ImageView savingButton = (ImageView) findViewById(R.id.button_save);
         savingButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                LevelValidator levelValidator = new LevelValidator(getLevel(),LevelConfigurationActivity.this);
-                CheckBox checkbox1 = (CheckBox) findViewById(R.id.show);
-                CheckBox checkbox2 = (CheckBox) findViewById(R.id.select);
-                CheckBox checkbox3 = (CheckBox) findViewById(R.id.point);
-                CheckBox checkbox4 = (CheckBox) findViewById(R.id.touch);
-                CheckBox checkbox5 = (CheckBox) findViewById(R.id.find);
-                RadioButton plciOpcja1 = (RadioButton) findViewById(R.id.plci_opcja1);
-                RadioButton plciOpcja2 = (RadioButton) findViewById(R.id.plci_opcja2);
-                /*System.out.println("1checkbox checked!!!!!!!!!!" + checkbox1.isChecked());
-                System.out.println(!(checkbox1.isChecked() ||  checkbox2.isChecked() || checkbox3.isChecked() || checkbox4.isChecked() || checkbox5.isChecked()));
-                System.out.println("material for test " + level.isMaterialForTest());*/
-               /* if (!levelValidator.everyEmotionHasAtLestOnePhoto()) {
-                    Toast.makeText(LevelConfigurationActivity.this, R.string.everyEmotionOnePhotoWarning, Toast.LENGTH_LONG).show();
-                } else*/ if (!(checkbox1.isChecked() || checkbox2.isChecked() || checkbox3.isChecked() || checkbox4.isChecked() || checkbox5.isChecked())) {
-                    //System.out.println("2checkbox checked!!!!!!!!!!" + checkbox1.isChecked());
+                if (plciOpcja2.isChecked() && !photosOfBothSexesChosen()) {
+                    Toast.makeText(LevelConfigurationActivity.this,"You should select photos of both sexes",Toast.LENGTH_LONG);
+
+                }
+                if (!(checkBox1.isChecked() || checkBox2.isChecked() || checkBox3.isChecked() || checkBox4.isChecked() || checkBox5.isChecked())) {
                     Toast.makeText(LevelConfigurationActivity.this, R.string.commandWarning, Toast.LENGTH_LONG).show();
-                } else if (!(plciOpcja1.isChecked() || plciOpcja2.isChecked())){
+
+                }
+                if (!(plciOpcja1.isChecked() || plciOpcja2.isChecked())) {
                     Toast.makeText(LevelConfigurationActivity.this, R.string.differentSexesWarning, Toast.LENGTH_LONG).show();
-                } else if (level.isMaterialForTest()) {
+            }
+                 if (level.isMaterialForTest()) {
                     save(LevelConfigurationActivity.this);
                 } else if (level.getPhotosOrVideosIdListInTest().isEmpty()) {
                     Toast.makeText(LevelConfigurationActivity.this, "Wybierz zdjecia dla trybu testowego", Toast.LENGTH_SHORT).show();
@@ -1085,6 +1090,45 @@ public class LevelConfigurationActivity extends AppCompatActivity {
         }
 
 
+
+    }
+
+    private boolean photosOfBothSexesChosen() {
+        int womanPhotos = 0, manPhotos = 0;
+
+        SqliteManager sqlm= SqliteManager.getInstance(this);
+
+        Cursor cursorLevelPhotos = sqlm.givePhotosInLevel(getLevel().getId());
+        Cursor cursorPhotoId;
+
+        //ZROBIŁAM GIVEPHOTOSIN LEVEL STATIC
+        cursorLevelPhotos.moveToFirst();
+        //System.out.println("cursorphoto id count " + cursorPhotoId.getCount());
+        for (int i=0;i<cursorLevelPhotos.getCount();i++) {
+            //System.out.println("Id zdjecia: " + e);
+            int photoId = cursorLevelPhotos.getInt(cursorLevelPhotos.getColumnIndex("photoid"));
+            cursorPhotoId = sqlm.givePhotoWithId(photoId);
+            cursorPhotoId.moveToFirst();
+           if (cursorPhotoId.getCount() >0) {
+               String photoName = cursorPhotoId.getString(cursorPhotoId.getColumnIndex("name"));
+
+               if (photoName.contains("woman")) {
+                   womanPhotos++;
+               }
+               if (photoName.contains("man")) {
+                   manPhotos++;
+               }
+           }
+
+            cursorLevelPhotos.moveToNext();
+        }
+         if (womanPhotos == 0 || manPhotos == 0)
+
+    {
+        Toast.makeText(LevelConfigurationActivity.this, "Zdjęcia powinny przedstawiać osoby obydwu płci", Toast.LENGTH_LONG);
+        return false;
+    }
+        return true;
     }
 
 

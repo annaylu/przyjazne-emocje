@@ -1,5 +1,6 @@
 package pg.autyzm.przyjazneemocje;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -9,13 +10,18 @@ import android.hardware.Camera;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Surface;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import java.io.IOException;
+import java.security.Policy;
+import java.sql.SQLOutput;
 
 public class MainCameraActivity extends AppCompatActivity {
 
@@ -30,36 +36,50 @@ public class MainCameraActivity extends AppCompatActivity {
     private RelativeLayout overlay;
     public String emotion;
     public String sex;
+    int sumOfAnother;
+    TextView emocja,plec;
+    public int labelHeight = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        myContext = this;
         setContentView(R.layout.activity_camera_main);
 
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        myContext = this;
 
      Bundle extras = getIntent().getExtras();
         emotion = extras.getString("SpinnerValue_Emotion");
         sex = extras.getString("SpinnerValue_Sex");
+        sumOfAnother = extras.getInt("sumOfAnother");
+
+        emocja = findViewById(R.id.photo_emocja);
+        plec = findViewById(R.id.photo_plec);
+        emocja.setText(emotion);
+        plec.setText(sex.replace("a ","").replace("an ","").replace("ty","ta").replace("ny","na"));
 
         System.out.println("EMOCJA BUNDLEEEEE " + emotion);
 
         mCamera =  Camera.open();
-
+        Camera.Parameters p = mCamera.getParameters();
         mCamera.setDisplayOrientation(0);
         cameraPreview = (LinearLayout) findViewById(R.id.cPreview);
+        System.out.println("CAMERA WIDTH " + cameraPreview.getWidth() + " HEIGHT " + cameraPreview.getHeight());
         overlay = (RelativeLayout) findViewById(R.id.overlay);
         mPreview = new CameraPreview(myContext, mCamera);
         releaseCamera();
         chooseCamera();
         cameraPreview.addView(mPreview);
+        System.out.println("MPREVIEW  WIDTH " + mPreview.getWidth() + " HEIGHT " + mPreview.getHeight());
 
 
         capture = (Button) findViewById(R.id.btnCam);
         capture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 mCamera.takePicture(null, null, mPicture);
             }
         });
@@ -104,6 +124,7 @@ public class MainCameraActivity extends AppCompatActivity {
         for (int i = 0; i < numberOfCameras; i++) {
             Camera.CameraInfo info = new Camera.CameraInfo();
             Camera.getCameraInfo(i, info);
+            System.out.println("info o kamerach " + i +"/"+ numberOfCameras + "INFO facing" + info.facing );
             if (info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
                 cameraId = i;
                 cameraFront = true;
@@ -159,7 +180,8 @@ public class MainCameraActivity extends AppCompatActivity {
                 //refresh the preview
 
                 mCamera = Camera.open(cameraId);
-                mCamera.setDisplayOrientation(0);
+                //mCamera.setDisplayOrientation(180);
+                setCameraDisplayOrientation(MainCameraActivity.this,cameraId,mCamera);
                 mPicture = getPictureCallback();
                 mPreview.refreshCamera(mCamera);
             }
@@ -170,7 +192,8 @@ public class MainCameraActivity extends AppCompatActivity {
                 //set a picture callback
                 //refresh the preview
                 mCamera = Camera.open(cameraId);
-                mCamera.setDisplayOrientation(0);
+                //mCamera.setDisplayOrientation(0));
+                setCameraDisplayOrientation(MainCameraActivity.this,cameraId,mCamera);
                 mPicture = getPictureCallback();
                 mPreview.refreshCamera(mCamera);
             }
@@ -198,10 +221,11 @@ public class MainCameraActivity extends AppCompatActivity {
         Camera.PictureCallback picture = new Camera.PictureCallback() {
             @Override
             public void onPictureTaken(byte[] data, Camera camera) {
-                bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+               // bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
                 Intent intent = new Intent(MainCameraActivity.this,PictureActivity.class);
                 intent.putExtra("emocja",emotion);
                 intent.putExtra("sex", sex);
+                intent.putExtra("sumOfAnother",sumOfAnother);
                 startActivity(intent);
                 try {
                     bitmap = processImage(data); //DOPISAŁAM bitmap
@@ -224,13 +248,17 @@ public class MainCameraActivity extends AppCompatActivity {
         // Set the height of the overlay so that it makes the preview a square
         RelativeLayout.LayoutParams overlayParams = (RelativeLayout.LayoutParams) overlay.getLayoutParams();
         overlayParams.width =  previewWidth - previewHeight;
+        //overlayParams.width =  300;
+
         overlay.setLayoutParams(overlayParams);
     }
 
     private Bitmap processImage(byte[] data) throws IOException {
+
         // Determine the width/height of the image
         int width = mCamera.getParameters().getPictureSize().width;
         int height = mCamera.getParameters().getPictureSize().height;
+        System.out.println("ANIAwysokosc " + height + "szerokosc " + width);
 
         // Load the bitmap from the byte array
         BitmapFactory.Options options = new BitmapFactory.Options();
@@ -241,9 +269,26 @@ public class MainCameraActivity extends AppCompatActivity {
         int croppedWidth = (width > height) ? height : width;
         int croppedHeight = (width > height) ? height : width;
 
+        int minSize = Math.min(width,height);
+        int maxSize = Math.max(width,height);
+        System.out.println("Main IMAGEPROCCESS MINSIZE " + minSize + " MAXSIZE " + maxSize);
+
+
         Matrix matrix = new Matrix();
-        matrix.postRotate(0);
-        Bitmap cropped = Bitmap.createBitmap(bitmap, 0, 0, croppedWidth, croppedHeight, matrix, true);
+       matrix.postRotate(0);
+
+        Bitmap cropped;
+        //TODO - TRZEBA WYKRYĆ MIRROR REFLECTION?FLIP?
+        if (cameraFront) {
+            matrix.postScale(-1.0f, 1.0f);
+            //matrix.preRotate(90);
+            cropped = Bitmap.createBitmap(bitmap, (maxSize - minSize), 0, minSize, minSize, matrix, true);
+                 System.out.println("processing frontcamera");
+        }
+        else {
+            cropped = Bitmap.createBitmap(bitmap, 0, 0, minSize, minSize, matrix, true);
+             System.out.println("processing backcamera");
+        }
         bitmap.recycle();
 
         // Scale down to the output size
@@ -252,5 +297,29 @@ public class MainCameraActivity extends AppCompatActivity {
         cropped.recycle();
 
         return scaledBitmap;
+    }
+    public static void setCameraDisplayOrientation(Activity activity,
+                                                   int cameraId, android.hardware.Camera camera) {
+        android.hardware.Camera.CameraInfo info =
+                new android.hardware.Camera.CameraInfo();
+        android.hardware.Camera.getCameraInfo(cameraId, info);
+        int rotation = activity.getWindowManager().getDefaultDisplay()
+                .getRotation();
+        int degrees = 0;
+        switch (rotation) {
+            case Surface.ROTATION_0: degrees = 0; break;
+            case Surface.ROTATION_90: degrees = 90; break;
+            case Surface.ROTATION_180: degrees = 180; break;
+            case Surface.ROTATION_270: degrees = 270; break;
+        }
+
+        int result;
+        if (info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
+            result = (info.orientation + degrees) % 360;
+            result = (360 - result) % 360;  // compensate the mirror
+        } else {  // back-facing
+            result = (info.orientation - degrees + 360) % 360;
+        }
+        camera.setDisplayOrientation(result);
     }
 }
