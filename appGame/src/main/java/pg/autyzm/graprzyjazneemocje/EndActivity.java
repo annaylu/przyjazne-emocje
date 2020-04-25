@@ -130,6 +130,7 @@ public class EndActivity extends Activity {
             public void onClick(View view) {
                 Intent launchIntent = getPackageManager().getLaunchIntentForPackage("pg.autyzm.przyjazneemocje");
                 if (launchIntent != null) {
+                    finish();
                     startActivity(launchIntent);
                 } else {
                     Toast.makeText(EndActivity.this, "There is no package available in android", Toast.LENGTH_LONG).show();

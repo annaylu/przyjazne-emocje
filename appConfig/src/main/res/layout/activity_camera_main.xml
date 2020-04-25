@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainCameraActivity">
+    tools:context=".camera.MainCameraActivity">
 
     <LinearLayout
         android:id="@+id/cPreview"

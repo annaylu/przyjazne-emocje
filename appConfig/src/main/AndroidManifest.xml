@@ -10,7 +10,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/kolo"
+        android:icon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:screenOrientation="landscape">
@@ -38,14 +38,14 @@
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainCameraActivity"
+        <activity android:name=".camera.MainCameraActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
-        <activity android:name=".PictureActivity"></activity>
+        <activity android:name=".camera.PictureActivity"></activity>
 
         <activity
             android:name=".configuration.MaterialForTestActivity"
@@ -58,10 +58,6 @@
             android:screenOrientation="landscape"
             android:theme="@android:style/Theme.Dialog" />
         <!--- narazie to ja zakomentowalam bo nie wiem skad sie bierze-->
-
-        <activity
-            android:name=".CameraActivity"
-            android:screenOrientation="landscape" />
 
         <activity
             android:name="pg.smile.MainActivity"

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#d4ebf2"
-    tools:context=".PictureActivity">
+    tools:context=".camera.PictureActivity">
 
     <ImageView
         android:id="@+id/img"
@@ -21,6 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
+        android:layout_gravity="center_vertical"
         android:orientation="vertical">
 
         <TextView
@@ -28,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="75dp"
             android:gravity="center_horizontal"
             android:textColor="#212C6A"
             android:text=""
@@ -38,22 +39,11 @@
             android:id="@+id/photo_plec"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:gravity="center_horizontal"
             android:textColor="#4E62CF"
             android:text=""
-            android:textSize="20sp" />
-
-        <Button
-            android:id="@+id/photo_super"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="90dp"
-            android:layout_marginRight="90dp"
-            android:layout_marginBottom="30dp"
-            android:layout_marginTop="60dp"
-            android:text="@string/picture_activity_super"
-            android:background="@color/white"/>
+            android:textSize="25sp" />
 
         <Button
             android:id="@+id/photo_delete"
@@ -62,8 +52,22 @@
             android:layout_marginLeft="90dp"
             android:layout_marginRight="90dp"
             android:layout_marginBottom="30dp"
+            android:layout_marginTop="80dp"
             android:background="@color/white"
             android:text="@string/picture_activity_delete"/>
+
+        <Button
+            android:id="@+id/photo_super"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="90dp"
+            android:layout_marginRight="90dp"
+            android:layout_marginBottom="30dp"
+
+            android:text="@string/save_and_exit"
+            android:background="@color/white"/>
+
+
 
         <Button
             android:id="@+id/another_photo"

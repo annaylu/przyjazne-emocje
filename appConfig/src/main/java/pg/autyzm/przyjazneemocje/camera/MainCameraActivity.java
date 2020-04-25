@@ -1,4 +1,4 @@
-package pg.autyzm.przyjazneemocje;
+package pg.autyzm.przyjazneemocje.camera;
 
 import android.app.Activity;
 import android.content.Context;
@@ -13,15 +13,15 @@ import android.util.Log;
 import android.view.Surface;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.io.IOException;
-import java.security.Policy;
-import java.sql.SQLOutput;
+
+import pg.autyzm.przyjazneemocje.MainActivity;
+import pg.autyzm.przyjazneemocje.R;
 
 public class MainCameraActivity extends AppCompatActivity {
 
@@ -108,7 +108,7 @@ public class MainCameraActivity extends AppCompatActivity {
                                           public void onClick(View v) {
                                               //get the number of cameras
                                               int camerasNumber = Camera.getNumberOfCameras();
-                                              Intent intent = new Intent(MainCameraActivity.this,MainActivity.class);
+                                              Intent intent = new Intent(MainCameraActivity.this, MainActivity.class);
                                               startActivity(intent);
                                           }
                                       });
@@ -222,7 +222,7 @@ public class MainCameraActivity extends AppCompatActivity {
             @Override
             public void onPictureTaken(byte[] data, Camera camera) {
                // bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
-                Intent intent = new Intent(MainCameraActivity.this,PictureActivity.class);
+                Intent intent = new Intent(MainCameraActivity.this, PictureActivity.class);
                 intent.putExtra("emocja",emotion);
                 intent.putExtra("sex", sex);
                 intent.putExtra("sumOfAnother",sumOfAnother);

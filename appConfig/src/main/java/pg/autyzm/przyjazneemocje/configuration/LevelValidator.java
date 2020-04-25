@@ -1,11 +1,16 @@
 package pg.autyzm.przyjazneemocje.configuration;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.databinding.DataBindingUtil;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
@@ -16,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import pg.autyzm.przyjazneemocje.DialogHandler;
 import pg.autyzm.przyjazneemocje.R;
 import pg.autyzm.przyjazneemocje.lib.Adam;
 import pg.autyzm.przyjazneemocje.lib.SqliteManager;
@@ -29,20 +35,14 @@ public class LevelValidator extends AppCompatActivity {
 
 
     Level validatedLevel;
+    int womanPhotos, manPhotos;
+    boolean value;
+    int mode;
+
     Context currentContext;
     SqliteManager sqliteManager = SqliteManager.getAppContext();
-    //final LayoutInflater factory = getLayoutInflater();
-
-/*    View tab2 = getLayoutInflater().inflate(R.layout.tab2_learning_ways,null);
-
-
-    CheckBox checkBox1 = (CheckBox) tab2.findViewById(R.id.show);
-    CheckBox checkBox2 = (CheckBox) tab2.findViewById(R.id.select);
-    CheckBox checkBox3 = (CheckBox) tab2.findViewById(R.id.point);
-    CheckBox checkBox4 = (CheckBox) tab2.findViewById(R.id.touch);
-    CheckBox checkBox5 = (CheckBox) tab2.findViewById(R.id.find);
-    RadioButton plciOpcja1 = (RadioButton) tab2.findViewById(R.id.plci_opcja1);
-    RadioButton plciOpcja2 = (RadioButton) tab2.findViewById(R.id.plci_opcja2);*/
+    List<Integer> photoIds = new ArrayList<>();
+    SqliteManager sqlm = SqliteManager.getInstance(this);
 
     public LevelValidator(Level l, Object obj) {
         validatedLevel = l;
@@ -55,57 +55,80 @@ public class LevelValidator extends AppCompatActivity {
         //test_adam();
 
         // sprawdzenie dlugosci nazwy poziomu
-        if (validatedLevel.getName().length() == 0 ) {
+        if (validatedLevel.getName().length() == 0) {
             Toast.makeText(currentContext, "Name of the level should contain at least one character", Toast.LENGTH_LONG).show();
             return false;
         }
-        if (validatedLevel.getName().length() > 50) {
-            Toast.makeText(currentContext, "Name of the level should be shorter - max 50 characters", Toast.LENGTH_LONG).show();
+        if (validatedLevel.getName().length() > 55) {
+            Toast.makeText(currentContext, "Name of the level should be shorter - max 55 characters", Toast.LENGTH_LONG).show();
             return false;
         }
+        if (validatedLevel.getPhotosOrVideosIdList().isEmpty()) {
+            Toast.makeText(currentContext, "Wybierz zdjecia w zakładce MATERIAŁ", Toast.LENGTH_LONG).show();
+            return false;
+        }
+
+       /* if (!numberOfPhotosSelected(validatedLevel.getPhotosOrVideosShowedForOneQuestion())) {
+            return false;
+        }*/
         if (!everyEmotionHasAtLestOnePhoto()) {
-            Toast.makeText(currentContext, "Select one photo for emotion ", Toast.LENGTH_LONG);
+            //System.out.println("blalaal");
             return false;
         }
-      /*  if (plciOpcja2.isChecked() && !photosOfBothSexesChosen()) {
-            Toast.makeText(currentContext,"You should select photos of both sexes",Toast.LENGTH_LONG);
+        if (!photosOfBothSexesChosen()) {
+            //Toast.makeText(currentContext, "Zdjęcia w zakładce MATERIAŁ powinny przedstawiać osoby obydwu płci", Toast.LENGTH_LONG).show();
+            //System.out.println("silalaal");
             return false;
         }
-        if (!(checkBox1.isChecked() || checkBox2.isChecked() || checkBox3.isChecked() || checkBox4.isChecked() || checkBox5.isChecked())) {
+        if (validatedLevel.getCommandTypesAsNumber() == 0) {
             Toast.makeText(currentContext, R.string.commandWarning, Toast.LENGTH_LONG).show();
             return false;
-        }
-        if (!(plciOpcja1.isChecked() || plciOpcja2.isChecked())) {
-            Toast.makeText(currentContext, R.string.differentSexesWarning, Toast.LENGTH_LONG).show();
-            return false;
-        }*/ else
+        } else
             return true;
+
     }
 
-    private boolean photosOfBothSexesChosen() {
-        int womanPhotos = 0, manPhotos = 0;
+    public boolean photosOfBothSexesChosen() {
+        SqliteManager sqlm = SqliteManager.getInstance(this);
 
-        Cursor cursorLevelPhotos = sqliteManager.givePhotosInLevel(validatedLevel.getId());
-        for (int i=0;i<cursorLevelPhotos.getCount();i++) {
-            //System.out.println("Id zdjecia: " + e);
-            Cursor cursorPhotoId = sqliteManager.givePhotoWithId(cursorLevelPhotos.getInt(cursorLevelPhotos.getColumnIndex("photoId")));
-            String photoName = cursorPhotoId.getString(cursorPhotoId.getColumnIndex("name"));
 
-            if (photoName.contains("woman")) {
-                womanPhotos++;
-            }
-            if (photoName.contains("man")) {
-                manPhotos++;
-            }
+        boolean differentSexes = validatedLevel.isOptionDifferentSexes();
+for (mode = 0; mode < 2; mode++) {
 
-            if (womanPhotos == 0 || manPhotos == 0)
-                return false;
+    if (mode == 0) photoIds = validatedLevel.getPhotosOrVideosIdList();
+    if (mode == 1) photoIds = validatedLevel.getPhotosOrVideosIdListInTest();
 
+    for (int photoId : photoIds) {
+        Cursor cursorPhotoId = sqlm.givePhotoWithId(photoId);
+        cursorPhotoId.moveToFirst();
+        String photoName = cursorPhotoId.getString(cursorPhotoId.getColumnIndex("name"));
+
+        if (photoName.contains("_woman")) {
+            womanPhotos++;
         }
-        return true;
+        if (photoName.contains("_man")) {
+            manPhotos++;
+        }
+
     }
 
-    private boolean everyEmotionHasAtLestOnePhoto() {
+    if ((differentSexes) && (womanPhotos == 0 || manPhotos == 0)) {
+        System.out.println("man photos " + manPhotos + " woman photos " + womanPhotos);
+        if (mode == 0)
+            Toast.makeText(currentContext, "Zdjęcia w zakładce MATERIAŁ powinny przedstawiać osoby obydwu płci", Toast.LENGTH_LONG).show();
+        if (mode == 1)
+            Toast.makeText(currentContext, "Zdjęcia w zakładce TEST powinny przedstawiać osoby obydwu płci", Toast.LENGTH_LONG).show();
+        return false;
+
+        //COŚ NIE DZIAŁA DLA TESTU !!!!
+    }
+}
+            return true;
+
+    }
+
+
+    public boolean everyEmotionHasAtLestOnePhoto() {
         String emotionNameWithoutSex;
         LevelConfigurationActivity lca = new LevelConfigurationActivity();
         for (int emotion : validatedLevel.getEmotions()) {
@@ -114,25 +137,27 @@ public class LevelValidator extends AppCompatActivity {
             emotionNameWithoutSex = getEmotionNameinBaseLanguage2(emotion);
             //emotionNameWithoutSex = getEmotionNameinBaseLanguage3(emotion);
             for (int mode = 0; mode < 2; mode++) {
+            //int mode = 0;
 
-if (mode == 0)
+            if (mode == 0)
                 id_zd = selectedPhotosForGameCheck(validatedLevel.getPhotosOrVideosIdList(), emotionNameWithoutSex);
-else if (mode == 1)
-    id_zd = selectedPhotosForGameCheck(validatedLevel.getPhotosOrVideosIdListInTest(), emotionNameWithoutSex);
+            else if (mode == 1)
+                id_zd = selectedPhotosForGameCheck(validatedLevel.getPhotosOrVideosIdListInTest(), emotionNameWithoutSex);
 
 
+            System.out.println("emotionName " + emotionNameWithoutSex + " size " + id_zd.size());
 
-                System.out.println("emotionName " + emotionNameWithoutSex + " size " + id_zd.size());
 
-
-                if (id_zd.size() < 1) {
-                    if (mode == 0) Toast.makeText(currentContext, "Select at least one photo in MATERIAL for emotion " + emotionNameWithoutSex, Toast.LENGTH_LONG).show();
-                    else Toast.makeText(currentContext, "Select at least one photo in TEST for emotion "  + emotionNameWithoutSex, Toast.LENGTH_LONG).show();
-                    System.out.println("DRUKUJEMYY!!!");
-                    return false;
-                }
-                ///TODO SPRAWDZENIE TRYBU TESTOWEGO - jeśli chceckbox odznaczony
-                //
+            if (id_zd.size() < 1) {
+                if (mode == 0)
+                    Toast.makeText(currentContext, "Select at least one photo in MATERIAL for emotion " + emotionNameWithoutSex, Toast.LENGTH_LONG).show();
+                else if (mode == 1)
+                    Toast.makeText(currentContext, "Select at least one photo in TEST for emotion " + emotionNameWithoutSex, Toast.LENGTH_LONG).show();
+                System.out.println("DRUKUJEMYY!!!");
+                return false;
+            }
+            ///TODO SPRAWDZENIE TRYBU TESTOWEGO - jeśli chceckbox odznaczony
+            //
             }
         }
 
@@ -146,9 +171,121 @@ else if (mode == 1)
     }
 
 
-    List<Integer> selectedPhotosForGameCheck(List<Integer> photos, String emotionBaseNameWithoutSex) {
-        SqliteManager sqlm = SqliteManager.getInstance(this);
+
+    public boolean numberOfPhotosSelected(int numberOfPhotosDisplayed) {
+        String emotionNameWithoutSex;
         boolean differentSexes = validatedLevel.isOptionDifferentSexes();
+        int womanPhotos = 0, manPhotos = 0;
+        int countedWoman;
+        int countedMan;
+        int mode = 0;
+        System.out.println("numberofphotos differentsexes " + differentSexes);
+        if (!differentSexes) {
+            List<Integer> id_zd = new ArrayList<>();
+            for (int emotion : validatedLevel.getEmotions()) {
+                countedMan = 0;
+                countedWoman = 0;
+
+                //emotionNameWithoutSex = lca.getEmotionNameinBaseLanguage(emotion);
+                emotionNameWithoutSex = getEmotionNameinBaseLanguage2(emotion);
+                //emotionNameWithoutSex = getEmotionNameinBaseLanguage3(emotion);
+                //for (int mode = 0; mode < 2; mode++) {
+
+
+                if (mode == 0) {
+                    id_zd = selectedPhotosForGameCheck(validatedLevel.getPhotosOrVideosIdList(), emotionNameWithoutSex);
+                } else if (mode == 1) {
+                    id_zd = selectedPhotosForGameCheck(validatedLevel.getPhotosOrVideosIdListInTest(), emotionNameWithoutSex);
+                }
+
+                for (int i : id_zd) {
+                    Cursor curEmotion = sqlm.givePhotoWithId(i);
+
+                    if (curEmotion.getCount() != 0) { //obejście  z tata
+                        curEmotion.moveToFirst();
+                        String photoName = curEmotion.getString(curEmotion.getColumnIndex("name"));
+
+                        if (countedWoman == 0 && photoName.contains("woman")) {
+                            womanPhotos++;
+                            countedWoman = 1;
+                        }
+                        if (countedMan == 0 && photoName.contains("_man")) {
+                            manPhotos++;
+                            countedMan = 1;
+                        }
+                    }
+curEmotion.close();
+                }
+                System.out.println("emotionName " + emotionNameWithoutSex + " size " + id_zd.size());
+
+            }
+          /* if (womanPhotos < numberOfPhotosDisplayed && manPhotos < numberOfPhotosDisplayed) {
+                Toast.makeText(currentContext, "Wybrana liczba wyświetlanych zdjęć to " + numberOfPhotosDisplayed + ", wybierz conajmniej po jednym zdjęciu kobiet i conajmniej tyle zdjęć mężczyzn", Toast.LENGTH_LONG).show();
+                return false;*/
+            System.out.println("!differentSexes lv " + differentSexes);
+
+    System.out.println("LEVEL VALIDATOR " + differentSexes);
+    if (womanPhotos < numberOfPhotosDisplayed) {
+        Toast.makeText(currentContext, "Wybrana liczba wyświetlanych zdjęć to " + numberOfPhotosDisplayed + ", wybierz conajmniej jedno zdjęcie kobiety dla " + numberOfPhotosDisplayed + " różnych emocji lub zmniejsz liczbę zdjęć wyświetlanych na ekranie", Toast.LENGTH_LONG).show();
+        return false;
+    } else if (manPhotos < numberOfPhotosDisplayed) {
+        Toast.makeText(currentContext, "Wybrana liczba wyświetlanych zdjęć to " + numberOfPhotosDisplayed + ", wybierz conajmniej jedno zdjęcie mężczyzny dla " + numberOfPhotosDisplayed + " różnych emocji lub zmniejsz liczbę zdjęć wyświetlanych na ekranie", Toast.LENGTH_LONG).show();
+        return false;
+
+}
+            ///TODO SPRAWDZENIE TRFBU TESTOWEGO - jeśli chceckbox odznaczony
+            //
+            //}
+
+            /*AlertDialog.Builder builder = new AlertDialog.Builder(currentContext);
+            builder.setMessage("You have set number of pictures displayed for " + numberOfPhotosDisplayed + ", but there are not enough men pictures selected. Are you sure you want to save?").setPositiveButton("SAVE", dialogClickListener)
+                    .setNegativeButton("Don't save, I want to select more pictures", dialog).show();*/
+
+     /*       AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+
+            builder.setTitle("Confirm");
+            builder.setMessage("Are you sure?");
+
+            builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+                public void onClick(DialogInterface dialog, int which) {
+
+                    // Do nothing, but close the dialog
+                    dialog.dismiss();
+                    mHandler.sendMessage(mHandler.obtainMessage(DIALOG_CLICKED, true));
+                }
+            });
+
+            builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                    // Do nothing
+                    dialog.dismiss();
+                    mHandler.sendMessage(mHandler.obtainMessage(DIALOG_CLICKED, false));
+                }
+            });
+
+            AlertDialog alert = builder.create();
+            alert.show();*/
+
+          /*  if (Confirm(currentContext))
+                return true;
+            else
+                return false;
+*/
+
+
+        }
+
+return true;
+    }
+
+
+    List<Integer> selectedPhotosForGameCheck(List<Integer> photos, String emotionBaseNameWithoutSex) {
+
+
         List<Integer> photosForEmotionList = new ArrayList<>();
         System.out.println("@@@@@@@@@ 1 selectedPhotosForGameCHECK emotion: " + emotionBaseNameWithoutSex + " idPhoto: " + photos);
         for (int e : photos) {
@@ -167,16 +304,17 @@ else if (mode == 1)
                     photosForEmotionList.add(e);
                     //System.out.println("@@@@@@@@@ ŚCIEŻKA IF selectedPhotosForGame idzdjecia: " + e + " photoName " + photoName + " PHPTPEmotionName " + photoEmotionName);
                 }
-
+curEmotion.close();
             }
         }
+
         System.out.println("@@@@@@@@@ 2 selectedPhotosForGameCHECK emotion: " + emotionBaseNameWithoutSex + " idPhoto: " + photosForEmotionList);
         return photosForEmotionList;
     }
 
     public String getEmotionNameinBaseLanguage2(int emotionNumber) {
 
-        switch(emotionNumber) {
+        switch (emotionNumber) {
          /*   case 1: return "happy";
             case 2: return "sad";
             case 3: return  "surprised";
@@ -184,16 +322,23 @@ else if (mode == 1)
             case 5: return "scared";
             case 6: return "bored";*/
 
-            case 0: return "happy";
-            case 1: return "sad";
-            case 2: return  "surprised";
-            case 3: return "angry";
-            case 4: return "scared";
-            case 5: return "bored";
+            case 0:
+                return "happy";
+            case 1:
+                return "sad";
+            case 2:
+                return "surprised";
+            case 3:
+                return "angry";
+            case 4:
+                return "scared";
+            case 5:
+                return "bored";
 
         }
         return "zly numer emocji";
-}
+    }
+
     public String getEmotionNameinBaseLanguage3(int emotionNumber) {
         Context o1;
         Resources o2;
@@ -206,12 +351,38 @@ else if (mode == 1)
         return getBaseContext().createConfigurationContext(config).getResources().getStringArray(R.array.emotions_array)[emotionNumber];
     }
 
-    public void test_adam()
-    {
+    public void test_adam() {
 
         Adam sqlm = new Adam();
 
-    sqlm.adam_print();
+        sqlm.adam_print();
 
     }
+
+
+
+
+    protected static final int DIALOG_CLICKED = 1;
+
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            String txt;
+            switch (msg.what) {
+                case DIALOG_CLICKED:
+                    Boolean bool = Boolean.parseBoolean(msg.obj.toString());
+                    // When user press on "OK",
+                    // your braking point goes here
+                    break;
+                default:
+                    super.handleMessage(msg);
+            }
+        }
+    };
+
+
+
+
+
+
 }

@@ -1,4 +1,4 @@
-package pg.autyzm.przyjazneemocje;
+package pg.autyzm.przyjazneemocje.camera;
 
 import android.content.Context;
 import android.hardware.Camera;

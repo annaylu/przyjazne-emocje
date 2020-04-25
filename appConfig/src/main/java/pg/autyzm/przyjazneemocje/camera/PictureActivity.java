@@ -1,4 +1,4 @@
-package pg.autyzm.przyjazneemocje;
+package pg.autyzm.przyjazneemocje.camera;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -22,6 +22,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Map;
 
+import pg.autyzm.przyjazneemocje.MainActivity;
+import pg.autyzm.przyjazneemocje.R;
 import pg.autyzm.przyjazneemocje.lib.SqliteManager;
 import pg.autyzm.przyjazneemocje.lib.entities.Level;
 
@@ -62,7 +64,7 @@ int sumOfAnother;
 
 
         imageView.setImageBitmap(MainCameraActivity.bitmap);
-        saveImage(MainCameraActivity.bitmap);
+
 
         emocja = findViewById(R.id.photo_emocja);
        plec = findViewById(R.id.photo_plec);
@@ -77,10 +79,7 @@ int sumOfAnother;
 saveandtakephoto.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View view) {
-   /*     if (!deleted) {
-            saveImage(MainCameraActivity.bitmap);
-            System.out.println("BLALALALLAL");
-        }*/
+        saveImage(MainCameraActivity.bitmap);
         Intent intent = new Intent(PictureActivity.this,MainCameraActivity.class);
         intent.putExtra("SpinnerValue_Emotion",emotion);
         intent.putExtra("SpinnerValue_Sex",sex);
@@ -92,9 +91,11 @@ saveandtakephoto.setOnClickListener(new View.OnClickListener() {
        delete.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
-              imageView.setVisibility(View.GONE);
-              delete.setVisibility(View.GONE);
-              saveandexit.setText(getResources().getString(R.string.camera_activity_exit));
+             Intent backToCamera = new Intent(PictureActivity.this,MainCameraActivity.class);
+             backToCamera.putExtra("SpinnerValue_Emotion",emotion);
+             backToCamera.putExtra("SpinnerValue_Sex",sex);
+             backToCamera.putExtra("sumOfAnother",++sumOfAnother);
+             startActivity(backToCamera);
 
 
               deleted = true;
@@ -106,9 +107,8 @@ saveandtakephoto.setOnClickListener(new View.OnClickListener() {
        saveandexit.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
-              /* if (!deleted) saveImage(MainCameraActivity.bitmap);
-               deleted = false;*/
-               Intent intent = new Intent(PictureActivity.this,MainActivity.class);
+               saveImage(MainCameraActivity.bitmap);
+               Intent intent = new Intent(PictureActivity.this, MainActivity.class);
                startActivity(intent);
            }
        });

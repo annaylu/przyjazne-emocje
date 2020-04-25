@@ -82,7 +82,7 @@ if (countAll("levels")  > 0)
         level_easy_icons.setTimeLimit(10);
         level_easy_icons.setAmountOfAllowedTriesForEachEmotion(3);
         level_easy_icons.setSublevelsPerEachEmotion(2);
-        level_easy_icons.setPhotosOrVideosShowedForOneQuestion(3);
+        level_easy_icons.setPhotosOrVideosShowedForOneQuestion(2);
         level_easy_icons.setForTests(true);
         level_easy_icons.setOptionDifferentSexes(false);
         level_easy_icons.setShouldQuestionBeReadAloud(true);
@@ -144,7 +144,7 @@ if (countAll("levels")  > 0)
         //level_easy_photos.setPraises("dobrze;wspaniale;świetnie;ekstra;super;good;great;excellent;extra;super;");
         level_easy_photos.setAmountOfAllowedTriesForEachEmotion(3);
         level_easy_photos.setSublevelsPerEachEmotion(2);
-        level_easy_photos.setPhotosOrVideosShowedForOneQuestion(3);
+        level_easy_photos.setPhotosOrVideosShowedForOneQuestion(2);
         level_easy_photos.setForTests(true);
         level_easy_photos.setOptionDifferentSexes(false);
         level_easy_photos.setShouldQuestionBeReadAloud(true);
@@ -201,7 +201,7 @@ if (countAll("levels")  > 0)
         // level_medium.setPraises(pg.autyzm.przyjazneemocje.lib.R.string.  array.praise_array);
         level_medium.setPraisesBinary(level_medium.allSelected(5));
         level_medium.setAmountOfAllowedTriesForEachEmotion(3);
-        level_medium.setPhotosOrVideosShowedForOneQuestion(3);
+        level_medium.setPhotosOrVideosShowedForOneQuestion(4);
         level_medium.setSublevelsPerEachEmotion(2);
         level_medium.setForTests(true);
         level_medium.setShouldQuestionBeReadAloud(true);
@@ -268,7 +268,7 @@ if (countAll("levels")  > 0)
         // level_difficult.setPraises("good"); //chyba nie działa, trzebaby wszystko pousuwać i sprbować jeszcze raz
         level_difficult.setAmountOfAllowedTriesForEachEmotion(3);
         level_difficult.setSublevelsPerEachEmotion(2);
-        level_difficult.setPhotosOrVideosShowedForOneQuestion(3);
+        level_difficult.setPhotosOrVideosShowedForOneQuestion(6);
         level_difficult.setForTests(true);
         level_difficult.setOptionDifferentSexes(true);
         level_difficult.setShouldQuestionBeReadAloud(true);

@@ -9,6 +9,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,9 +32,11 @@ import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import pg.autyzm.przyjazneemocje.DialogHandler;
 import pg.autyzm.przyjazneemocje.R;
 import pg.autyzm.przyjazneemocje.View.CheckboxGridAdapter;
 import pg.autyzm.przyjazneemocje.View.CheckboxGridBean;
@@ -74,6 +77,8 @@ public class LevelConfigurationActivity extends AppCompatActivity {
 
     private LevelItem levelItem;
     String currentEmotionName;
+    int womanPhotos = 0, manPhotos = 0;
+
 
 
     @Override
@@ -318,6 +323,8 @@ public class LevelConfigurationActivity extends AppCompatActivity {
                     findViewById(R.id.materialForTestInfo).setVisibility(View.INVISIBLE);
                     findViewById(R.id.materialForTest).setVisibility(View.INVISIBLE);
                     findViewById(R.id.button_save).setVisibility(View.VISIBLE);
+                    //ania dodalam
+                    level.setPhotosOrVideosIdListInTest(level.getPhotosOrVideosIdList());
                 } else {
                     findViewById(R.id.materialForTestInfo).setVisibility(View.VISIBLE);
                     findViewById(R.id.materialForTest).setVisibility(View.VISIBLE);
@@ -496,6 +503,7 @@ public class LevelConfigurationActivity extends AppCompatActivity {
         CheckboxGridAdapter adapter = new CheckboxGridAdapter(praiseList, getApplicationContext());
         gridView.setAdapter(adapter);
 
+
         //dodajemy checkboxy do konkretnego układu
 
     }
@@ -517,9 +525,39 @@ public class LevelConfigurationActivity extends AppCompatActivity {
     }
 
     private void activateNumberPhotos() {
-        activePlusMinus((EditText) findViewById(R.id.number_photos), (Button) findViewById(R.id.button_minus_photos), (Button) findViewById(R.id.button_plus_photos));
+        activePlusMinusDisplayedPhotos((EditText) findViewById(R.id.number_photos), (Button) findViewById(R.id.button_minus_photos), (Button) findViewById(R.id.button_plus_photos));
+    }
+    private void activePlusMinusDisplayedPhotos(final TextView textLabel, final Button minusButton, final Button plusButton) {
+        minusButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                int newValue = Integer.parseInt(textLabel.getText().toString()) - 1;
+                if (newValue > 0) {
+                    textLabel.setText(Integer.toString(newValue));
+                }
+            }
+        });
+
+        plusButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                int newValue = Integer.parseInt(textLabel.getText().toString()) + 1;
+                if (newValue <= getLevel().getEmotions().size()) {
+                    textLabel.setText(Integer.toString(newValue));
+                }
+            }
+        });
     }
 
+    private void activePlusMinusDisplayedPhotosEmotionsDeletion(final TextView textLabel, final Button minusButton) {
+        minusButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                int newValue = Integer.parseInt(textLabel.getText().toString()) - 1;
+                if (newValue > 0) {
+                    textLabel.setText(Integer.toString(newValue));
+                }
+            }
+        });
+
+    }
     private void activePlusMinus(final TextView textLabel, final Button minusButton, final Button plusButton) {
         minusButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -532,7 +570,10 @@ public class LevelConfigurationActivity extends AppCompatActivity {
 
         plusButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                textLabel.setText(Integer.toString(Integer.parseInt(textLabel.getText().toString()) + 1));
+                int newValue = Integer.parseInt(textLabel.getText().toString()) + 1;
+
+                    textLabel.setText(Integer.toString(newValue));
+
             }
         });
     }
@@ -604,6 +645,7 @@ public class LevelConfigurationActivity extends AppCompatActivity {
         final GridView listView = (GridView) findViewById(R.id.grid_photos);
         CheckboxImageAdapter adapter = new CheckboxImageAdapter(this, R.layout.grid_element_checkbox_image, tabPhotos, level, false);
         listView.setAdapter(adapter);
+        createDefaultStepName();
     }
 
     private void updateSelectedEmotions() {
@@ -613,6 +655,7 @@ public class LevelConfigurationActivity extends AppCompatActivity {
 
     private void activeNumberEmotionPlusMinus() {
         final EditText nrEmotions = (EditText) findViewById(R.id.nr_emotions);
+        final EditText nrPhotos = (EditText) findViewById(R.id.number_photos);
 
         final Button minusButton = (Button) findViewById(R.id.button_minus);
         minusButton.setOnClickListener(new View.OnClickListener() {
@@ -623,6 +666,8 @@ public class LevelConfigurationActivity extends AppCompatActivity {
                     //System.out.println("!!activeNumberEmptionPlusMinus numer emocji: " + getLevel().lastEmotionNumber());
                     updateEmotionsGrid(getLevel().lastEmotionNumber());
                     nrEmotions.setText(Integer.toString(newValue));
+                    if (Integer.parseInt(nrPhotos.getText().toString()) > newValue)
+                    nrPhotos.setText(Integer.toString(newValue));
                     updateSelectedEmotions();
                 }
             }
@@ -640,6 +685,7 @@ public class LevelConfigurationActivity extends AppCompatActivity {
                     getLevel().addEmotion(newUniqueEmotionId);
                     selectAllPictures(newUniqueEmotionId);
                     nrEmotions.setText(Integer.toString(getLevel().getEmotions().size()));
+                    //activePlusMinusDisplayedPhotosEmotionsDeletion((EditText) findViewById(R.id.number_photos), (Button) findViewById(R.id.button_minus));
                     updateSelectedEmotions();
                 }
             }
@@ -669,36 +715,32 @@ public class LevelConfigurationActivity extends AppCompatActivity {
             }
         });
         tab.setup();
-        ///anka
-        final CheckBox checkBox1 = (CheckBox) findViewById(R.id.show);
-        final CheckBox checkBox2 = (CheckBox) findViewById(R.id.select);
-        final CheckBox checkBox3 = (CheckBox) findViewById(R.id.point);
-        final CheckBox checkBox4 = (CheckBox) findViewById(R.id.touch);
-        final CheckBox checkBox5 = (CheckBox) findViewById(R.id.find);
+
         final RadioButton plciOpcja1 = (RadioButton) findViewById(R.id.plci_opcja1);
         final RadioButton plciOpcja2 = (RadioButton) findViewById(R.id.plci_opcja2);
+        final LevelValidator lv = new LevelValidator(level,LevelConfigurationActivity.this);
+
 
         ImageView savingButton = (ImageView) findViewById(R.id.button_save);
         savingButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if (plciOpcja2.isChecked() && !photosOfBothSexesChosen()) {
-                    Toast.makeText(LevelConfigurationActivity.this,"You should select photos of both sexes",Toast.LENGTH_LONG);
-
-                }
-                if (!(checkBox1.isChecked() || checkBox2.isChecked() || checkBox3.isChecked() || checkBox4.isChecked() || checkBox5.isChecked())) {
-                    Toast.makeText(LevelConfigurationActivity.this, R.string.commandWarning, Toast.LENGTH_LONG).show();
-
-                }
                 if (!(plciOpcja1.isChecked() || plciOpcja2.isChecked())) {
-                    Toast.makeText(LevelConfigurationActivity.this, R.string.differentSexesWarning, Toast.LENGTH_LONG).show();
-            }
-                 if (level.isMaterialForTest()) {
-                    save(LevelConfigurationActivity.this);
-                } else if (level.getPhotosOrVideosIdListInTest().isEmpty()) {
-                    Toast.makeText(LevelConfigurationActivity.this, "Wybierz zdjecia dla trybu testowego", Toast.LENGTH_SHORT).show();
-                } else {
 
+                    Toast.makeText(LevelConfigurationActivity.this, R.string.differentSexesWarning, Toast.LENGTH_LONG).show();
+
+                }
+                //PO CO TOOOOOOOOOO PONIŻEJ
+                /* else if (level.isMaterialForTest()) {
                     save(LevelConfigurationActivity.this);
+                } *//*else if (level.getPhotosOrVideosIdListInTest().isEmpty()) {
+                    Toast.makeText(LevelConfigurationActivity.this, "Wybierz zdjecia dla trybu testowego", Toast.LENGTH_SHORT).show();
+                }*/ else {
+
+                    if (!lv.numberOfPhotosSelected(level.getPhotosOrVideosShowedForOneQuestion()))
+                    {
+                        System.out.println("LEVEL CONF " + lv.numberOfPhotosSelected(level.getPhotosOrVideosShowedForOneQuestion()) );
+                        doclick();}
+                    else save(LevelConfigurationActivity.this);
                 }
             }
         });
@@ -1051,7 +1093,7 @@ public class LevelConfigurationActivity extends AppCompatActivity {
                     System.out.println("ANIA TATUŚ  I CAŁA RODZINKA ****** emotionList " + level.getEmotions());*/
                     if (getLevel().isEmotionNew(emotionSelectedId)) {
                         //System.out.println("ANIA TATUŚ  I CAŁA RODZINKA **** UPDATE WESZLIŚMY ");
-                        // updateEmotionsGrid(position);
+                         updateEmotionsGrid(position);
                         getLevel().getEmotions().set(position, emotionSelectedId);
                         //position - który spiner, i - która emocja (licząc od 0)
 
@@ -1093,43 +1135,30 @@ public class LevelConfigurationActivity extends AppCompatActivity {
 
     }
 
-    private boolean photosOfBothSexesChosen() {
-        int womanPhotos = 0, manPhotos = 0;
 
-        SqliteManager sqlm= SqliteManager.getInstance(this);
-
-        Cursor cursorLevelPhotos = sqlm.givePhotosInLevel(getLevel().getId());
-        Cursor cursorPhotoId;
-
-        //ZROBIŁAM GIVEPHOTOSIN LEVEL STATIC
-        cursorLevelPhotos.moveToFirst();
-        //System.out.println("cursorphoto id count " + cursorPhotoId.getCount());
-        for (int i=0;i<cursorLevelPhotos.getCount();i++) {
-            //System.out.println("Id zdjecia: " + e);
-            int photoId = cursorLevelPhotos.getInt(cursorLevelPhotos.getColumnIndex("photoid"));
-            cursorPhotoId = sqlm.givePhotoWithId(photoId);
-            cursorPhotoId.moveToFirst();
-           if (cursorPhotoId.getCount() >0) {
-               String photoName = cursorPhotoId.getString(cursorPhotoId.getColumnIndex("name"));
-
-               if (photoName.contains("woman")) {
-                   womanPhotos++;
-               }
-               if (photoName.contains("man")) {
-                   manPhotos++;
-               }
-           }
-
-            cursorLevelPhotos.moveToNext();
-        }
-         if (womanPhotos == 0 || manPhotos == 0)
-
-    {
-        Toast.makeText(LevelConfigurationActivity.this, "Zdjęcia powinny przedstawiać osoby obydwu płci", Toast.LENGTH_LONG);
-        return false;
+    public void doclick() {
+        DialogHandler appdialog = new DialogHandler();
+        appdialog.Confirm(this, "Insufficient photos chosen", "A re you sure you want to save?",
+                "No, I want to choose more photos.", "Yes, save.", aproc(), bproc());
     }
-        return true;
+    public Runnable aproc(){
+        return new Runnable() {
+            public void run() {
+                save(LevelConfigurationActivity.this);
+                finish();
+                Log.d("Test", "This from A proc");
+            }
+        };
     }
+    public Runnable bproc(){
+        return new Runnable() {
+            public void run() {
+                Log.d("Test", "This from B proc");
+            }
+        };
+    }
+
+
 
 
 }

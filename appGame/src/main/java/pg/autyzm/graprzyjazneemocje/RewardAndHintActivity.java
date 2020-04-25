@@ -238,10 +238,9 @@ public class RewardAndHintActivity extends Activity {
     }
 
     public void ringWait(){
-        return;
-       /* while (ring.isPlaying()) {
+       while (ring.isPlaying()) {
             mySleep(5000);
-        }*/
+        }
     }
 
 }

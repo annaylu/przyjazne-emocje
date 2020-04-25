@@ -38,6 +38,7 @@ import java.util.Locale;
 import pg.autyzm.przyjazneemocje.adapter.CustomList;
 import pg.autyzm.przyjazneemocje.adapter.ILevelListCallback;
 import pg.autyzm.przyjazneemocje.adapter.LevelItem;
+import pg.autyzm.przyjazneemocje.camera.MainCameraActivity;
 import pg.autyzm.przyjazneemocje.configuration.LevelConfigurationActivity;
 import pg.autyzm.przyjazneemocje.lib.SqliteManager;
 import pg.autyzm.przyjazneemocje.lib.entities.Level;

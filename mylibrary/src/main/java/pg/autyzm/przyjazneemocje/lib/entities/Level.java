@@ -31,7 +31,7 @@ public class Level implements Serializable {
     private int amountOfAllowedTriesForEachEmotion;
     private boolean isForTests;
 
-    //ZlecenieIT - Test mode
+    //Ania - Test mode
     private boolean isLearnMode;
     private boolean isTestMode;
     private boolean isMaterialForTest;

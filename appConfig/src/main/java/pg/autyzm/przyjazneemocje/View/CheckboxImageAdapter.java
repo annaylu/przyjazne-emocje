@@ -1,7 +1,10 @@
 package pg.autyzm.przyjazneemocje.View;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
@@ -21,6 +24,7 @@ import java.sql.SQLOutput;
 import java.util.List;
 
 import pg.autyzm.przyjazneemocje.R;
+import pg.autyzm.przyjazneemocje.configuration.LevelConfigurationActivity;
 import pg.autyzm.przyjazneemocje.lib.entities.Level;
 
 
@@ -190,4 +194,31 @@ public class CheckboxImageAdapter extends ArrayAdapter<GridCheckboxImageBean> {
         public CheckBox checkBox;
         public Button delete_photo_button;
     }
+
+    public void showDialog(final String phone) throws Exception {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
+        builder.setMessage("Ring: " + phone);
+
+        builder.setPositiveButton("Ring", new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialog, int which){
+
+
+
+
+                dialog.dismiss();
+            }
+        });
+
+        builder.setNegativeButton("Abort", new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialog, int which){
+                dialog.dismiss();
+            }
+        });
+        builder.show();
+    }
+
+
 }

@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.os.Handler;
 
 
 import java.util.Locale;
@@ -54,6 +55,16 @@ String test_str;
         System.out.println("@@@@@@@@@ ADAM 3   @@@@@@@@@ "+ test_str);
 
         //String englishName = getLocaleStringResource(new Locale("en"), test_id, ctx);
+    }
+
+    public void mySleep(int duration) {
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+            }
+        }, duration);
     }
 
 

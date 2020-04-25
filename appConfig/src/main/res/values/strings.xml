@@ -1,7 +1,7 @@
 <resources>
     <string name="newPhoto">Zrób nowe</string>
     <string name="label_choose_images">Wybierz</string>
-    <string name="title_choose_img">Wybierz obrazy</string>
+    <string name="title_choose_img">Tryb Testu - Wybierz obrazy</string>
     <string name="default_message">Nie wybrano obrazów</string>
     <string name="default_level_generate_message">Wygenerowano domyślny krok dla wesoły i smutny</string>
     <string name="save_message">Zapisano krok</string>
@@ -44,9 +44,9 @@
     <string name="test_time_for_answer">Czas na udzielenie odpowiedzi: </string>
     <string name="test_tries">Liczba prób:</string>
 
-    <string name="picture_activity_super">Super!</string>
+    <string name="save_and_exit">Zapisz i wyjdź</string>
     <string name="picture_activity_delete">Usuń zdjęcie</string>
-    <string name="picture_activity_another">Zrób kolejne zdjęcie</string>
+    <string name="picture_activity_another">Zapisz i zrób kolejne zdjęcie</string>
     <string name="camera_activity_take_photo">Zrób zdjęcie</string>
     <string name="camera_activity_switch_camera">Odwróć aparat</string>
     <string name="camera_activity_exit">Wyjdź</string>

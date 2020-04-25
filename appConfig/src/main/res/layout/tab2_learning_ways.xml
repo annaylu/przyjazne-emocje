@@ -59,7 +59,7 @@
                     android:focusable="false"
                     android:gravity="center_horizontal"
                     android:inputType="number"
-                    android:text="3" />
+                    android:text="2" />
 
                 <Button
                     android:id="@+id/button_plus_photos"
