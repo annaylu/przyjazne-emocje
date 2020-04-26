@@ -62,7 +62,7 @@ public class CustomList extends BaseAdapter implements ListAdapter {
         modeTest.setOnCheckedChangeListener(null);
         modeTest.setChecked(levelItem.isTestMode());
 
-        Log.d("Testo - getView ", "Name levelItem: " + levelItem.getName() + "isDefault: "  + levelItem.isIs_default() + ", learnMode: " + levelItem.isLearnMode() + ", testMode: " + levelItem.isTestMode());
+       // Log.d("Testo - getView ", "Name levelItem: " + levelItem.getName() + "isDefault: "  + levelItem.isIs_default() + ", learnMode: " + levelItem.isLearnMode() + ", testMode: " + levelItem.isTestMode());
         if (levelItem.isCanEdit()) {
             editBtn.setVisibility(View.VISIBLE);
         } else {

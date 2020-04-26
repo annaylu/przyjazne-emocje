@@ -94,7 +94,8 @@ public class CheckboxImageAdapter extends ArrayAdapter<GridCheckboxImageBean> {
 
         final CheckBox checkBox = holder.checkBox;
 //ustawienie checkboxa od zdjęcia w zależności  od właściwości levela
-        if(isForTest && !level.getPhotosOrVideosIdListInTest().isEmpty()) {
+        if(isForTest) {
+           // if (!level.getPhotosOrVideosIdListInTest().isEmpty())
             checkBox.setChecked(level.getPhotosOrVideosIdListInTest().contains(photoWithCheckBox.getId()));
         } else {
             checkBox.setChecked(level.getPhotosOrVideosIdList().contains(photoWithCheckBox.getId()));
@@ -104,6 +105,7 @@ public class CheckboxImageAdapter extends ArrayAdapter<GridCheckboxImageBean> {
             Integer photoId = photoWithCheckBox.getId();
             @Override
             public void onClick(View arg0) {
+                System.out.println(" zdjecia z materiału KLIIK1 " + level.getPhotosOrVideosIdList() + "zdjecia z TESTU " + level.getPhotosOrVideosIdListInTest());
                 if(checkBox.isChecked()) {
                     if(photoWithCheckBox.photoName.contains(".mp4")){
                         level.setPhotosOrVideosFlag("videos");
@@ -121,6 +123,7 @@ public class CheckboxImageAdapter extends ArrayAdapter<GridCheckboxImageBean> {
                         level.removePhoto(photoId);
                     }
                 }
+                System.out.println(" zdjecia z materiału KLiIK2 level  " + level + " id " + level.getId() + " material " +level.getPhotosOrVideosIdList() + "zdjecia z TESTU " + level.getPhotosOrVideosIdListInTest());
             }
         });
 
@@ -133,10 +136,10 @@ public class CheckboxImageAdapter extends ArrayAdapter<GridCheckboxImageBean> {
         //TU ZAKOMENTOWAŁAM - ODKOMENTOWAĆ!!!
   if (photoWithCheckBox.photoName.contains("_r_")) {
             holder.delete_photo_button.setVisibility(View.INVISIBLE);
-      System.out.println("getView od images resources " + photoWithCheckBox.photoName + " position " + position );
+      //System.out.println("getView od images resources " + photoWithCheckBox.photoName + " position " + position );
         }
   else {
-      System.out.println("getView od images external " + photoWithCheckBox.photoName + " position " + position);
+      //System.out.println("getView od images external " + photoWithCheckBox.photoName + " position " + position);
       holder.delete_photo_button.setVisibility(View.VISIBLE);
   }
 

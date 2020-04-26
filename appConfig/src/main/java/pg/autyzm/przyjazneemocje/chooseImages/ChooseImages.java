@@ -31,7 +31,7 @@ import static pg.autyzm.przyjazneemocje.lib.SqliteManager.getInstance;
 public class ChooseImages extends Activity implements android.widget.CompoundButton.OnCheckedChangeListener {
 
     private ListView listView;
-
+                    
     public static String getChoosenEmotion() {
         return choosenEmotion;
     }

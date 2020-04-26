@@ -141,7 +141,7 @@ for (mode = 0; mode < 2; mode++) {
 
             if (mode == 0)
                 id_zd = selectedPhotosForGameCheck(validatedLevel.getPhotosOrVideosIdList(), emotionNameWithoutSex);
-            else if (mode == 1)
+            else if ((mode == 1 )&& (!validatedLevel.isMaterialForTest()))
                 id_zd = selectedPhotosForGameCheck(validatedLevel.getPhotosOrVideosIdListInTest(), emotionNameWithoutSex);
 
 
@@ -151,7 +151,8 @@ for (mode = 0; mode < 2; mode++) {
             if (id_zd.size() < 1) {
                 if (mode == 0)
                     Toast.makeText(currentContext, "Select at least one photo in MATERIAL for emotion " + emotionNameWithoutSex, Toast.LENGTH_LONG).show();
-                else if (mode == 1)
+                else if  ((mode == 1 )&& (!validatedLevel.isMaterialForTest()))
+                    System.out.println("ZDJECIA W TRYBIE TESTOWYM everyEmotion " + id_zd.toString() + " getPhotosOrVideoIdListInTest " + validatedLevel.getPhotosOrVideosIdListInTest().toString());
                     Toast.makeText(currentContext, "Select at least one photo in TEST for emotion " + emotionNameWithoutSex, Toast.LENGTH_LONG).show();
                 System.out.println("DRUKUJEMYY!!!");
                 return false;
@@ -172,9 +173,8 @@ for (mode = 0; mode < 2; mode++) {
 
 
 
-    public boolean numberOfPhotosSelected(int numberOfPhotosDisplayed) {
+    public boolean numberOfPhotosSelected(int numberOfPhotosDisplayed, boolean differentSexes) {
         String emotionNameWithoutSex;
-        boolean differentSexes = validatedLevel.isOptionDifferentSexes();
         int womanPhotos = 0, manPhotos = 0;
         int countedWoman;
         int countedMan;
@@ -287,7 +287,7 @@ return true;
 
 
         List<Integer> photosForEmotionList = new ArrayList<>();
-        System.out.println("@@@@@@@@@ 1 selectedPhotosForGameCHECK emotion: " + emotionBaseNameWithoutSex + " idPhoto: " + photos);
+        System.out.println("@@@@@@@@@ 1 selectedPhotosForGameCHECK emotion level : " + validatedLevel + " id " + validatedLevel.getId() +" " + emotionBaseNameWithoutSex + " idPhoto: " + photos);
         for (int e : photos) {
             //System.out.println("Id zdjecia: " + e);
             Cursor curEmotion = sqlm.givePhotoWithId(e);
@@ -308,7 +308,7 @@ curEmotion.close();
             }
         }
 
-        System.out.println("@@@@@@@@@ 2 selectedPhotosForGameCHECK emotion: " + emotionBaseNameWithoutSex + " idPhoto: " + photosForEmotionList);
+        System.out.println("@@@@@@@@@ 2 selectedPhotosForGameCHECK emotion: " + emotionBaseNameWithoutSex + " idPhoto: " + photosForEmotionList + " \nmaterial " + validatedLevel.getPhotosOrVideosIdList() + " test " + validatedLevel.getPhotosOrVideosIdListInTest());
         return photosForEmotionList;
     }
 
@@ -382,7 +382,27 @@ curEmotion.close();
 
 
 
-
+    public void doclick1() {
+        DialogHandler appdialog = new DialogHandler();
+        appdialog.Confirm(this, "Insufficient photos chosen", "A re you sure you want to save?",
+                "No, I want to choose more photos.", "Yes, save.", aproc1(), bproc1());
+    }
+    public Runnable aproc1(){
+        return new Runnable() {
+            public void run() {
+                //save(LevelConfigurationActivity.this);
+                finish();
+                Log.d("Test", "This from A proc");
+            }
+        };
+    }
+    public Runnable bproc1(){
+        return new Runnable() {
+            public void run() {
+                Log.d("Test", "This from B proc");
+            }
+        };
+    }
 
 
 }

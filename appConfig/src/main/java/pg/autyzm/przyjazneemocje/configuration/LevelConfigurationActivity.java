@@ -54,7 +54,7 @@ import static pg.autyzm.przyjazneemocje.lib.SqliteManager.getInstance;
 
 public class LevelConfigurationActivity extends AppCompatActivity {
 
-
+boolean duringInitiation = true;
     public static final int MATERIAL_FOR_TEST_DATA = 0;
 
     ArrayList<CheckboxGridBean> praiseList = new ArrayList<>();
@@ -103,7 +103,7 @@ public class LevelConfigurationActivity extends AppCompatActivity {
 
 
     private void loadLevelIfItIsEditionMode() {
-
+duringInitiation = true;
         // Loaded level id retrieval
 
         Bundle b = getIntent().getExtras();
@@ -119,7 +119,7 @@ public class LevelConfigurationActivity extends AppCompatActivity {
             getLevel().setTestMode(false);
             getLevel().setMaterialForTest(true);
         }
-
+duringInitiation = false;
     }
 
 
@@ -329,6 +329,14 @@ public class LevelConfigurationActivity extends AppCompatActivity {
                     findViewById(R.id.materialForTestInfo).setVisibility(View.VISIBLE);
                     findViewById(R.id.materialForTest).setVisibility(View.VISIBLE);
                     findViewById(R.id.button_save).setVisibility(View.INVISIBLE);
+                    System.out.println(" przed przepisanie zdjec z materialow do testow W TEŚCIE" + level.getPhotosOrVideosIdListInTest() + " w materiale " + level.getPhotosOrVideosIdList());
+                    //TODO przepisac zdjecia
+                    if (!duringInitiation) {
+                        level.setPhotosOrVideosIdListInTest(level.getPhotosOrVideosIdList());
+                        System.out.println(" po przepisanie zdjec z materialow do testow W TEŚCIE" + level.getPhotosOrVideosIdListInTest() + " w materiale " + level.getPhotosOrVideosIdList());
+
+                    }
+
                 }
             }
         });
@@ -338,8 +346,10 @@ public class LevelConfigurationActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(LevelConfigurationActivity.this, MaterialForTestActivity.class);
                 intent.putExtra("level", level);
+                System.out.println(" WYBIERZ lca1 " + level.getPhotosOrVideosIdList() + " test : " + level.getPhotosOrVideosIdListInTest());
                 startActivityForResult(intent, MATERIAL_FOR_TEST_DATA);
-                level.getPhotosOrVideosIdListInTest().clear();
+//aneczkaxo
+                //level.getPhotosOrVideosIdListInTest().clear();
             }
         });
     }
@@ -644,6 +654,7 @@ public class LevelConfigurationActivity extends AppCompatActivity {
 
         final GridView listView = (GridView) findViewById(R.id.grid_photos);
         CheckboxImageAdapter adapter = new CheckboxImageAdapter(this, R.layout.grid_element_checkbox_image, tabPhotos, level, false);
+        System.out.println("updateemotiongrid level: " + level + " id " + level.getId() + " material " + level.getPhotosOrVideosIdList() + " test " + level.getPhotosOrVideosIdListInTest());
         listView.setAdapter(adapter);
         createDefaultStepName();
     }
@@ -730,15 +741,16 @@ public class LevelConfigurationActivity extends AppCompatActivity {
 
                 }
                 //PO CO TOOOOOOOOOO PONIŻEJ
-                /* else if (level.isMaterialForTest()) {
+                 else if (level.isMaterialForTest()) {
                     save(LevelConfigurationActivity.this);
-                } *//*else if (level.getPhotosOrVideosIdListInTest().isEmpty()) {
-                    Toast.makeText(LevelConfigurationActivity.this, "Wybierz zdjecia dla trybu testowego", Toast.LENGTH_SHORT).show();
-                }*/ else {
 
-                    if (!lv.numberOfPhotosSelected(level.getPhotosOrVideosShowedForOneQuestion()))
+                } //*else if (level.getPhotosOrVideosIdListInTest().isEmpty()) {
+                //Toast.makeText(LevelConfigurationActivity.this, "Wybierz zdjecia dla trybu testowego", Toast.LENGTH_SHORT).show();
+                 else {
+
+                    if (!lv.numberOfPhotosSelected(level.getPhotosOrVideosShowedForOneQuestion(), plciOpcja2.isChecked()))
                     {
-                        System.out.println("LEVEL CONF " + lv.numberOfPhotosSelected(level.getPhotosOrVideosShowedForOneQuestion()) );
+                        System.out.println("LEVEL CONF " + lv.numberOfPhotosSelected(level.getPhotosOrVideosShowedForOneQuestion(),plciOpcja2.isChecked()));
                         doclick();}
                     else save(LevelConfigurationActivity.this);
                 }
@@ -777,6 +789,7 @@ public class LevelConfigurationActivity extends AppCompatActivity {
 
         gatherInfoFromGUI();
         LevelValidator lv = new LevelValidator(getLevel(), obj);
+        System.out.println("save() material: " + getLevel().getPhotosOrVideosIdList() + " test " + getLevel().getPhotosOrVideosIdListInTest());
         if (lv.validateLevel() ) {
 
             saveLevelToDatabaseAndShowLevelSavedText();
@@ -1010,7 +1023,11 @@ public class LevelConfigurationActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == MATERIAL_FOR_TEST_DATA && resultCode == Activity.RESULT_OK) {
-            level = (Level) data.getExtras().getSerializable("level");
+          //  level = (Level) data.getExtras().getSerializable("level");
+            Level level1 = (Level) data.getExtras().getSerializable("level");
+            level.setPhotosOrVideosIdListInTest(level1.getPhotosOrVideosIdListInTest());
+            System.out.println(" WYBIERZ lca2 " + level.getPhotosOrVideosIdList() + " test : " + level.getPhotosOrVideosIdListInTest());
+            System.out.println(" WYBIERZ lca2 LEVEL " + level + " material " + level.getPhotosOrVideosIdList() + " test : " + level.getPhotosOrVideosIdListInTest());
             findViewById(R.id.button_save).setVisibility(View.VISIBLE);
         }
     }
@@ -1105,6 +1122,8 @@ public class LevelConfigurationActivity extends AppCompatActivity {
                         Toast.makeText(this,message,Toast.LENGTH_LONG);
                     }*/
                     }
+
+                    //ANIA ZMIANA
                     updateEmotionsGrid(getLevel().getEmotions().get(position));
                 }
 

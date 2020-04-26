@@ -350,8 +350,8 @@ public class MainActivity extends AppCompatActivity {
             l.setTestMode(levelId == id && !learnMode);
             levelItem.setLearnMode(l.isLearnMode());
             levelItem.setTestMode(l.isTestMode());
-            Log.d("Testo - UpdateActivity ", "Name levelItem: " + levelItem.getName() + ", learnMode: " + levelItem.isLearnMode() + ", testMode: " + levelItem.isTestMode());
-            Log.d("Testo - UpdateActivity ", "Name level: " + l.getName() + ", learnMode: " + l.isLearnMode() + ", testMode: " + l.isTestMode());
+           // Log.d("Testo - UpdateActivity ", "Name levelItem: " + levelItem.getName() + ", learnMode: " + levelItem.isLearnMode() + ", testMode: " + levelItem.isTestMode());
+          //  Log.d("Testo - UpdateActivity ", "Name level: " + l.getName() + ", learnMode: " + l.isLearnMode() + ", testMode: " + l.isTestMode());
             sqlm.saveLevelToDatabase(l);
         }
         adapter.notifyDataSetChanged();

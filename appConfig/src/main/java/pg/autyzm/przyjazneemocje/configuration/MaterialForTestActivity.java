@@ -59,6 +59,7 @@ public class MaterialForTestActivity extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                System.out.println(" WYBIERZ zdjecia z materiału KLIK2 " + level.getPhotosOrVideosIdList() + "zdjecia z TESTU " + level.getPhotosOrVideosIdListInTest());
                 Intent data = new Intent();
                 data.putExtra("level", level);
                 setResult(RESULT_OK, data);
