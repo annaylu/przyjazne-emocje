@@ -395,9 +395,9 @@ duringInitiation = false;
         //informacje.append(String.format("<font color=\"blue\">%s</font>","lalalala"));
 
         learnInfo.append(("\n" + getString(R.string.label1_material) + " " + level.getAmountOfEmotions()));
-        learnInfo.append("     " + getString(R.string.label2_material) + " " + getEmotionsNameInLocalLang());
+        learnInfo.append("\n" + getString(R.string.label2_material) + " " + getEmotionsNameInLocalLang());
         learnInfo.append("\n" + getString(R.string.label0_material) + " " + level.getPhotosOrVideosIdList().size());
-        learnInfo.append("\n" + getString(R.string.label1_1_learning_ways) + " " + level.getPhotosOrVideosShowedForOneQuestion());
+        // learnInfo.append("\n" + getString(R.string.label1_1_learning_ways) + " " + level.getPhotosOrVideosShowedForOneQuestion());
         learnInfo.append("\n" + getString(R.string.label1_2_learning_ways) + " " + level.getSublevelsPerEachEmotion());
         learnInfo.append("\n" + getString(R.string.label2_1_learning_ways) + " " + getKindOfCommand(level.getQuestionType().toString()));
         learnInfo.append("\n" + getString(R.string.label1_5_1) + " " + yesOrNoLocalLanguage(level.isOptionDifferentSexes()));
@@ -413,7 +413,7 @@ duringInitiation = false;
         LearnInfo.setText(learnInfo);
         TextView TestInfo = (TextView) findViewById(R.id.TestInfo);
         StringBuilder testInfo = new StringBuilder();
-        testInfo.append("\n" + getString(R.string.test_no_photos) + " " + level.getPhotosOrVideosIdListInTest().size());
+       //  testInfo.append("\n" + getString(R.string.test_no_photos) + " " + level.getPhotosOrVideosIdListInTest().size());
         testInfo.append("\n" + getString(R.string.test_time_for_answer) + " " + level.getTimeLimitInTest() + " " + getString(R.string.seconds));
         testInfo.append("\n" + getString(R.string.test_tries) + " " + level.getNumberOfTriesInTest());
         TestInfo.setText(testInfo);
@@ -748,11 +748,8 @@ duringInitiation = false;
                 //Toast.makeText(LevelConfigurationActivity.this, "Wybierz zdjecia dla trybu testowego", Toast.LENGTH_SHORT).show();
                  else {
 
-                    if (!lv.numberOfPhotosSelected(level.getPhotosOrVideosShowedForOneQuestion(), plciOpcja2.isChecked()))
-                    {
-                        System.out.println("LEVEL CONF " + lv.numberOfPhotosSelected(level.getPhotosOrVideosShowedForOneQuestion(),plciOpcja2.isChecked()));
-                        doclick();}
-                    else save(LevelConfigurationActivity.this);
+
+                   save(LevelConfigurationActivity.this);
                 }
             }
         });
@@ -786,14 +783,20 @@ duringInitiation = false;
     }
 
     void save(Object obj) {
+        if (!lv.numberOfPhotosSelected(level.getPhotosOrVideosShowedForOneQuestion(), plciOpcja2.isChecked()))
+        {
+            System.out.println("LEVEL CONF " + lv.numberOfPhotosSelected(level.getPhotosOrVideosShowedForOneQuestion(),plciOpcja2.isChecked()));
+            doclick();}
+        else {
 
-        gatherInfoFromGUI();
-        LevelValidator lv = new LevelValidator(getLevel(), obj);
-        System.out.println("save() material: " + getLevel().getPhotosOrVideosIdList() + " test " + getLevel().getPhotosOrVideosIdListInTest());
-        if (lv.validateLevel() ) {
+            gatherInfoFromGUI();
 
-            saveLevelToDatabaseAndShowLevelSavedText();
-            getLevel().setId(0);
+            System.out.println("save() material: " + getLevel().getPhotosOrVideosIdList() + " test " + getLevel().getPhotosOrVideosIdListInTest());
+            if (lv.validateLevel()) {
+                LevelValidator lv = new LevelValidator(getLevel(), obj);
+                saveLevelToDatabaseAndShowLevelSavedText();
+                getLevel().setId(0);
+            }
         }
         //else POZOSTAJEMY W TRYBIE EDYCJI
 
