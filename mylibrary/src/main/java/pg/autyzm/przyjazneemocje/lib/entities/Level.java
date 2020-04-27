@@ -96,7 +96,6 @@ public class Level implements Serializable {
             setHintTypesAsNumber(curLevel.getInt(curLevel.getColumnIndex("hint_types_as_number")));
             setCommandTypesAsNumber(curLevel.getInt(curLevel.getColumnIndex("command_types_as_number")));
 
-            //ZlecenieIT
             int isLearnMode = curLevel.getInt(curLevel.getColumnIndex("is_learn_mode"));
             int isTestMode = curLevel.getInt(curLevel.getColumnIndex("is_test_mode"));
             int isMaterialForTest = curLevel.getInt(curLevel.getColumnIndex("material_for_test"));

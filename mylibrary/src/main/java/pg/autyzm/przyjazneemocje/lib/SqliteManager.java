@@ -409,8 +409,6 @@ if (countAll("levels")  > 0)
         //System.out.println("AGAGAGAG command_types_as_number" + level.getCommandTypesAsNumber() +" name " + level.getName());
         values.put("praisesBinary",level.getPraisesBinary());
         values.put("shouldQuestionBeReadAloud", level.isShouldQuestionBeReadAloud());
-
-        //ZlecenieIT
         values.put("is_learn_mode", level.isLearnMode());
         values.put("is_test_mode", level.isTestMode());
         values.put("material_for_test", level.isMaterialForTest());

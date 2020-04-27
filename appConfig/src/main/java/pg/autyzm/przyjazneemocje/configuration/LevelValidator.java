@@ -1,20 +1,13 @@
 package pg.autyzm.przyjazneemocje.configuration;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
-import android.databinding.DataBindingUtil;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.CheckBox;
-import android.widget.RadioButton;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -23,7 +16,7 @@ import java.util.Locale;
 
 import pg.autyzm.przyjazneemocje.DialogHandler;
 import pg.autyzm.przyjazneemocje.R;
-import pg.autyzm.przyjazneemocje.lib.Adam;
+import pg.autyzm.przyjazneemocje.lib.Ania;
 import pg.autyzm.przyjazneemocje.lib.SqliteManager;
 import pg.autyzm.przyjazneemocje.lib.entities.Level;
 
@@ -353,7 +346,7 @@ curEmotion.close();
 
     public void test_adam() {
 
-        Adam sqlm = new Adam();
+        Ania sqlm = new Ania();
 
         sqlm.adam_print();
 

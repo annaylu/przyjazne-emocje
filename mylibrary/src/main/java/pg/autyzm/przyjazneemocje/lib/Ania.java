@@ -4,18 +4,14 @@ import android.app.Application;
 import android.content.Context;
 
 
-import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Handler;
 
 
 import java.util.Locale;
-import java.util.Locale;
 
-import pg.autyzm.przyjazneemocje.lib.R;
-
-public class Adam  extends Application{
+public class Ania extends Application{
 
     private static Context mContext;
 
@@ -30,7 +26,7 @@ public class Adam  extends Application{
     }
 
     //Context ctx = null;
-    public Adam() {
+    public Ania() {
 //        ctx=  getApplicationContext();
         return;
     }
@@ -40,7 +36,7 @@ public class Adam  extends Application{
 Integer test_id;
 String test_str;
   //test =  R.string.app_name;
-        test_id =  R.string.adam_key;
+        test_id =  R.string.ania_key;
         System.out.println("@@@@@@@@@ ADAM 2   @@@@@@@@@ "+ test_id);
 
 
@@ -52,7 +48,7 @@ String test_str;
         //config.setLocale(Locale.ENGLISH);
         //return getBaseContext().createConfigurationContext(config).getResources().getStringArray(R.array.emotions_array)[emotionNumber];
         test_str = res.getString(test_id);
-        System.out.println("@@@@@@@@@ ADAM 3   @@@@@@@@@ "+ test_str);
+        System.out.println("@@@@@@@@@ ANIA 3   @@@@@@@@@ "+ test_str);
 
         //String englishName = getLocaleStringResource(new Locale("en"), test_id, ctx);
     }
