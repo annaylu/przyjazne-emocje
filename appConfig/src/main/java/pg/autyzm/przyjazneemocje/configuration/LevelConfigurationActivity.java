@@ -396,8 +396,8 @@ duringInitiation = false;
 
         learnInfo.append(("\n" + getString(R.string.label1_material) + " " + level.getAmountOfEmotions()));
         learnInfo.append("\n" + getString(R.string.label2_material) + " " + getEmotionsNameInLocalLang());
-        learnInfo.append("\n" + getString(R.string.label0_material) + " " + level.getPhotosOrVideosIdList().size());
-        // learnInfo.append("\n" + getString(R.string.label1_1_learning_ways) + " " + level.getPhotosOrVideosShowedForOneQuestion());
+        // learnInfo.append("\n" + getString(R.string.label0_material) + " " + level.getPhotosOrVideosIdList().size());
+        learnInfo.append("\n" + getString(R.string.label1_1_learning_ways) + " " + level.getPhotosOrVideosShowedForOneQuestion());
         learnInfo.append("\n" + getString(R.string.label1_2_learning_ways) + " " + level.getSublevelsPerEachEmotion());
         learnInfo.append("\n" + getString(R.string.label2_1_learning_ways) + " " + getKindOfCommand(level.getQuestionType().toString()));
         learnInfo.append("\n" + getString(R.string.label1_5_1) + " " + yesOrNoLocalLanguage(level.isOptionDifferentSexes()));
@@ -783,24 +783,27 @@ duringInitiation = false;
     }
 
     void save(Object obj) {
-        if (!lv.numberOfPhotosSelected(level.getPhotosOrVideosShowedForOneQuestion(), plciOpcja2.isChecked()))
+        LevelValidator lv = new LevelValidator(getLevel(), obj);
+        final RadioButton plciOpcja1 = (RadioButton) findViewById(R.id.plci_opcja1);
+        final RadioButton plciOpcja2 = (RadioButton) findViewById(R.id.plci_opcja2);
+     /*   if (!lv.numberOfPhotosSelected(level.getPhotosOrVideosShowedForOneQuestion(), plciOpcja2.isChecked()))
         {
             System.out.println("LEVEL CONF " + lv.numberOfPhotosSelected(level.getPhotosOrVideosShowedForOneQuestion(),plciOpcja2.isChecked()));
             doclick();}
-        else {
+        else {*/
 
             gatherInfoFromGUI();
 
             System.out.println("save() material: " + getLevel().getPhotosOrVideosIdList() + " test " + getLevel().getPhotosOrVideosIdListInTest());
             if (lv.validateLevel()) {
-                LevelValidator lv = new LevelValidator(getLevel(), obj);
+
                 saveLevelToDatabaseAndShowLevelSavedText();
                 getLevel().setId(0);
             }
         }
         //else POZOSTAJEMY W TRYBIE EDYCJI
 
-    }
+    //}
 
 
     void saveLevelToDatabaseAndShowLevelSavedText() {

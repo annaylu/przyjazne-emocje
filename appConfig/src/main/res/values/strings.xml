@@ -186,6 +186,7 @@
     <string name="commandWarning">Wybierz conajmniej jeden rodzaj polecenia</string>
     <string name="everyEmotionOnePhotoWarning">Wybierz conajmniej jedno zdjęcie dla emocji</string>
     <string name="differentSexesWarning">Określ rozróżnienie płci</string>
+    <string name="empty_photos_learn_mode">Wybierz zdjecia w zakładce MATERIAŁ</string>
 
 
 

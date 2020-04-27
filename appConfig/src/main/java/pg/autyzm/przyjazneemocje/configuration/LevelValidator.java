@@ -64,7 +64,7 @@ public class LevelValidator extends AppCompatActivity {
             return false;
         }
         if (validatedLevel.getPhotosOrVideosIdList().isEmpty()) {
-            Toast.makeText(currentContext, "Wybierz zdjecia w zakładce MATERIAŁ", Toast.LENGTH_LONG).show();
+            Toast.makeText(currentContext, R.string.empty_photos_learn_mode, Toast.LENGTH_LONG).show();
             return false;
         }
 

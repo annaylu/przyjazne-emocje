@@ -191,6 +191,7 @@ The test mode does not use hints and reinforcements, the therapist should refrai
     <string name="commandWarning">Choose at least one command type</string>
     <string name="everyEmotionOnePhotoWarning">Choose at least one picture for emotion</string>
     <string name="differentSexesWarning">Define gender differentation</string>
+    <string name="empty_photos_learn_mode">Choose photos in MATERIAL tab</string>
 
 
 </resources>
