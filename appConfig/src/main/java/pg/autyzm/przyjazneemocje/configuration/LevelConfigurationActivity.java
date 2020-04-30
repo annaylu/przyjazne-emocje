@@ -786,21 +786,21 @@ duringInitiation = false;
         LevelValidator lv = new LevelValidator(getLevel(), obj);
         final RadioButton plciOpcja1 = (RadioButton) findViewById(R.id.plci_opcja1);
         final RadioButton plciOpcja2 = (RadioButton) findViewById(R.id.plci_opcja2);
-     /*   if (!lv.numberOfPhotosSelected(level.getPhotosOrVideosShowedForOneQuestion(), plciOpcja2.isChecked()))
-        {
-            System.out.println("LEVEL CONF " + lv.numberOfPhotosSelected(level.getPhotosOrVideosShowedForOneQuestion(),plciOpcja2.isChecked()));
-            doclick();}
-        else {*/
 
-            gatherInfoFromGUI();
 
-            System.out.println("save() material: " + getLevel().getPhotosOrVideosIdList() + " test " + getLevel().getPhotosOrVideosIdListInTest());
-            if (lv.validateLevel()) {
+        gatherInfoFromGUI();
 
+        System.out.println("save() material: " + getLevel().getPhotosOrVideosIdList() + " test " + getLevel().getPhotosOrVideosIdListInTest());
+        if (lv.validateLevel()) {
+            if (!lv.numberOfPhotosSelected(level.getPhotosOrVideosShowedForOneQuestion(), plciOpcja2.isChecked())) {
+                System.out.println("LEVEL CONF " + lv.numberOfPhotosSelected(level.getPhotosOrVideosShowedForOneQuestion(), plciOpcja2.isChecked()));
+                doclick();
+            } else
                 saveLevelToDatabaseAndShowLevelSavedText();
                 getLevel().setId(0);
-            }
+
         }
+    }
         //else POZOSTAJEMY W TRYBIE EDYCJI
 
     //}
@@ -1163,13 +1163,20 @@ duringInitiation = false;
 
     public void doclick() {
         DialogHandler appdialog = new DialogHandler();
-        appdialog.Confirm(this, "Insufficient photos chosen", "A re you sure you want to save?",
-                "No, I want to choose more photos.", "Yes, save.", aproc(), bproc());
+        String information ="";
+        LevelValidator lv = new LevelValidator(level,LevelConfigurationActivity.this);
+        if (lv.womanPhotos < level.getPhotosOrVideosShowedForOneQuestion())
+       information = "Wybrana liczba wyświetlanych zdjęć to " + level.getPhotosOrVideosShowedForOneQuestion()+ ", wybierz po conajmniej jednym zdjęciu kobiety dla " + level.getPhotosOrVideosShowedForOneQuestion() + " różnych emocji lub zmniejsz liczbę zdjęć wyświetlanych na ekranie - inaczej w grze liczba zdjęć wyświetlanych na ekranie w przypadku kobiety będzie mniejsza niż wybrana wartość. Czy na pewno chcesz kontynuować?";
+        else if (lv.manPhotos < level.getPhotosOrVideosShowedForOneQuestion())
+            information = "Wybrana liczba wyświetlanych zdjęć to " + level.getPhotosOrVideosShowedForOneQuestion()+ ", wybierz po conajmniej jednym zdjęciu mężczyzny dla " + level.getPhotosOrVideosShowedForOneQuestion() + " różnych emocji lub zmniejsz liczbę zdjęć wyświetlanych na ekranie - inaczej w grze liczba zdjęć wyświetlanych na ekranie w przypadku kobiety będzie mniejsza niż wybrana wartość. Czy na pewno chcesz kontynuować?";
+        appdialog.Confirm(this, "Niewystarczająca liczba wybranych zdjęć", information,
+                "Nie, chce wybrać więcej zdjęć.", "Tak, zapisz.", aproc(), bproc());
     }
     public Runnable aproc(){
         return new Runnable() {
             public void run() {
-                save(LevelConfigurationActivity.this);
+                saveLevelToDatabaseAndShowLevelSavedText();
+                getLevel().setId(0);
                 finish();
                 Log.d("Test", "This from A proc");
             }

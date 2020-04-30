@@ -222,7 +222,7 @@ curEmotion.close();
         Toast.makeText(currentContext, "Wybrana liczba wyświetlanych zdjęć to " + numberOfPhotosDisplayed + ", wybierz conajmniej jedno zdjęcie kobiety dla " + numberOfPhotosDisplayed + " różnych emocji lub zmniejsz liczbę zdjęć wyświetlanych na ekranie", Toast.LENGTH_LONG).show();
         return false;
     } else if (manPhotos < numberOfPhotosDisplayed) {
-        Toast.makeText(currentContext, "Wybrana liczba wyświetlanych zdjęć to " + numberOfPhotosDisplayed + ", wybierz conajmniej jedno zdjęcie mężczyzny dla " + numberOfPhotosDisplayed + " różnych emocji lub zmniejsz liczbę zdjęć wyświetlanych na ekranie", Toast.LENGTH_LONG).show();
+        Toast.makeText(currentContext, "Wybrana liczba wyświetlanych zdjęć to " + numberOfPhotosDisplayed + ", wybierz conajmniej jedno zdjęcie mężczyzny dla " + numberOfPhotosDisplayed + " różnych emocji lub zmniejsz liczbę zdjęć wyświetlanych na ekranie. Are you sure you want to save?", Toast.LENGTH_LONG).show();
         return false;
 
 }
