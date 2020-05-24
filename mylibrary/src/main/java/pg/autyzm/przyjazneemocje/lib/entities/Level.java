@@ -483,6 +483,7 @@ public int newEmotionId(){
     }
 
     public void deleteEmotion(int i) {
+        System.out.println("$ Level deleteEmotion i " + i + " emotions.get(i) " + emotions.get(i));
         this.emotions.remove(emotions.get(i));
     }
 

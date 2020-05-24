@@ -6,7 +6,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.database.Cursor;
-import android.database.SQLException;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -32,7 +31,6 @@ import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -110,7 +108,7 @@ duringInitiation = true;
         int loadedLevelId = -1; // or other values
         if (b != null)
             loadedLevelId = b.getInt("key");
-
+        System.out.println("LOADLEVELIFITSEDITIONMODE loadedLevelId " + loadedLevelId);
 
         if (loadedLevelId > 0) {
             loadLevelFromDatabaseAndInjectDataToGUI(loadedLevelId);
@@ -370,8 +368,8 @@ duringInitiation = false;
         createTabs();
         createListOfSpinners();
         activeNumberEmotionPlusMinus();
-        selectAllPictures(0);
-        selectAllPictures(1);
+        SelectAllPicturesWithEmotionId(0);
+        SelectAllPicturesWithEmotionId(1);
 
         showTextInformation(R.string.default_level_generate_message);
 
@@ -671,14 +669,18 @@ duringInitiation = false;
         final Button minusButton = (Button) findViewById(R.id.button_minus);
         minusButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                int newValue = getLevel().getEmotions().size() - 1;
-                if (newValue > 0) {
-                    getLevel().deleteEmotion(newValue);
+                int lastElement = getLevel().getEmotions().size() - 1;
+                if (lastElement > 0) {
+                    deleteAllPicturesWithEmotionId(getLevel().getEmotions().get(lastElement));
+                    getLevel().deleteEmotion(lastElement);
+                    System.out.println("USUWANIE EMOCJI PRZED zdjecia " + level.getPhotosOrVideosIdList());
+
+                    System.out.println("USUWANIE EMOCJI PO zdjecia " + level.getPhotosOrVideosIdList());
                     //System.out.println("!!activeNumberEmptionPlusMinus numer emocji: " + getLevel().lastEmotionNumber());
                     updateEmotionsGrid(getLevel().lastEmotionNumber());
-                    nrEmotions.setText(Integer.toString(newValue));
-                    if (Integer.parseInt(nrPhotos.getText().toString()) > newValue)
-                    nrPhotos.setText(Integer.toString(newValue));
+                    nrEmotions.setText(Integer.toString(lastElement));
+                    if (Integer.parseInt(nrPhotos.getText().toString()) > lastElement)
+                    nrPhotos.setText(Integer.toString(lastElement));
                     updateSelectedEmotions();
                 }
             }
@@ -694,7 +696,7 @@ duringInitiation = false;
                     int newUniqueEmotionId = getLevel().newEmotionId();
                     //System.out.println("DODAJEMY EMOCJE" + idAnia);
                     getLevel().addEmotion(newUniqueEmotionId);
-                    selectAllPictures(newUniqueEmotionId);
+                    SelectAllPicturesWithEmotionId(newUniqueEmotionId);
                     nrEmotions.setText(Integer.toString(getLevel().getEmotions().size()));
                     //activePlusMinusDisplayedPhotosEmotionsDeletion((EditText) findViewById(R.id.number_photos), (Button) findViewById(R.id.button_minus));
                     updateSelectedEmotions();
@@ -737,7 +739,7 @@ duringInitiation = false;
             public void onClick(View v) {
                 if (!(plciOpcja1.isChecked() || plciOpcja2.isChecked())) {
 
-                    Toast.makeText(LevelConfigurationActivity.this, R.string.differentSexesWarning, Toast.LENGTH_LONG).show();
+                    Toast.makeText(LevelConfigurationActivity.this, R.string.different_sexes_warning, Toast.LENGTH_LONG).show();
 
                 }
                 //PO CO TOOOOOOOOOO PONIŻEJ
@@ -788,16 +790,21 @@ duringInitiation = false;
         final RadioButton plciOpcja2 = (RadioButton) findViewById(R.id.plci_opcja2);
 
 
-        gatherInfoFromGUI();
+        gatherInfoFromGUI(); //save
 
         System.out.println("save() material: " + getLevel().getPhotosOrVideosIdList() + " test " + getLevel().getPhotosOrVideosIdListInTest());
         if (lv.validateLevel()) {
             if (!lv.numberOfPhotosSelected(level.getPhotosOrVideosShowedForOneQuestion(), plciOpcja2.isChecked())) {
                 System.out.println("LEVEL CONF " + lv.numberOfPhotosSelected(level.getPhotosOrVideosShowedForOneQuestion(), plciOpcja2.isChecked()));
+                System.out.println("doclick start level " + level.getId());
                 doclick();
-            } else
+                System.out.println("doclick finish level " + level.getId());
+            } else {
+                System.out.println("doClick zrobiony level " + level.getId());
                 saveLevelToDatabaseAndShowLevelSavedText();
                 getLevel().setId(0);
+            }
+
 
         }
     }
@@ -833,6 +840,8 @@ duringInitiation = false;
     }
 
     void gatherInfoFromGUI() {
+
+        System.out.println("GATHERINFOFROMGUI level id " + level.getId());
         // 1 panel
 
         // save selected photos
@@ -1112,13 +1121,20 @@ duringInitiation = false;
                 @Override
                 //TODO zmiana zdjęć przy zmianie spinnera - pozaznaczać
                 public void onItemSelected(AdapterView<?> adapterView, View view, int emotionSelectedId, long l) {
-                    /*System.out.println("ANIA TATUŚ  I CAŁA RODZINKA ******position: " + position + " i : " + emotionSelectedId);
-                    System.out.println("ANIA TATUŚ  I CAŁA RODZINKA ****** emotionList " + level.getEmotions());*/
+                    System.out.println("ANIA TATUŚ  I CAŁA RODZINKA ******position: " + position + " i : " + emotionSelectedId+
+                            " emoc id "+  level.getEmotions().get(position));
+                    System.out.println("ANIA TATUŚ  I CAŁA RODZINKA ****** emotionList " + level.getEmotions());
                     if (getLevel().isEmotionNew(emotionSelectedId)) {
                         //System.out.println("ANIA TATUŚ  I CAŁA RODZINKA **** UPDATE WESZLIŚMY ");
+                          System.out.println("UPDATE EMOCJI PRZED zdjecia " + level.getPhotosOrVideosIdList());
+                        deleteAllPicturesWithEmotionId(getLevel().getEmotions().get(position));
+                        System.out.println("UPDATE EMOCJI PO zdjecia " + level.getPhotosOrVideosIdList());
                          updateEmotionsGrid(position);
                         getLevel().getEmotions().set(position, emotionSelectedId);
+                        SelectAllPicturesWithEmotionId(emotionSelectedId);
                         //position - który spiner, i - która emocja (licząc od 0)
+
+
 
                     } else {
                         //System.out.println("ANIA TATUŚ  I CAŁA RODZINKA ****** UNDO " +  getLevel().getEmotions().get(position));
@@ -1145,7 +1161,7 @@ duringInitiation = false;
     }
 
     //TODO może zrezygnować - przeniesiona do levelu
-    public void selectAllPictures(int newEmotionId) {
+    public void SelectAllPicturesWithEmotionId(int newEmotionId) {
         SqliteManager sqlm = getInstance(this);
 
         //Cursor cursor = sqlm.givePhotosWithEmotion(currentEmotionName);
@@ -1156,12 +1172,25 @@ duringInitiation = false;
             //aniadzisiaj System.out.println("aneczka cursor.getInt(0) " + cursor.getInt(0));
         }
 
+    }
 
+    public void deleteAllPicturesWithEmotionId(int newEmotionId) {
+        SqliteManager sqlm = getInstance(this);
+
+        //Cursor cursor = sqlm.givePhotosWithEmotion(currentEmotionName);
+        Cursor cursor = sqlm.givePhotosWithEmotion(getEmotionNameinBaseLanguage(newEmotionId));
+        while (cursor.moveToNext()) {
+            getLevel().removePhoto(cursor.getInt(cursor.getColumnIndex("id")));
+            getLevel().removePhotoForTest(cursor.getInt(cursor.getColumnIndex("id")));
+
+            //aniadzisiaj System.out.println("aneczka cursor.getInt(0) " + cursor.getInt(0));
+        }
 
     }
 
 
     public void doclick() {
+        System.out.println("DOCLICK1 level " + level.getId());
         DialogHandler appdialog = new DialogHandler();
         String information ="";
         LevelValidator lv = new LevelValidator(level,LevelConfigurationActivity.this);
@@ -1171,6 +1200,7 @@ duringInitiation = false;
             information = "Wybrana liczba wyświetlanych zdjęć to " + level.getPhotosOrVideosShowedForOneQuestion()+ ", wybierz po conajmniej jednym zdjęciu mężczyzny dla " + level.getPhotosOrVideosShowedForOneQuestion() + " różnych emocji lub zmniejsz liczbę zdjęć wyświetlanych na ekranie - inaczej w grze liczba zdjęć wyświetlanych na ekranie w przypadku kobiety będzie mniejsza niż wybrana wartość. Czy na pewno chcesz kontynuować?";
         appdialog.Confirm(this, "Niewystarczająca liczba wybranych zdjęć", information,
                 "Nie, chce wybrać więcej zdjęć.", "Tak, zapisz.", aproc(), bproc());
+        System.out.println("DOCLICK2 level " + level.getId());
     }
     public Runnable aproc(){
         return new Runnable() {

@@ -48,15 +48,17 @@ import pg.autyzm.przyjazneemocje.lib.entities.Level;
 import static pg.autyzm.przyjazneemocje.lib.SqliteManager.getInstance;
 
 
-public class MainActivity extends Activity implements View.OnClickListener {
+public class MainActivity extends Activity implements View.OnClickListener, ISounds {
 
     int sublevelsLeft;
     List<Integer> sublevelsList;
+    boolean onlyEmotion;
 int whichTry = 1;
     List<String> photosWithEmotionSelected;
     List<String> photosWithRestOfEmotions;
     List<String> photosToUseInSublevel;
     String goodAnswer;
+    String commandWithoutEmotion;
     boolean onePicDisplayed;
     Cursor cur0;
     Cursor videoCursor;
@@ -68,6 +70,7 @@ int whichTry = 1;
     int timeout;
     int timeoutSubLevel;
     String commandText;
+    String emotion;
     boolean animationEnds = true;
     Level level;
     ImageView image_selected=null;
@@ -79,6 +82,7 @@ int whichTry = 1;
     LinearLayout.LayoutParams lp;
     String speakerText;
     int j = 0;
+    int attemptNumber;
 
 
 
@@ -148,9 +152,39 @@ int whichTry = 1;
                 speakerButton.setOnClickListener(new View.OnClickListener() {
 
                     public void onClick(View v) {
-                        speaker.speak(commandText);
-                        //MediaPlayer ring= MediaPlayer.create(MainActivity.this,R.raw.showwhereis);
-                        //ring.start();
+                        //speaker.speak(commandText);
+                        System.out.println("commandText " + commandText);
+//na chwilusie komentuje
+                     //   complexSoundsToApply(commandWithoutEmotion,emotion,onlyEmotion);
+
+                        //soundToApply(commandText);
+                       /* switch (commandText) {
+
+                            case "smutna":
+                                MediaPlayer ring = MediaPlayer.create(MainActivity.this, R.string.emotion_sad_woman);
+                                ring.start();
+                                break;
+                                //return R.string.emotion_sad_woman;
+                            case "smutny":
+                                ring = MediaPlayer.create(MainActivity.this, R.string.emotion_sad_man);
+                                ring.start();
+                                break;
+                                //return R.string.emotion_sad_man;
+                            case "wesoła":
+                                ring = MediaPlayer.create(MainActivity.this, R.string.emotion_happy_woman);
+                                ring.start();
+                                break;
+                                //return R.string.emotion_happy_woman;
+                            case "wesoły":
+                                ring = MediaPlayer.create(MainActivity.this, R.string.emotion_happy_man);
+                                ring.start();
+                                break;
+
+
+
+                        }*/
+
+
                     }
                 });
             }
@@ -308,8 +342,19 @@ int whichTry = 1;
 
             Intent intent = new Intent(MainActivity.this,Blank.class);
             startActivity(intent);
-            speakerText = getResources().getString(R.string.first_try);
-            Speaker.getInstance(MainActivity.this).speak(speakerText);
+            //speakerText = getResources().getString(R.string.first_try);
+            attemptNumber=R.raw.one;
+            //sprawdz czy to program ucina czy taie gupie nagranie
+            //Speaker.getInstance(MainActivity.this).speak(speakerText);
+            MediaPlayer ring = MediaPlayer.create(MainActivity.this,R.raw.attempt_number);
+            ring.start();
+            while (ring.isPlaying()){
+
+            }
+            MediaPlayer.create(MainActivity.this,attemptNumber).start();
+            while (ring.isPlaying()){
+                mySleep(100);
+            }
             StartTimerForTest(level);
         }
 
@@ -362,11 +407,16 @@ int whichTry = 1;
                     photosWithEmotionSelected.add(photoName);
                     //System.out.println("@@@@@@@@@ ŚCIEŻKA IF selectedPhotosForGame idzdjecia: " + e + " photoName " + photoName + " PHPTPEmotionName " + photoEmotionName);
                 } else {
+                  if (photoEmotionName.contains(selectedEmotionName.substring(0,4))) {
+
+                    } else
                     photosWithRestOfEmotions.add(photoName);
                 }
                 //ania dodalam ponizej:
-                curEmotion.close();
+
             }
+            curEmotion.close();
+            curSelectedEmotion.close();
 
 
         }
@@ -378,7 +428,12 @@ int whichTry = 1;
 
             photosWithRestOfEmotions.clear();
             selectedPhotosForGame(photos,selectedEmotionName);
+            //dodalam teraz
+            cur0.close();
         }
+
+
+
 
     }
 
@@ -453,13 +508,23 @@ int whichTry = 1;
                 System.out.println("commands to choose length" + commandsToChoose.length);
 
                     System.out.println("########## size " + size);*/
-                    commandText = commandsToChoose[(int) Math.floor(Math.random() * (size))] + " " + rightEmotionLang;
+                    commandWithoutEmotion = commandsToChoose[(int) Math.floor(Math.random() * (size))];
+                    emotion = rightEmotionLang;
+                    commandText = commandWithoutEmotion + " " + emotion;
+                    onlyEmotion = false;
 
 
                 } else if (level.getQuestionType().equals(Level.Question.SHOW_EMOTION_NAME)) {
-                    commandText = getResources().getString(R.string.show) + " " + rightEmotionLang;
+                    commandWithoutEmotion = getResources().getString(R.string.show) ;
+                    emotion = rightEmotionLang;
+                    commandText = commandWithoutEmotion + " " + emotion;
+                    onlyEmotion = false;
                 } else if (level.getQuestionType().equals(Level.Question.EMOTION_NAME)) {
-                    commandText = rightEmotionLang;
+                    commandWithoutEmotion = "";
+                    emotion = rightEmotionLang;
+                    commandText = emotion;
+                    onlyEmotion = true;
+
                 }
             /*commandIntent.putExtra("emotion",rightEmotionLang);
             commandIntent.putExtra("command",commandText);
@@ -553,6 +618,7 @@ int whichTry = 1;
         } else {
            /* speakerText = "Próba numer " + wrongAnswersSublevel;
             Speaker.getInstance(MainActivity.this).speak(speakerText);*/
+
             Intent intent = new Intent(MainActivity.this,Blank.class);
                     startActivity(intent);
 
@@ -570,7 +636,8 @@ if (x == 2)
                     speakerText = proba2;
 if (x == 3)
     speakerText = proba3;
-                    Speaker.getInstance(MainActivity.this).speak(speakerText);
+//to wszystko u góry chyba niepotrzebne, ogarnij
+                    //Speaker.getInstance(MainActivity.this).speak(speakerText);
                 }
             }
             if (wrongAnswersSublevel >= level.getNumberOfTriesInTest()) {
@@ -586,10 +653,24 @@ if (x == 3)
                 x = wrongAnswersSublevel + 1;
                 if (x<=3) {
                     if (x == 2)
-                        speakerText = proba2;
+                        //speakerText = proba2;
+                        attemptNumber=R.raw.two;
                     if (x == 3)
-                        speakerText = proba3;
-                    Speaker.getInstance(MainActivity.this).speak(speakerText);
+                        //speakerText = proba3;
+                    attemptNumber=R.raw.three;
+
+                   // Speaker.getInstance(MainActivity.this).speak(speakerText);
+                    MediaPlayer ring = MediaPlayer.create(MainActivity.this,R.raw.attempt_number);
+                    ring.start();
+                    while (ring.isPlaying()){
+
+                    }
+
+                    MediaPlayer.create(MainActivity.this,attemptNumber).start();
+            }
+                if (x >3)
+                {
+                    MediaPlayer.create(MainActivity.this,R.raw.next_attempt).start();
                 }
                 timer.start();
             } else {
@@ -601,10 +682,18 @@ if (x == 3)
                 x = wrongAnswersSublevel + 1;
                 if (x<=3) {
                     if (x == 2)
-                        speakerText = proba2;
+                        //speakerText = proba2;
+                        attemptNumber=R.raw.two;
                     if (x == 3)
-                        speakerText = proba3;
-                    Speaker.getInstance(MainActivity.this).speak(speakerText);
+                        //speakerText = proba3;
+                    attemptNumber=R.raw.three;
+                    //Speaker.getInstance(MainActivity.this).speak(speakerText);
+                    MediaPlayer ring = MediaPlayer.create(MainActivity.this,R.raw.attempt_number);
+                    ring.start();
+                    while (ring.isPlaying()){
+
+                    }
+                    MediaPlayer.create(MainActivity.this,attemptNumber).start();
                 }
                 timer.start();
             }
@@ -712,6 +801,7 @@ if (x == 3)
                         reorder_image();
                     }
                 },1200);
+                timer.start();
 
 
 
@@ -740,6 +830,12 @@ if (x == 3)
                 speakerText = "Kolejna próba";
             speakerText = "Próba numer " + whichTry;
             Speaker.getInstance(MainActivity.this).speak(speakerText);*/
+            MediaPlayer ring = MediaPlayer.create(MainActivity.this,R.raw.attempt_number);
+            ring.start();
+            while (ring.isPlaying()){
+
+            }
+            MediaPlayer.create(MainActivity.this,attemptNumber).start();
             System.out.println("zla odpowiedz, sublevel mode: " + subLevelMode);
 timer.onFinish();
             /*if (whichTry !=3) {
@@ -1328,6 +1424,199 @@ if (whichTry != 3) {
         }
     }
 
+    @Override
+    public int soundsToApply(String commandText) {
+        //commandText.trim();
+
+        MediaPlayer ring;
+
+        switch (commandText) {
+
+            case "smutna":
+                return R.raw.sad_female;
+            case "smutny":
+            case "sad":
+                return R.raw.sad_male;
+            case "wesoła":
+
+                return R.raw.happy_female;
+            case "wesoły":
+            case "happy":
+                return R.raw.happy_male;
+            case "zła":
+                return R.raw.angry_female;
+            case "zły":
+            case "angry":
+                return R.raw.angry_male;
+            case "znudzona":
+                return R.raw.bored_female;
+            case "znudzony":
+            case "bored":
+                return R.raw.bored_male;
+            case "zdziwiona":
+                return R.raw.surprised_female;
+            case "zdziwiony":
+            case "surprised":
+                return R.raw.surprised_male;
+            case "przestraszona":
+                return R.raw.scared_female;
+            //TODO ZMIENIĆ NA FEMALE
+            case "przestraszony":
+            case "scared":
+                return R.raw.scared_male;
+
+            default: return -1;
+
+
+        }
+
+
+    }
+
+    public void complexSoundsToApply(String commandText, String emotion, boolean onlyEmotion){
+        MediaPlayer ring = null;
+        if (onlyEmotion) {
+            ring = MediaPlayer.create(MainActivity.this,soundsToApply(emotion));
+            ring.start();
+        } else {
+        switch (commandText) {
+            case "Pokaż gdzie jest":
+            case "Show which is":
+                ring = MediaPlayer.create(MainActivity.this, R.raw.show_where_is);
+                ring.start();
+                while (ring.isPlaying()) {
+                }
+                break;
+            case "Dotknij gdzie jest":
+            case "Touch which is":
+                ring = MediaPlayer.create(MainActivity.this, R.raw.touch_where_is);
+                ring.start();
+                while (ring.isPlaying()) {
+                }
+                break;
+            case "Wskaż gdzie jest":
+            case "Point which is":
+                ring = MediaPlayer.create(MainActivity.this, R.raw.point_where_is);
+                ring.start();
+                while (ring.isPlaying()) {
+                }
+                break;
+            case "Znajdź gdzie jest":
+            case "Find which is":
+                ring = MediaPlayer.create(MainActivity.this, R.raw.find_where_is);
+                ring.start();
+                while (ring.isPlaying()) {
+                }
+                break;
+            case "Wybierz gdzie jest": //??Wybierz??
+            case "Select which is":
+                ring = MediaPlayer.create(MainActivity.this, R.raw.select_where_is);
+                ring.start();
+                while (ring.isPlaying()) {
+                    //mySleep(100);
+                }
+                break;
+            case "Pokaż":
+            case "Show":
+                ring = MediaPlayer.create(MainActivity.this, R.raw.show);
+                ring.start();
+                while (ring.isPlaying()) {
+                    //mySleep(100);
+                }
+                break;
+  /*          case "Dotknij":
+                ring = MediaPlayer.create(MainActivity.this, R.raw.touch);
+                ring.start();
+                while (ring.isPlaying()) {
+                    mySleep(300);
+                }
+                break;
+            case "Wybierz":
+                ring = MediaPlayer.create(MainActivity.this, R.raw.select);
+                ring.start();
+                while (ring.isPlaying()) {
+                    mySleep(300);
+                }
+                break;
+            case "Wskaż":
+                ring = MediaPlayer.create(MainActivity.this, R.raw.point);
+                ring.start();
+                while (ring.isPlaying()) {
+                    mySleep(300);
+                }
+                break;
+            case "Znajdź":
+                ring = MediaPlayer.create(MainActivity.this, R.raw.find);
+                ring.start();
+                while (ring.isPlaying()) {
+                    mySleep(300);
+                }
+                break;*/
+
+
+        }
+        }
+                switch (emotion) {
+                    case "wesoły":
+                    case "happy":
+                        ring = MediaPlayer.create(MainActivity.this,R.raw.happy_male);
+                        ring.start();
+                        break;
+                    case "wesoła":
+                        ring = MediaPlayer.create(MainActivity.this,R.raw.happy_female);
+                        ring.start();
+                        break;
+                    case "smutny":
+                    case "sad":
+                        ring = MediaPlayer.create(MainActivity.this,R.raw.sad_male);
+                        ring.start();
+                        break;
+                    case "smutna":
+                        ring = MediaPlayer.create(MainActivity.this,R.raw.sad_female);
+                        ring.start();
+                        break;
+                    case "zły":
+                    case "angry":
+                        ring = MediaPlayer.create(MainActivity.this,R.raw.angry_male);
+                        ring.start();
+                        break;
+                    case "zła":
+                        ring = MediaPlayer.create(MainActivity.this,R.raw.angry_female);
+                        ring.start();
+                        break;
+                    case "znudzony":
+                    case "bored":
+                        ring = MediaPlayer.create(MainActivity.this,R.raw.bored_male);
+                        ring.start();
+                        break;
+                    case "znudzona":
+                        ring = MediaPlayer.create(MainActivity.this,R.raw.bored_female);
+                        ring.start();
+                        break;
+                    case "przestraszony":
+                    case "scared":
+                        ring = MediaPlayer.create(MainActivity.this,R.raw.scared_male);
+                        ring.start();
+                        break;
+                    case "przestraszona":
+
+                        ring = MediaPlayer.create(MainActivity.this,R.raw.scared_female);
+                        ring.start();
+                        break;
+                    case "zdziwiony":
+                    case "surprised":
+                        ring = MediaPlayer.create(MainActivity.this,R.raw.surprised_male);
+                        ring.start();
+                        break;
+                    case "zdziwiona":
+                        ring = MediaPlayer.create(MainActivity.this,R.raw.surprised_female);
+                        ring.start();
+                        break;
+
+                }
+        }
+
+
     public enum HintType {
         FRAME,ENLARGE,MOVE,GREY_OUT
     }
@@ -1443,9 +1732,12 @@ if (onePicDisplayed) {
             public void run() {
                 timer.cancel();
                 clear_efects_on_all_images();
+                timer.start();
             }
         }, duration);
     }
+
+
 
 
 

@@ -49,15 +49,19 @@ public class LevelValidator extends AppCompatActivity {
 
         // sprawdzenie dlugosci nazwy poziomu
         if (validatedLevel.getName().length() == 0) {
-            Toast.makeText(currentContext, "Name of the level should contain at least one character", Toast.LENGTH_LONG).show();
+            Toast.makeText(currentContext, R.string.level_name_validation_too_short, Toast.LENGTH_LONG).show();
             return false;
         }
         if (validatedLevel.getName().length() > 55) {
-            Toast.makeText(currentContext, "Name of the level should be shorter - max 55 characters", Toast.LENGTH_LONG).show();
+            Toast.makeText(currentContext, R.string.level_name_validation_too_long, Toast.LENGTH_LONG).show();
             return false;
         }
         if (validatedLevel.getPhotosOrVideosIdList().isEmpty()) {
             Toast.makeText(currentContext, R.string.empty_photos_learn_mode, Toast.LENGTH_LONG).show();
+            return false;
+        }
+        if (validatedLevel.getPhotosOrVideosIdListInTest().isEmpty()) {
+            Toast.makeText(currentContext, R.string.empty_photos_test_mode, Toast.LENGTH_LONG).show();
             return false;
         }
 
@@ -108,9 +112,9 @@ for (mode = 0; mode < 2; mode++) {
     if ((differentSexes) && (womanPhotos == 0 || manPhotos == 0)) {
         System.out.println("man photos " + manPhotos + " woman photos " + womanPhotos);
         if (mode == 0)
-            Toast.makeText(currentContext, "Zdjęcia w zakładce MATERIAŁ powinny przedstawiać osoby obydwu płci", Toast.LENGTH_LONG).show();
+            Toast.makeText(currentContext, R.string.both_sexes_material, Toast.LENGTH_LONG).show();
         if (mode == 1)
-            Toast.makeText(currentContext, "Zdjęcia w zakładce TEST powinny przedstawiać osoby obydwu płci", Toast.LENGTH_LONG).show();
+            Toast.makeText(currentContext, R.string.both_sexes_test, Toast.LENGTH_LONG).show();
         return false;
 
         //COŚ NIE DZIAŁA DLA TESTU !!!!
@@ -142,11 +146,19 @@ for (mode = 0; mode < 2; mode++) {
 
 
             if (id_zd.size() < 1) {
-                if (mode == 0)
-                    Toast.makeText(currentContext, "Select at least one photo in MATERIAL for emotion " + emotionNameWithoutSex, Toast.LENGTH_LONG).show();
-                else if  ((mode == 1 )&& (!validatedLevel.isMaterialForTest()))
+                if (mode == 0) {
+                    String part1 = getResources().getString(R.string.every_emotion_one_photo_warning_material);
+                    String part2 = getResources().getString(R.string.emotion_bored);
+                    Toast.makeText(currentContext, part1+" "+part2, Toast.LENGTH_LONG).show();
+                }
+                else if  ((mode == 1 )&& (!validatedLevel.isMaterialForTest())) {
+                    String part1 = getResources().getString(R.string.every_emotion_one_photo_warning_test);
+                    String part2 = getResources().getString(R.string.emotion_bored);
+
+                    Toast.makeText(currentContext, part1+" "+part2, Toast.LENGTH_LONG).show();
+                }
                     System.out.println("ZDJECIA W TRYBIE TESTOWYM everyEmotion " + id_zd.toString() + " getPhotosOrVideoIdListInTest " + validatedLevel.getPhotosOrVideosIdListInTest().toString());
-                    Toast.makeText(currentContext, "Select at least one photo in TEST for emotion " + emotionNameWithoutSex, Toast.LENGTH_LONG).show();
+
                 System.out.println("DRUKUJEMYY!!!");
                 return false;
             }
@@ -219,10 +231,10 @@ curEmotion.close();
 
     System.out.println("LEVEL VALIDATOR " + differentSexes);
     if (womanPhotos < numberOfPhotosDisplayed) {
-        Toast.makeText(currentContext, "Wybrana liczba wyświetlanych zdjęć to " + numberOfPhotosDisplayed + ", wybierz conajmniej jedno zdjęcie kobiety dla " + numberOfPhotosDisplayed + " różnych emocji lub zmniejsz liczbę zdjęć wyświetlanych na ekranie", Toast.LENGTH_LONG).show();
+        Toast.makeText(currentContext, R.string.chosen_amount + numberOfPhotosDisplayed + ". " + R.string.less_photos_than_chosen_amount_female, Toast.LENGTH_LONG).show();
         return false;
     } else if (manPhotos < numberOfPhotosDisplayed) {
-        Toast.makeText(currentContext, "Wybrana liczba wyświetlanych zdjęć to " + numberOfPhotosDisplayed + ", wybierz conajmniej jedno zdjęcie mężczyzny dla " + numberOfPhotosDisplayed + " różnych emocji lub zmniejsz liczbę zdjęć wyświetlanych na ekranie. Are you sure you want to save?", Toast.LENGTH_LONG).show();
+        Toast.makeText(currentContext, R.string.chosen_amount + numberOfPhotosDisplayed + ". " + R.string.less_photos_than_chosen_amount_male, Toast.LENGTH_LONG).show();
         return false;
 
 }

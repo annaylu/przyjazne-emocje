@@ -184,9 +184,19 @@
 
     <string name="label2_sexes">Rozróżnienie płci</string>
     <string name="commandWarning">Wybierz conajmniej jeden rodzaj polecenia</string>
-    <string name="everyEmotionOnePhotoWarning">Wybierz conajmniej jedno zdjęcie dla emocji</string>
-    <string name="differentSexesWarning">Określ rozróżnienie płci</string>
-    <string name="empty_photos_learn_mode">Wybierz zdjecia w zakładce MATERIAŁ</string>
+    <string name="every_emotion_one_photo_warning_material">Wybierz conajmniej jedno zdjęcie w zakładce MATERIAŁ dla emocji:</string>
+    <string name="every_emotion_one_photo_warning_test">Wybierz conajmniej jedno zdjęcie w zakładce TEST dla emocji:</string>
+    <string name="different_sexes_warning">Określ rozróżnienie płci</string>
+    <string name="empty_photos_learn_mode">Wybierz zdjęcia w zakładce MATERIAŁ</string>
+    <string name="empty_photos_test_mode">Wybierz zdjęcia w zakładce TEST</string>
+    <string name="level_name_validation_too_long">Nazwa poziomu powinna być krótsza - maksymalnie 55 znaków</string>
+    <string name="level_name_validation_too_short">Nazwa poziomu powinna zawierać conajmniej jeden znak</string>
+    <string name="both_sexes_material">Zdjęcia w zakładce MATERIAŁ powinny przedstawiać osoby obydwu płci</string>
+    <string name="both_sexes_test">Zdjęcia w zakładce TEST powinny przedstawiać osoby obydwu płci</string>
+    <string name="chosen_amount">Wybrana liczba zdjęć wyświetlanych na ekranie to: </string>
+
+    <string name="less_photos_than_chosen_amount_female">Jeśli nie wybierzesz po conajmniej jednym zdjęciu kobiety dla takiej liczby różnych emocji, na ekranie zostanie wyświetlona mniejsza liczba zdjęć. Czy na pewno zapisać?</string>
+    <string name="less_photos_than_chosen_amount_male">Jeśli nie wybierzesz po conajmniej jednym zdjęciu mężczyzny dla takiej liczby różnych emocji, na ekranie zostanie wyświetlona mniejsza liczba zdjęć. Czy na pewno zapisać?</string>
 
 
 

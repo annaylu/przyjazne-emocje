@@ -169,11 +169,27 @@ if (countAll("levels")  > 0)
 
                 add(12);
                 add(13);*/
-         add(givePhotoIdFromName("happy_woman_r_04.jpg"));
-         add(givePhotoIdFromName("happy_man_r_01.jpg"));
-         add(givePhotoIdFromName("happy_man_r_02.jpg"));
-         add(givePhotoIdFromName("sad_woman_r_01.jpg"));
-         add(givePhotoIdFromName("sad_woman_r_02.jpg"));
+                add(givePhotoIdFromName("happy_woman_r_01.jpg"));
+                add(givePhotoIdFromName("happy_woman_r_02.jpg"));
+                add(givePhotoIdFromName("happy_woman_r_03.jpg"));
+                add(givePhotoIdFromName("happy_woman_r_04.jpg"));
+                add(givePhotoIdFromName("happy_woman_r_05.jpg"));
+                add(givePhotoIdFromName("happy_woman_r_06.jpg"));
+                add(givePhotoIdFromName("happy_woman_r_07.jpg"));
+                add(givePhotoIdFromName("happy_woman_r_08.jpg"));
+                add(givePhotoIdFromName("happy_woman_r_09.jpg"));
+                add(givePhotoIdFromName("happy_woman_r_10.jpg"));
+
+                add(givePhotoIdFromName("happy_man_r_01.jpg"));
+                add(givePhotoIdFromName("happy_man_r_02.jpg"));
+
+                add(givePhotoIdFromName("sad_woman_r_01.jpg"));
+                add(givePhotoIdFromName("sad_woman_r_02.jpg"));
+                add(givePhotoIdFromName("sad_woman_r_03.jpg"));
+                add(givePhotoIdFromName("sad_woman_r_04.jpg"));
+                add(givePhotoIdFromName("sad_man_r_01.jpg"));
+                add(givePhotoIdFromName("sad_man_r_02.jpg"));
+         //add(givePhotoIdFromName("sad_woman_r_02.jpg"));
 
 
             }
@@ -223,31 +239,40 @@ if (countAll("levels")  > 0)
         level_medium.setPhotosOrVideosIdList(new ArrayList<Integer>() {
         //level_medium.setPhotosOrVideosNameList(new ArrayList<String>() {
             {
-         /*       add(6);
-                add(7);
-                add(9);
-
-                add(12);
-                add(13);
-
-                add(1);
-                add(2);
-                add(3);
-
-                add(17);
-                add(18);*/
+                add(givePhotoIdFromName("happy_woman_r_01.jpg"));
+                add(givePhotoIdFromName("happy_woman_r_02.jpg"));
+                add(givePhotoIdFromName("happy_woman_r_03.jpg"));
                 add(givePhotoIdFromName("happy_woman_r_04.jpg"));
+                add(givePhotoIdFromName("happy_woman_r_05.jpg"));
+                add(givePhotoIdFromName("happy_woman_r_06.jpg"));
+                add(givePhotoIdFromName("happy_woman_r_07.jpg"));
+                add(givePhotoIdFromName("happy_woman_r_08.jpg"));
+                add(givePhotoIdFromName("happy_woman_r_09.jpg"));
+                add(givePhotoIdFromName("happy_woman_r_10.jpg"));
+
                 add(givePhotoIdFromName("happy_man_r_01.jpg"));
                 add(givePhotoIdFromName("happy_man_r_02.jpg"));
+
                 add(givePhotoIdFromName("sad_woman_r_01.jpg"));
                 add(givePhotoIdFromName("sad_woman_r_02.jpg"));
+                add(givePhotoIdFromName("sad_woman_r_03.jpg"));
+                add(givePhotoIdFromName("sad_woman_r_04.jpg"));
+                add(givePhotoIdFromName("sad_man_r_01.jpg"));
+                add(givePhotoIdFromName("sad_man_r_02.jpg"));
+                //add(givePhotoIdFromName("sad_woman_r_02.jpg"));
 
                 add(givePhotoIdFromName("angry_man_r_01.jpg"));
                 add(givePhotoIdFromName("angry_man_r_02.jpg"));
-                add(givePhotoIdFromName("angry_woman_r_03.jpg"));
-
+                add(givePhotoIdFromName("angry_man_r_03.jpg"));
+                add(givePhotoIdFromName("angry_man_r_04.jpg"));
+                add(givePhotoIdFromName("angry_woman_r_01.jpg"));
+                //add(givePhotoIdFromName("angry_woman_r_03.jpg"));
+//POSZUKAJ KONIECZNIE ANGRY WOMAN
                 add(givePhotoIdFromName("scared_man_r_01.jpg"));
+                add(givePhotoIdFromName("scared_man_r_02.jpg"));
+                add(givePhotoIdFromName("scared_woman_r_01.jpg"));
                 add(givePhotoIdFromName("scared_woman_r_02.jpg"));
+                add(givePhotoIdFromName("scared_woman_r_03.jpg"));
             }
         });
 
@@ -294,41 +319,52 @@ if (countAll("levels")  > 0)
             //level_difficult.setPhotosOrVideosNameList(new ArrayList<String>()
         {
             {
-           /*     add(6);
-                add(7);
-                add(9);
-
-                add(12);
-                add(13);
-
-                add(1);
-                add(2);
-                add(3);
-
-                add(17);
-                add(18);
-
-                add(19);
-
-                add(4);
-                add(5);*/
+                add(givePhotoIdFromName("happy_woman_r_01.jpg"));
+                add(givePhotoIdFromName("happy_woman_r_02.jpg"));
+                add(givePhotoIdFromName("happy_woman_r_03.jpg"));
                 add(givePhotoIdFromName("happy_woman_r_04.jpg"));
+                add(givePhotoIdFromName("happy_woman_r_05.jpg"));
+                add(givePhotoIdFromName("happy_woman_r_06.jpg"));
+                add(givePhotoIdFromName("happy_woman_r_07.jpg"));
+                add(givePhotoIdFromName("happy_woman_r_08.jpg"));
+                add(givePhotoIdFromName("happy_woman_r_09.jpg"));
+                add(givePhotoIdFromName("happy_woman_r_10.jpg"));
+
                 add(givePhotoIdFromName("happy_man_r_01.jpg"));
                 add(givePhotoIdFromName("happy_man_r_02.jpg"));
+
                 add(givePhotoIdFromName("sad_woman_r_01.jpg"));
                 add(givePhotoIdFromName("sad_woman_r_02.jpg"));
+                add(givePhotoIdFromName("sad_woman_r_03.jpg"));
+                add(givePhotoIdFromName("sad_woman_r_04.jpg"));
+                add(givePhotoIdFromName("sad_man_r_01.jpg"));
+                add(givePhotoIdFromName("sad_man_r_02.jpg"));
+                //add(givePhotoIdFromName("sad_woman_r_02.jpg"));
 
                 add(givePhotoIdFromName("angry_man_r_01.jpg"));
                 add(givePhotoIdFromName("angry_man_r_02.jpg"));
-                add(givePhotoIdFromName("angry_woman_r_03.jpg"));
-
+                add(givePhotoIdFromName("angry_man_r_03.jpg"));
+                add(givePhotoIdFromName("angry_man_r_04.jpg"));
+                add(givePhotoIdFromName("angry_woman_r_01.jpg"));
+                //add(givePhotoIdFromName("angry_woman_r_03.jpg"));
+//POSZUKAJ KONIECZNIE ANGRY WOMAN
                 add(givePhotoIdFromName("scared_man_r_01.jpg"));
+                add(givePhotoIdFromName("scared_man_r_02.jpg"));
+                add(givePhotoIdFromName("scared_woman_r_01.jpg"));
                 add(givePhotoIdFromName("scared_woman_r_02.jpg"));
+                add(givePhotoIdFromName("scared_woman_r_03.jpg"));
 
                 add(givePhotoIdFromName("surprised_woman_r_01.jpg"));
+                add(givePhotoIdFromName("surprised_woman_r_02.jpg"));
+                add(givePhotoIdFromName("surprised_man_r_01.jpg"));
+                add(givePhotoIdFromName("surprised_man_r_03.jpg"));
 
                 add(givePhotoIdFromName("bored_man_r_02.jpg"));
+                add(givePhotoIdFromName("bored_man_r_01.jpg"));
+
                 add(givePhotoIdFromName("bored_woman_r_01.jpg"));
+                add(givePhotoIdFromName("bored_woman_r_02.jpg"));
+                add(givePhotoIdFromName("bored_woman_r_03.jpg"));
             }
         });
 
@@ -393,6 +429,7 @@ if (countAll("levels")  > 0)
 
     public void saveLevelToDatabase(Level level)
     {
+        System.out.println("SAVELEVELTODATABASE level id " + level.getId());
         ContentValues values = new ContentValues();
         values.put("photos_or_videos", level.getPhotosOrVideosFlag());
         values.put("name", level.getName());
@@ -471,6 +508,7 @@ if (countAll("levels")  > 0)
 
     public void updatePhotosAndEmotions(int levelId, List<Integer> photosOrVideosList, List<Integer> emotions, ContentValues values, boolean forTestMode){
         // Dodaj rekordy wiele do wielu ze zdjeciami/video dla trybu test
+        System.out.println("###updatePhotosAndEmotions " + levelId + " photos" + photosOrVideosList + " emotions " + emotions + " isFor Test " + forTestMode);
         for(Integer photoOrVideo : photosOrVideosList){
             values = new ContentValues();
             values.put("levelid", levelId);

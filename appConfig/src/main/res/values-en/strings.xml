@@ -189,9 +189,24 @@ The test mode does not use hints and reinforcements, the therapist should refrai
     <string name="InPhoto">Emotion:</string>
 
     <string name="commandWarning">Choose at least one command type</string>
-    <string name="everyEmotionOnePhotoWarning">Choose at least one picture for emotion</string>
-    <string name="differentSexesWarning">Define gender differentation</string>
+    <string name="every_emotion_one_photo_warning_material">Choose at least one picture in MATERIAL tab for emotion:</string>
+    <string name="every_emotion_one_photo_warning_test">Choose at least one picture in TEST tab for emotion:</string>
+    <string name="different_sexes_warning">Define gender differentation</string>
     <string name="empty_photos_learn_mode">Choose photos in MATERIAL tab</string>
+    <string name="empty_photos_test_mode">Choose photos in TEST tab</string>
+
+    <string name="level_name_validation_too_long">Name of the level should be shorter - max 55 characters</string>
+    <string name="level_name_validation_too_short">Name of the level should contain at least one character</string>
+
+    <string name="both_sexes_material">Photos in MATERIAL tab should represent people of both genders</string>
+    <string name="both_sexes_test">Photos in TEST tab should represent people of both genders</string>
+
+    <string name="chosen_amount">Chosen amount of photographs displayed: </string>
+
+    <string name="less_photos_than_chosen_amount_female">Unless you select at least one female photograph for this number of different emotions, smaller number of photographs will be displayed on the screen. Are you willing to save?</string>
+    <string name="less_photos_than_chosen_amount_male">Unless you select at least one female photograph for this number of different emotions, smaller number of photographs will be displayed on the screen. Are you willing to save?</string>
+
+
 
 
 </resources>

@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -22,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class RewardAndHintActivity extends Activity {
+public class RewardAndHintActivity extends Activity implements ISounds {
     private int chosenColor = generateRandomColor();
     MediaPlayer ring;
     String speakerText;
@@ -34,8 +35,6 @@ public class RewardAndHintActivity extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_reward);
-
-
 
 
         LinearLayout rewardAndHintLayout = (LinearLayout) findViewById(R.id.activity_reward);
@@ -52,7 +51,7 @@ public class RewardAndHintActivity extends Activity {
         int praiseBinary = intentReward.getIntExtra("praises", 0);
 
 
-       // int whichTry = intent.getIntExtra("whichTry",1);
+        // int whichTry = intent.getIntExtra("whichTry",1);
         List<String> praiseList = new ArrayList<String>();
         String[] praiseTab = getPraises(praiseBinary);
         for (String element : praiseTab) {
@@ -69,52 +68,22 @@ public class RewardAndHintActivity extends Activity {
             commandPraise = praiseList.get(position);
         }
 
-        speakerText = commandPraise +", "+ emotion;
+        speakerText = commandPraise + ", " + emotion;
 
-        switch (commandPraise) {
-            case "dobrze":
-                ring= MediaPlayer.create(RewardAndHintActivity.this,R.raw.dobrze2);
-                speakerText = emotion;
-                ring.start();
 
-              ringWait();
-                Speaker.getInstance(RewardAndHintActivity.this).speak(speakerText);
-                break;
-            case "super":
-                 ring= MediaPlayer.create(RewardAndHintActivity.this,R.raw.sup2);
-                speakerText = emotion;
-                ring.start();
-                ringWait();
-                Speaker.getInstance(RewardAndHintActivity.this).speak(speakerText);
-                break;
-            case "świetnie":
-                ring= MediaPlayer.create(RewardAndHintActivity.this,R.raw.swietnie1);
-                speakerText =  emotion;
-                ring.start();
-                ringWait();
-                Speaker.getInstance(RewardAndHintActivity.this).speak(speakerText);
-                break;
-            case "ekstra":
-                ring= MediaPlayer.create(RewardAndHintActivity.this,R.raw.ekstra3);
-                speakerText =  emotion;
-                ring.start();
-                ringWait();
-                Speaker.getInstance(RewardAndHintActivity.this).speak(speakerText);
-                break;
-            case "wspaniale":
-                ring= MediaPlayer.create(RewardAndHintActivity.this,R.raw.fantastycznie1);
-                speakerText = emotion;
-                ring.start();
-                ringWait();
-                Speaker.getInstance(RewardAndHintActivity.this).speak(speakerText);
-                break;
-        }
+       /* ring = MediaPlayer.create(RewardAndHintActivity.this, soundsToApply(commandPraise));
+        ring.start();
+        while (ring.isPlaying()) {
+
+        }*/
+        System.out.println("REWARD --> EMOTION " + emotion);
+        System.out.println("REWARD --> COMMAND " + emotion);
+      /*  ring = MediaPlayer.create(RewardAndHintActivity.this, soundsToApply(emotion));
+        ring.start();*/
 
 
 
         System.out.println("9999999999999commandPraise" + commandPraise);
-
-
 
 
         if (hintMode) {
@@ -140,14 +109,28 @@ public class RewardAndHintActivity extends Activity {
         rewardOrHintText.setText(emotion);
         Animation zoom = AnimationUtils.loadAnimation(RewardAndHintActivity.this, R.anim.zoom);
         correctPhoto.setImageBitmap(bitmap);
-        if (!hintMode) correctPhoto.startAnimation(zoom);
+        if (hintMode) {
+            ring = MediaPlayer.create(RewardAndHintActivity.this,soundsToApply(emotion));
+            ring.start();
+        }
+        if (!hintMode) {
+            ring = MediaPlayer.create(RewardAndHintActivity.this,soundsToApply(commandPraise));
+            ring.start();
+            while (ring.isPlaying()){
+
+            }
+            correctPhoto.startAnimation(zoom);
+
+            ring = MediaPlayer.create(RewardAndHintActivity.this,soundsToApply(emotion));
+            ring.start();
+        }
 
  /*       do {
             if (!ring.isPlaying()) Speaker.getInstance(RewardAndHintActivity.this).speak(speakerText);
         }
         while (ring.isPlaying()) ;*/
-
-        Speaker.getInstance(RewardAndHintActivity.this).speak(speakerText);
+        //TODO OGARNIJ CZEMU TU BYŁ SPEAKER, CO TU SIE DZIAŁOOO
+        //Speaker.getInstance(RewardAndHintActivity.this).speak(speakerText);
 
 
         hintMode = false;
@@ -162,7 +145,7 @@ public class RewardAndHintActivity extends Activity {
 
             public void onFinish() {
 
-         finish();
+                finish();
 
 
             }
@@ -237,10 +220,68 @@ public class RewardAndHintActivity extends Activity {
         }, duration);
     }
 
-    public void ringWait(){
-       while (ring.isPlaying()) {
+    public void ringWait() {
+        while (ring.isPlaying()) {
             mySleep(5000);
         }
     }
 
+    @Override
+    public int soundsToApply(String commandText) {
+        System.out.println("REWARD MODE commandText " + commandText);
+        switch (commandText) {
+            case "dobrze":
+            case "good":
+               return R.raw.good;
+            case "wspaniale":
+            case "great":
+                return R.raw.great;
+            case "super":
+               return R.raw.sup2;
+            case "ekstra":
+            case "extra":
+              return R.raw.extra;
+
+            case "świetnie":
+            case "excellent":
+                //???
+                return R.raw.excellent;
+
+            case "smutna":
+                return R.raw.sad_female;
+            case "smutny":
+            case "sad":
+                return R.raw.sad_male;
+            case "wesoła":
+
+                return R.raw.happy_female;
+            case "wesoły":
+            case "happy":
+                return R.raw.happy_male;
+            case "zła":
+                return R.raw.angry_female;
+            case "zły":
+            case "angry":
+                return R.raw.angry_male;
+            case "znudzona":
+                return R.raw.bored_female;
+            case "znudzony":
+            case "bored":
+                return R.raw.bored_male;
+            case "zdziwiona":
+                return R.raw.surprised_female;
+            case "zdziwiony":
+            case "surprised":
+                return R.raw.surprised_male;
+            case "przestraszona":
+                return R.raw.scared_female;
+            //TODO ZMIENIĆ NA FEMALE
+            case "przestraszony":
+            case "scared":
+                return R.raw.scared_male;
+
+            default: return -1;
+
+        }
+    }
 }
